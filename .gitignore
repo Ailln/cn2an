@@ -1,0 +1,7 @@
+*.pyc
+.DS_Store
+
+.idea
+build
+cn2an.egg-info
+dist
