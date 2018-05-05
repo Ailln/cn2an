@@ -1,6 +1,7 @@
 # cn2an
 
 cn2an = Chinese Numerals To Arabic Numerals.
+
 本模块的作用是「中文数字」和「阿拉伯数字」互相转化。
 
 ## 安装
@@ -71,4 +72,4 @@ an2cn 0.414
 ## TODO
 
 -   [ ] 阿拉伯数字转大写中文数字。
--   [ ] 关于零的bug。
+-   [x] 关于零的bug。

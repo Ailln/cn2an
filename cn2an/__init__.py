@@ -140,13 +140,13 @@ def int_an2cn(data):
         if int(d):
             output_an += L_NUMERAL[int(d)] + L_UNIT[len_input_cn - i - 1]
         else:
+            if not (len_input_cn - i - 1) % 4:
+                output_an += L_NUMERAL[int(d)] + L_UNIT[len_input_cn - i - 1]
+            
             if i > 0 and not output_an[-1] == u"零":
-                if not (len_input_cn - i - 1) % 4:
-                    output_an += L_NUMERAL[int(d)] + L_UNIT[len_input_cn - i - 1]
-                else:
-                    output_an += L_NUMERAL[int(d)]
+                output_an += L_NUMERAL[int(d)]
 
-    output_an = output_an.replace(u"零万", u"万").replace(u"零亿", u"亿").strip(u"零")
+    output_an = output_an.replace(u"零零", u"零").replace(u"零万", u"万").replace(u"零亿", u"亿").strip(u"零")
 
     # 解决 一十 问题
     if output_an[:2] == "一十":
