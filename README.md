@@ -83,7 +83,7 @@ an2cn 0.414
 # 支持大写，这里需要增加额外的参数 cap
 cn2an cap 1000054
 # output: 壹佰万零伍十肆
-an2cn 0.414
+an2cn cap 0.414
 # output: 零点肆壹肆
 ```
 

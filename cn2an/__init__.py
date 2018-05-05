@@ -277,9 +277,14 @@ def an2cn(input_an=u"000", b_is_cap=False):
             return output_data
     elif len_argv == 2:
         print(output_data)
-    else:
-        # ipython 问题处理
-        if sys.argv[0][-5:] == u"an2cn":
-            pass
+    elif len_argv == 3:
+        if sys.argv[1] == u"cap":
+            print(output_data)
         else:
-            return output_data
+            # ipython 问题处理
+            if sys.argv[0][-5:] == u"an2cn":
+                print(output_data)
+            else:
+                return output_data
+    else:
+        raise Exception(u"参数过多！")
