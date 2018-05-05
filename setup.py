@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='cn2an',
-    version='0.0.3',
+    version='0.0.5',
     author='HaveTwoBrush',
     author_email='kinggreenhall@gmail.com',
     url='https://v2ai.cn',

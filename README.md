@@ -45,6 +45,14 @@ cn2an.an2cn(21024124)
 cn2an.an2cn("0.414")
 cn2an.an2cn(0.414)
 # output: 零点四一四
+
+# 支持大写，需要增加额外的参数 True
+cn2an.an2cn("21024124", True)
+cn2an.an2cn(21024124, True)
+# output: 贰仟壹佰零贰万肆仟壹佰贰拾肆
+cn2an.an2cn("0.414", True)
+cn2an.an2cn(0.414, True)
+# output: 零点肆壹肆
 ```
 
 2 通过命令行使用：
@@ -54,6 +62,10 @@ cn2an.an2cn(0.414)
 
 cn2an 一百万零五十四
 # output: 1000054
+
+# 支持小数
+cn2an 零点四一四
+# output: 0.414
 
 # 支持大写
 cn2an 壹佰万零伍十肆
@@ -67,9 +79,16 @@ an2cn 21024124
 # 支持小数
 an2cn 0.414
 # output: 零点四一四
+
+# 支持大写，这里需要增加额外的参数 cap
+cn2an cap 1000054
+# output: 壹佰万零伍十肆
+an2cn 0.414
+# output: 零点肆壹肆
 ```
 
 ## TODO
 
--   [ ] 阿拉伯数字转大写中文数字。
+-   [x] 阿拉伯数字转大写中文数字。
 -   [x] 关于零的bug。
+-   [x] 支持 幺 == 1 的转化。

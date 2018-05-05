@@ -3,11 +3,28 @@ import sys
 
 D_NUMERAL_UNIT = {
     u"零": 0,
-    u"一": 1, u"壹": 1,
+    u"一": 1, u"壹": 1, u"幺": 1,
     u"二": 2, u"贰": 2, u"两": 2,
     u"三": 3, u"叁": 3,
     u"四": 4, u"肆": 4,
     u"五": 5, u"伍": 5,
+    u"六": 6, u"陆": 6,
+    u"七": 7, u"柒": 7,
+    u"八": 8, u"捌": 8,
+    u"九": 9, u"玖": 9,
+    u"十": 10, u"拾": 10,
+    u"百": 100, u"佰": 100,
+    u"千": 1000, u"仟": 1000,
+    u"万": 10000,
+    u"亿": 100000000,
+}
+
+D_NUMERAL_UNIT_CAPITAL = {
+    u"壹"
+    u"贰": 2,
+    u"叁": 3,
+    u"肆": 4,
+    u"伍": 5,
     u"六": 6, u"陆": 6,
     u"七": 7, u"柒": 7,
     u"八": 8, u"捌": 8,
@@ -31,6 +48,18 @@ L_NUMERAL = [
     u"八",
     u"九"
 ]
+L_NUMERAL_CAPITAL = [
+    u"零",
+    u"壹",
+    u"贰",
+    u"叁",
+    u"肆",
+    u"伍",
+    u"陆",
+    u"柒",
+    u"捌",
+    u"玖"
+]
 
 L_UNIT = [
     u"",
@@ -50,7 +79,24 @@ L_UNIT = [
     u"百",
     u"千"
 ]
-
+L_UNIT_CAPITAL = [
+    u"",
+    u"拾",
+    u"佰",
+    u"仟",
+    u"万",
+    u"拾",
+    u"佰",
+    u"仟",
+    u"亿",
+    u"拾",
+    u"佰",
+    u"仟",
+    u"万",
+    u"拾",
+    u"佰",
+    u"仟"
+]
 
 def int_cn2an(data):
     output_an = 0
@@ -132,21 +178,29 @@ def cn2an(input_cn=u"零零零"):
             return output_data
 
 
-def int_an2cn(data):
+def int_an2cn(data, is_cap):
+    if is_cap:
+        numeral_list = L_NUMERAL_CAPITAL
+        unit_list = L_UNIT_CAPITAL
+    else:
+        numeral_list = L_NUMERAL
+        unit_list = L_UNIT
+        
     output_an = u""
     len_input_cn = len(data)
 
     for i, d in enumerate(data):
         if int(d):
-            output_an += L_NUMERAL[int(d)] + L_UNIT[len_input_cn - i - 1]
+            output_an += numeral_list[int(d)] + unit_list[len_input_cn - i - 1]
         else:
             if not (len_input_cn - i - 1) % 4:
-                output_an += L_NUMERAL[int(d)] + L_UNIT[len_input_cn - i - 1]
+                output_an += numeral_list[int(d)] + unit_list[len_input_cn - i - 1]
             
             if i > 0 and not output_an[-1] == u"零":
-                output_an += L_NUMERAL[int(d)]
+                output_an += numeral_list[int(d)]
 
-    output_an = output_an.replace(u"零零", u"零").replace(u"零万", u"万").replace(u"零亿", u"亿").strip(u"零")
+    output_an = output_an.replace(u"零零", u"零").replace(u"零万", u"万").replace(u"零亿", u"亿").replace(u"亿万", u"亿")\
+        .strip(u"零")
 
     # 解决 一十 问题
     if output_an[:2] == "一十":
@@ -159,15 +213,19 @@ def int_an2cn(data):
     return output_an
 
 
-def float_an2cn(data):
+def float_an2cn(data, is_cap):
+    if is_cap:
+        numeral_list = L_NUMERAL_CAPITAL
+    else:
+        numeral_list = L_NUMERAL
     output_an = u"点"
     for d in data:
-        output_an += L_NUMERAL[int(d)]
+        output_an += numeral_list[int(d)]
     return output_an
 
 
 # 将阿拉伯数字转化成中文数字
-def an2cn(input_an=u"000"):
+def an2cn(input_an=u"000", b_is_cap=False):
     # 支持命令行使用
     len_argv = len(sys.argv)
     if len_argv == 1:
@@ -177,12 +235,18 @@ def an2cn(input_an=u"000"):
             pass
     elif len_argv == 2:
         input_an = sys.argv[1]
-    else:
-        # ipython 问题处理
-        if sys.argv[0][-5:] == u"an2cn":
-            raise Exception(u"参数过多！")
+    elif len_argv == 3:
+        if sys.argv[1] == u"cap":
+            b_is_cap = True
+            input_an = sys.argv[2]
         else:
-            pass
+            # ipython 问题处理
+            if sys.argv[0][-5:] == u"an2cn":
+                raise Exception(u"参数错误！")
+            else:
+                pass
+    else:
+        raise Exception(u"参数过多！")
 
     # 判断输入数据是否合理
     for input_key in str(input_an):
@@ -196,12 +260,12 @@ def an2cn(input_an=u"000"):
     
     if len_split_input_an == 1:
         int_input_an = split_input_an[0]
-        output_data = int_an2cn(int_input_an)
+        output_data = int_an2cn(int_input_an, b_is_cap)
     elif len_split_input_an == 2:
         int_input_an = split_input_an[0]
-        output_data_int = int_an2cn(int_input_an)
+        output_data_int = int_an2cn(int_input_an, b_is_cap)
         float_input_an = split_input_an[1]
-        output_data_float = float_an2cn(float_input_an)
+        output_data_float = float_an2cn(float_input_an, b_is_cap)
         output_data = output_data_int + output_data_float
     else:
         raise Exception(u"错误，请检查数据格式。")
