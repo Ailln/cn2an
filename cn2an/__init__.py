@@ -48,6 +48,7 @@ L_NUMERAL = [
     u"八",
     u"九"
 ]
+
 L_NUMERAL_CAPITAL = [
     u"零",
     u"壹",
@@ -79,6 +80,7 @@ L_UNIT = [
     u"百",
     u"千"
 ]
+
 L_UNIT_CAPITAL = [
     u"",
     u"拾",
@@ -102,17 +104,25 @@ def int_cn2an(data):
     output_an = 0
     unit_value = 1
     len_input_cn = len(data)
+    unit_value_key = 1
     for index in range(len_input_cn - 1, -1, -1):
         unit_key = D_NUMERAL_UNIT.get(data[index])
         if unit_key < 10:
             output_an += unit_value * unit_key
         else:
+            if unit_key % 10000 == 0:
+                if unit_key > unit_value_key:
+                    unit_value_key = unit_key
+                else:
+                    unit_value_key = unit_value_key * unit_key
+
             if unit_key > unit_value:
                 unit_value = unit_key
                 if index == 0:
                     output_an += unit_value
             else:
-                unit_value *= unit_key
+                unit_value = unit_value_key * unit_key
+
     return output_an
 
 

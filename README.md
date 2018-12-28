@@ -13,6 +13,7 @@ pip install cn2an
 ```
 
 2 从代码库安装：
+
 ```shell
 git clone https://github.com/kinggreenhall/cn2an.git
 cd cn2an
@@ -89,6 +90,6 @@ an2cn cap 0.414
 
 ## TODO
 
--   [x] 阿拉伯数字转大写中文数字。
--   [x] 关于零的bug。
--   [x] 支持 幺 == 1 的转化。
+- [x] 阿拉伯数字转大写中文数字。
+- [x] 关于零的bug。
+- [x] 支持 幺 == 1 的转化。
