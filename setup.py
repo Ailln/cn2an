@@ -11,7 +11,7 @@ setup(
     version=version.VERSION,
     author='HaveTwoBrush',
     author_email='kinggreenhall@gmail.com',
-    url='https://v2ai.cn',
+    url='https://www.v2ai.cn/python/2018/12/30/PY-5.html',
     packages=['cn2an'],
     install_requires=open("./requirements.txt", "r").read().splitlines(),
     description='Convert Chinese numerals and Arabic numerals.',
