@@ -3,24 +3,27 @@
 from __future__ import absolute_import
 
 from setuptools import setup
+from setuptools import find_packages
 
 from cn2an import version
 
+
 setup(
-    name='cn2an',
+    name="cn2an",
     version=version.VERSION,
-    author='HaveTwoBrush',
-    author_email='kinggreenhall@gmail.com',
-    url='https://www.v2ai.cn/python/2018/12/30/PY-5.html',
-    packages=['cn2an'],
+    author="HaveTwoBrush",
+    author_email="kinggreenhall@gmail.com",
+    url="https://github.com/kinggreenhall/cn2an",
+    packages=find_packages(),
+    include_package_data=True,
     install_requires=open("./requirements.txt", "r").read().splitlines(),
-    description='Convert Chinese numerals and Arabic numerals.',
+    description="Convert Chinese numerals and Arabic numerals.",
     long_description=open("./README.md", "r").read(),
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     entry_points={
-        'console_scripts': [
-            'cn2an=cn2an:cn2an',
-            'an2cn=cn2an:an2cn'
+        "console_scripts": [
+            "cn2an=cn2an:cn2an",
+            "an2cn=cn2an:an2cn"
         ]
     },
     zip_safe=False,
