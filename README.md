@@ -13,7 +13,7 @@
 
 - 理论上支持 `python 2.7` 和 `python 3.6` 的所有版本。
 - 实际上仅在 `python 2.7.10` 和 `python 3.6.3` 上做过完整测试。
-- 欢迎提交其他版本使用情况到 [issues](https://github.com/kinggreenhall/cn2an/issues)。
+- 欢迎提交其他版本使用情况到 [issues](https://github.com/HaveTwoBrush/cn2an/issues)。
 
 ## 3. 安装
 
@@ -26,7 +26,7 @@ pip install cn2an
 ### 3.2 从代码库安装
 
 ```shell
-git clone https://github.com/kinggreenhall/cn2an.git
+git clone https://github.com/HaveTwoBrush/cn2an.git
 cd cn2an
 python setup.py install
 ```
@@ -126,4 +126,4 @@ an2cn 0.414 cap
 
 ## 7 License
 
-[MIT License](https://github.com/kinggreenhall/cn2an/blob/master/LICENSE)
+[MIT License](https://github.com/HaveTwoBrush/cn2an/blob/master/LICENSE)
