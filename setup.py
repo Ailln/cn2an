@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-from __future__ import absolute_import
-
 from setuptools import setup
 from setuptools import find_packages
 
@@ -16,9 +12,9 @@ setup(
     url="https://github.com/kinggreenhall/cn2an",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=open("./requirements.txt", "r").read().splitlines(),
+    install_requires=open("./requirements.txt", "r", encoding="utf-8").read().splitlines(),
     description="Convert Chinese numerals and Arabic numerals.",
-    long_description=open("./README.md", "r").read(),
+    long_description=open("./README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     entry_points={
         "console_scripts": [

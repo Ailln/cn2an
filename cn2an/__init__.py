@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-from __future__ import absolute_import
-
 import cn2an.version as version
 import cn2an.cn2an as cn2an
 import cn2an.an2cn as an2cn

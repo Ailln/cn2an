@@ -1,6 +1,3 @@
-# encoding: utf-8
-
-from __future__ import absolute_import
 import unittest
 
 from cn2an.an2cn import An2Cn
