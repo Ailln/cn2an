@@ -2,6 +2,11 @@
 
 `cn2an` 是一个将「中文数字」和「阿拉伯数字」互相转化的工具包。
 
+> **🚨更新日志：**
+>
+>   1. 添加「问题反馈」指南；
+>   2. 下个版本引入 win 下的测试。
+
 ## 1. 功能
 
 1. 「中文数字」转「阿拉伯数字」；
@@ -13,7 +18,7 @@
 
 - 理论上支持 `python 2.7` 和 `python 3.6` 的所有版本。
 - 实际上仅在 `python 2.7.10` 和 `python 3.6.3` 上做过完整测试。
-- 欢迎提交其他版本使用情况到 [issues](https://github.com/HaveTwoBrush/cn2an/issues)。
+- 欢迎提交其他版本使用情况到 [Issues](https://github.com/HaveTwoBrush/cn2an/issues)。
 
 ## 3. 安装
 
@@ -124,6 +129,14 @@ an2cn 0.414 cap
 - `v0.0.7` 修复 一千五百万零三百零一 等类似格式无法正确转化的问题。
 - `v0.1.0` 重构代码，兼容 python 2.7。
 
-## 7 License
+## 7 问题反馈
+
+1. 先搜索 [Issues(https://github.com/HaveTwoBrush/cn2an/issues) 中有没有人已经问过类似的问题；
+2. 如果没有找到解答，请新开一个 issue；
+3. 在「issue 标题」中填写你遇到的问题的简介；
+4. 在「issue 详情」中填写你遇到的问题的详情；
+5. 最后，不要忘记注明你使用的操作系统（比如 win10）和 python 版本（比如 python 3.6.3）。
+
+## 8 License
 
 [MIT License](https://github.com/HaveTwoBrush/cn2an/blob/master/LICENSE)
