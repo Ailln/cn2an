@@ -131,7 +131,7 @@ an2cn 0.414 cap
 
 ## 7 问题反馈
 
-1. 先搜索 [Issues(https://github.com/HaveTwoBrush/cn2an/issues) 中有没有人已经问过类似的问题；
+1. 先搜索 [Issues](https://github.com/HaveTwoBrush/cn2an/issues) 中有没有人已经问过类似的问题；
 2. 如果没有找到解答，请新开一个 issue；
 3. 在「issue 标题」中填写你遇到的问题的简介；
 4. 在「issue 详情」中填写你遇到的问题的详情；
