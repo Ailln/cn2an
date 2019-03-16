@@ -1,0 +1,19 @@
+os: linux
+sudo: false
+language: python
+
+python:
+  - "3.6"
+install:
+  - pip install -r requirements.txt
+script:
+  - python -m cn2an.cn2an_test
+  - python -m cn2an.an2cn_test
+cache:
+  - pip
+branches:
+  only:
+    - master
+
+notifications:
+  email: true 
