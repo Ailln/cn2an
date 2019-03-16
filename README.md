@@ -138,3 +138,7 @@ an2cn 0.414 cap
 ## 7 执照
 
 [MIT License](https://github.com/HaveTwoBrush/cn2an/blob/master/LICENSE)
+
+## 8 交流
+
+请添加微信号：`kinggreenhall`，备注「cn2an」，我邀请你进入交流群。
