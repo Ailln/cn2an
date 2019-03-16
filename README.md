@@ -2,6 +2,8 @@
 
 `cn2an` 是一个将「中文数字」和「阿拉伯数字」互相转化的工具包。
 
+[![Build Status](https://travis-ci.org/HaveTwoBrush/cn2an.svg?branch=master)](https://travis-ci.org/HaveTwoBrush/cn2an)
+
 > **🚨更新日志：**
 >
 > - `v0.0.7` 修复 一千五百万零三百零一 等类似格式无法正确转化的问题。
