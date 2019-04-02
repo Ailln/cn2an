@@ -1,6 +1,6 @@
 import unittest
 
-from cn2an.an2cn import An2Cn
+from .an2cn import An2Cn
 
 
 class An2CnTest(unittest.TestCase):

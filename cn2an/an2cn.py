@@ -1,6 +1,6 @@
 import sys
 
-from cn2an import utils
+from . import utils
 
 
 class An2Cn():

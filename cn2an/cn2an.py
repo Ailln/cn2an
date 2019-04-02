@@ -1,6 +1,6 @@
 import sys
 
-from cn2an import utils
+from . import utils
 
 
 class Cn2An():
@@ -8,18 +8,8 @@ class Cn2An():
         self.conf = utils.get_default_conf()
 
     def cn2an(self, input_data=u"default_key"):
-        # python2 需要编码转化
-        if sys.version_info.major == 2:
-            if type(input_data) == str:
-                input_data = input_data.decode("utf-8")
-
         # 从命令行接受参数
         input_data = self.input_from_terminal(input_data)
-
-        # python2 需要编码转化
-        if sys.version_info.major == 2:
-            if type(input_data) == str:
-                input_data = input_data.decode("utf-8")
 
         if input_data:
             # 检查数据是否有效

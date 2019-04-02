@@ -1,6 +1,7 @@
-import cn2an.version as version
-import cn2an.cn2an as cn2an
-import cn2an.an2cn as an2cn
+from . import version
+from . import cn2an
+from . import an2cn
+from . import utils
 
 
 __version__ = version.VERSION
