@@ -86,9 +86,12 @@ class An2Cn():
         else:
             numeral_list = self.conf["number"]
             unit_list = self.conf["unit"]
-            
+
         output_an = u""
         len_integer_data = len(integer_data)
+        
+        if len_integer_data > len(unit_list):
+            raise ValueError("超出数据范围，最长支持 16 位")
 
         for i, d in enumerate(integer_data):
             if int(d):
@@ -115,7 +118,7 @@ class An2Cn():
 
     def decimal_convert(self, decimal_data, is_cap):
         len_decimal_data = len(decimal_data) 
-        
+
         if len_decimal_data > 15:
             print("warning: 小数部分长度为{}，超过15位有效精度长度，将自动截取前15位！".format(len_decimal_data))
             decimal_data = decimal_data[:15]
@@ -124,8 +127,12 @@ class An2Cn():
             numeral_list = self.conf[u"number_capital"]
         else:
             numeral_list = self.conf[u"number"]
+        
+        if len_decimal_data:
+            output_an = u"点"
+        else:
+            output_an = u""
 
-        output_an = u"点"
         for data in decimal_data:
             output_an += numeral_list[int(data)]
 
