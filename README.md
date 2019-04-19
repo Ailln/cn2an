@@ -3,6 +3,10 @@
 `cn2an` 是一个将「中文数字」和「阿拉伯数字」互相转化的工具包。
 
 [![Build Status](https://travis-ci.org/HaveTwoBrush/cn2an.svg?branch=master)](https://travis-ci.org/HaveTwoBrush/cn2an)
+[![Python 3.6](https://img.shields.io/badge/language-Py36-pink.svg)](https://docs.python.org/3.6/)
+[![Pypi](https://img.shields.io/pypi/v/cn2an.svg)](https://pypi.org/project/cn2an/)
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+</div>
 
 > **🚨更新日志：**
 >
@@ -18,10 +22,10 @@
 2. `阿拉伯数字` => `中文数字`；
 3. `阿拉伯数字` => `大写中文数字`；
 4. 支持在**命令行**调用；
-5. 支持在**网页上**使用。
+5. 支持在[**网页上**](https://www.dovolopor.com/cn2an)使用。
 
 ![](./src/cn2an-site.png)
-[🔗点我访问](https://www.dovolopor.com/cn2an)
+🔗[点我访问](https://www.dovolopor.com/cn2an)
 
 ## 2. 安装
 
