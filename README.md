@@ -14,17 +14,21 @@
 
 ## 1. 功能
 
-1. 「中文数字」转「阿拉伯数字」；
-2. 「阿拉伯数字」转「中文数字」；
-3. 「阿拉伯数字」转「大写中文数字」；
-4. 支持命令行调用。
+1. `中文数字` => `阿拉伯数字`；
+2. `阿拉伯数字` => `中文数字`；
+3. `阿拉伯数字` => `大写中文数字`；
+4. 支持在**命令行**调用；
+5. 支持在**网页上**使用。
+
+![](./src/cn2an-site.png)
+[🔗点我访问](https://www.dovolopor.com/cn2an)
 
 ## 2. 版本支持
 
 - 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6` 的版本。
 - 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.3` 上做过完整测试。
 - 欢迎提交其他版本使用情况到 [Issues](https://github.com/HaveTwoBrush/cn2an/issues) 中，期待你的反馈。
-- 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改，也欢迎提 PR，将自己代码贡献给其他人。
+- 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，将自己代码贡献给其他人。
 
 ## 3. 安装
 
@@ -46,7 +50,7 @@ Python setup.py install
 
 ### 4.1 在代码中调用
 
-```Python
+```python
 # 在文件首部引入包
 import cn2an
 
@@ -57,7 +61,7 @@ cn2an.__version__
 
 #### 1 中文数字转阿拉伯数字
 
-```Python
+```python
 cn2an.cn2an("一百万零五十四")
 # output: 1000054
 
@@ -68,7 +72,7 @@ cn2an.cn2an("壹佰万零伍十肆")
 
 #### 2 阿拉伯数字转中文数字
 
-```Python
+```python
 # 支持数字和字符串两种不同类型的输入
 cn2an.an2cn("21024124")
 cn2an.an2cn(21024124)
@@ -134,16 +138,18 @@ an2cn 0.414 cap
 ## 6 计划事项
 
 - [x] 阿拉伯数字转大写中文数字；
-- [x] 关于零的bug；
-- [x] 支持 幺 == 1 的转化；
+- [x] 解决关于零的 bug；
+- [x] 支持 幺 => 1 的转化；
 - [x] 支持 Windows 10；
 - [x] 自动化单元测试；
-- [ ] 支持人民币。
+- [x] 支持在网页上使用；
+- [ ] 支持人民币转化；
+- [ ] auto 模式，自动尝试对数据进行转化，不对数据进行严格校验。
 
-## 7 执照
+## 7 协议
 
 [MIT License](https://github.com/HaveTwoBrush/cn2an/blob/master/LICENSE)
 
 ## 8 交流
 
-请添加微信号：`kinggreenhall`，备注「cn2an」，我邀请你进入交流群。
+欢迎添加微信号：`kinggreenhall`，备注「cn2an」，我邀请你进入交流群。
