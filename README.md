@@ -23,22 +23,15 @@
 ![](./src/cn2an-site.png)
 [🔗点我访问](https://www.dovolopor.com/cn2an)
 
-## 2. 版本支持
+## 2. 安装
 
-- 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6` 的版本。
-- 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.3` 上做过完整测试。
-- 欢迎提交其他版本使用情况到 [Issues](https://github.com/HaveTwoBrush/cn2an/issues) 中，期待你的反馈。
-- 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，将自己代码贡献给其他人。
-
-## 3. 安装
-
-### 3.1 使用 pip 安装
+### 2.1 使用 pip 安装
 
 ```shell
 pip install cn2an
 ```
 
-### 3.2 从代码库安装
+### 2.2 从代码库安装
 
 ```shell
 git clone https://github.com/HaveTwoBrush/cn2an.git
@@ -46,9 +39,9 @@ cd cn2an
 Python setup.py install
 ```
 
-## 4. 使用
+## 3. 使用
 
-### 4.1 在代码中调用
+### 3.1 在代码中调用
 
 ```python
 # 在文件首部引入包
@@ -93,7 +86,7 @@ cn2an.an2cn(0.414, True)
 # output: 零点肆壹肆
 ```
 
-### 4.2 在命令行中使用
+### 3.2 在命令行中使用
 
 #### 1 中文数字转阿拉伯数字
 
@@ -127,6 +120,13 @@ an2cn 0.414 cap
 # output: 零点肆壹肆
 ```
 
+## 4. 版本支持
+
+- 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6` 的版本。
+- 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.3` 上做过完整测试。
+- 欢迎提交其他版本使用情况到 [Issues](https://github.com/HaveTwoBrush/cn2an/issues) 中，期待你的反馈。
+- 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，贡献自己代码给其他人。
+
 ## 5 问题反馈
 
 1. 先搜索 [Issues](https://github.com/HaveTwoBrush/cn2an/issues) 中有没有人已经问过类似的问题；
@@ -153,3 +153,7 @@ an2cn 0.414 cap
 ## 8 交流
 
 欢迎添加微信号：`kinggreenhall`，备注「cn2an」，我邀请你进入交流群。
+
+## 9 致谢
+
+- [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能。

@@ -1,6 +1,7 @@
 include LICENSE
 include README.md
 include requirements.txt
+include src/*.png
 
 recursive-include cn2an *
 
