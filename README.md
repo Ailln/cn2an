@@ -6,7 +6,6 @@
 [![Python 3.6](https://img.shields.io/badge/language-Py36-pink.svg)](https://docs.python.org/3.6/)
 [![Pypi](https://img.shields.io/pypi/v/cn2an.svg)](https://pypi.org/project/cn2an/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-</div>
 
 > **🚨更新日志：**
 >
@@ -16,7 +15,7 @@
 > - `v0.2.0` 修复静态文件的相对路径问题。
 > - `v0.2.1` 更新 an2cn 11. => 十一；加入 an2cn 输入数据过长的异常处理。
 
-## 1. 功能
+## 1 功能
 
 1. `中文数字` => `阿拉伯数字`；
 2. `阿拉伯数字` => `中文数字`；
@@ -27,7 +26,7 @@
 ![](./src/cn2an-site.png)
 🔗[点我访问](https://www.dovolopor.com/cn2an)
 
-## 2. 安装
+## 2 安装
 
 ### 2.1 使用 pip 安装
 
@@ -43,7 +42,7 @@ cd cn2an
 Python setup.py install
 ```
 
-## 3. 使用
+## 3 使用
 
 ### 3.1 在代码中调用
 
@@ -124,7 +123,7 @@ an2cn 0.414 cap
 # output: 零点肆壹肆
 ```
 
-## 4. 版本支持
+## 4 版本支持
 
 - 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6` 的版本。
 - 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.3` 上做过完整测试。
