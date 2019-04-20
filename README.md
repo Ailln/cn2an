@@ -160,3 +160,8 @@ an2cn 0.414 cap
 ## 9 致谢
 
 - [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能。
+
+## 10 参考
+
+- [如何发布自己的包到 pypi ？](https://www.v2ai.cn/python/2018/07/30/PY-1.html)
+- [python 中的小陷阱](https://www.v2ai.cn/python/2019/01/01/PY-6.html)
