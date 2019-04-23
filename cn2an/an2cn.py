@@ -87,12 +87,15 @@ class An2Cn():
             numeral_list = self.conf["number"]
             unit_list = self.conf["unit"]
 
-        output_an = u""
+        # 去除前面的 0，比如 007 => 7
+        integer_data = str(int(integer_data))
+
         len_integer_data = len(integer_data)
         
         if len_integer_data > len(unit_list):
             raise ValueError("超出数据范围，最长支持 16 位")
 
+        output_an = u""
         for i, d in enumerate(integer_data):
             if int(d):
                 output_an += numeral_list[int(d)] + unit_list[len_integer_data - i - 1]
