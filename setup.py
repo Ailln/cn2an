@@ -9,7 +9,7 @@ setup(
     version=version.VERSION,
     author="HaveTwoBrush",
     author_email="kinggreenhall@gmail.com",
-    url="https://github.com/kinggreenhall/cn2an",
+    url="https://github.com/HaveTwoBrush/cn2an",
     packages=find_packages(),
     include_package_data=True,
     install_requires=open("./requirements.txt", "r", encoding="utf-8").read().splitlines(),
