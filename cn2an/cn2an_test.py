@@ -32,17 +32,19 @@ class Cn2anTest(unittest.TestCase):
         }
 
         self.ca = Cn2An()
-    
+
     def test_cn2an(self):
         with self.assertRaises(ValueError):
             for error_data in self.error_input_data:
                 self.ca.cn2an(error_data)
-        
+
         for integer_item in self.integer_data.keys():
-            self.assertEqual(self.ca.cn2an(integer_item), self.integer_data[integer_item])
-        
+            self.assertEqual(self.ca.cn2an(integer_item),
+                             self.integer_data[integer_item])
+
         for integer_decimal_item in self.integer_decimal_data.keys():
-            self.assertEqual(self.ca.cn2an(integer_decimal_item), self.integer_decimal_data[integer_decimal_item])
+            self.assertEqual(self.ca.cn2an(integer_decimal_item),
+                             self.integer_decimal_data[integer_decimal_item])
 
 
 if __name__ == '__main__':
