@@ -29,7 +29,7 @@ number_unit:
   万: 10000
   亿: 100000000
 
-number: 
+number_low: 
   - 零
   - 一
   - 二
@@ -41,7 +41,7 @@ number:
   - 八
   - 九
 
-number_capital:
+number_up:
   - 零
   - 壹
   - 贰
@@ -54,7 +54,7 @@ number_capital:
   - 玖
 
 
-unit:
+unit_low:
   - ""
   - 十
   - 百
@@ -72,7 +72,7 @@ unit:
   - 百
   - 千
 
-unit_capital:
+unit_up:
   - ""
   - 拾
   - 佰
