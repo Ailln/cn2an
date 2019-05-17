@@ -27,7 +27,7 @@
 5. 支持 `阿拉伯数字` => `人民币大写`； 
 6. 支持 `代码` 调用；
 7. 支持 `命令行` 调用；
-8. 支持[`API`](https://www.dovolopor.com/api) 调用；
+8. 支持 [`API`](https://www.dovolopor.com/api) 调用；
 
 ![](src/cn2an-api.png)
 
