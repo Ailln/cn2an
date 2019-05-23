@@ -17,12 +17,6 @@ setup(
     description="Convert Chinese numerals and Arabic numerals.",
     long_description=open("./README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    entry_points={
-        "console_scripts": [
-            "cn2an=cn2an:cn2an_shell",
-            "an2cn=cn2an:an2cn_shell"
-        ]
-    },
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",

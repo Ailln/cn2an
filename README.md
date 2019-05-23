@@ -1,42 +1,35 @@
 # 📦 cn2an: Chinese Numerals To Arabic Numerals
 
-`cn2an` 是一个将「中文数字」和「阿拉伯数字」互相转化的工具包。
-
 [![Build Status](https://travis-ci.org/HaveTwoBrush/cn2an.svg?branch=master)](https://travis-ci.org/HaveTwoBrush/cn2an)
-[![Python 3.6](https://img.shields.io/badge/language-Py36-pink.svg)](https://docs.python.org/3.6/)
 [![Pypi](https://img.shields.io/pypi/v/cn2an.svg)](https://pypi.org/project/cn2an/)
-[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/HaveTwoBrush/cn2an/blob/master/LICENSE)
+[![stars](https://img.shields.io/github/stars/HaveTwoBrush/cn2an.svg)](https://github.com/HaveTwoBrush/cn2an/stargazers)
+[![API](https://img.shields.io/badge/API-reference-pink.svg)](https://github.com/HaveTwoBrush/cn2an/wiki/API)
 
-> **🚨更新日志：**
->
-> - `v0.0.7` 修复 一千五百万零三百零一 等类似格式无法正确转化的问题。
-> - `v0.1.0` 重构代码，兼容 Python 2.7。
-> - `v0.1.3` 修复一些编码问题，放弃支持 Python 2.7。
-> - `v0.2.0` 修复静态文件的相对路径问题。
-> - `v0.2.1` 更新 an2cn 11. => 十一；加入 an2cn 输入数据过长的异常处理。
-> - `v0.2.2` 修复 an2cn 007 => 七。
-> - `v0.2.3` 修复命令行模式与程序调用模式参数互相干扰导致的错误。
-> - `v0.3.0` 添加转化 阿拉伯数字 => 人民币大写 功能。
+**`cn2an`** 是一个将 `中文数字` 和 `阿拉伯数字` 快速转化的工具包！
+
+![](./src/cn2an-site.png)
+
+🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
 ## 1 功能
 
+### 1.1 `中文数字` => `阿拉伯数字`
+
 1. 支持 `中文数字` => `阿拉伯数字`；
-2. 支持 `中文数字大写` => `阿拉伯数字`；
-3. 支持 `阿拉伯数字` => `中文数字`；
-4. 支持 `阿拉伯数字` => `中文数字大写`；
-5. 支持 `阿拉伯数字` => `人民币大写`； 
-6. 支持 `代码` 调用；
-7. 支持 `命令行` 调用；
-8. 支持 [`API`](https://www.dovolopor.com/api) 调用；
+2. 支持 `大写中文数字` => `阿拉伯数字`；
+3. 支持 `中文数字和阿拉伯数字` => `阿拉伯数字`；(开发中)
 
-![](src/cn2an-api.png)
+### 1.2 `阿拉伯数字` => `中文数字`
 
-9. 支持 [`网页`](https://www.dovolopor.com/cn2an) 使用。
-
-![](./src/cn2an-site.png)
-🔗[点我访问](https://www.dovolopor.com/cn2an)
+4. 支持 `阿拉伯数字` => `中文数字`；
+5. 支持 `阿拉伯数字` => `大写中文数字`；
+6. 支持 `阿拉伯数字` => `大写人民币`； 
+7. 支持 `中文数字和阿拉伯数字` => `中文数字`。(开发中)
 
 ## 2 安装
+
+> ⚠️注意：目前仅支持 Python 3.6。
 
 ### 2.1 使用 pip 安装
 
@@ -48,13 +41,10 @@ pip install cn2an
 
 ```shell
 git clone https://github.com/HaveTwoBrush/cn2an.git
-cd cn2an
-Python setup.py install
+cd cn2an && python setup.py install
 ```
 
 ## 3 使用
-
-### 3.1 代码调用
 
 ```python
 # 在文件首部引入包
@@ -62,92 +52,55 @@ import cn2an
 
 # 查看版本
 cn2an.__version__
-# output: 0.3.0
+# output: 0.3.1
 ```
 
-#### 1 `中文数字` => `阿拉伯数字`
+### 3.1 `中文数字` => `阿拉伯数字`
 
 ```python
-cn2an.cn2an("一百万零五十四")
-# output: 1000054
+# 在 strict 模式下，只有严格符合的才可以进行转化
+output = cn2an.cn2an("一百二十三", "strict")
+print(output)
+# 123
 
-# 支持中文数字大写
-cn2an.cn2an("壹佰万零伍十肆")
-# output: 1000054
+# 在 normal 模式下，还可以将 一二三 进行转化
+output = cn2an.cn2an("一二三", "normal")
+# or output = cn2an.cn2an("一二三")
+print(output)
+# 123
+
+# 在 smart 模式下，还可以将混合描述的 1百23 进行转化 (开发中)
+output = cn2an.cn2an("1百23", "smart")
+print(output)
+# 123
 ```
 
-#### 2 `阿拉伯数字` => `中文数字`
+### 3.2 `阿拉伯数字` => `中文数字`
 
 ```python
-# 支持数字和字符串两种不同类型的输入
-cn2an.an2cn("21024124")
-cn2an.an2cn(21024124)
-# output: 二千一百零二万四千一百二十四
+# 在 low 模式下，数字转化为小写的中文数字
+output = cn2an.an2cn("123", "low")
+# or output = cn2an.an2cn("123")
+print(output)
+# 一百二十三
 
-# 支持小数
-cn2an.an2cn("0.414")
-cn2an.an2cn(0.414)
-# output: 零点四一四
+# 在 up 模式下，数字转化为大写的中文数字
+output = cn2an.an2cn("123", "up")
+print(output)
+# 壹佰贰拾叁
 
-# 支持转化成中文数字大写
-cn2an.an2cn("21024124", "up")
-cn2an.an2cn(21024124, "up")
-# output: 贰仟壹佰零贰万肆仟壹佰贰拾肆
+# 在 rmb 模式下，数字转化为人民币专用的描述
+output = cn2an.an2cn("123", "rmb")
+print(output)
+# 壹佰贰拾叁元整
 
-cn2an.an2cn("0.414", "up")
-cn2an.an2cn(0.414, "up")
-# output: 零点肆壹肆
-
-# 支持转化成人民币大写
-cn2an.an2cn("21024124", "rmb")
-cn2an.an2cn(21024124, "rmb")
-# output: 贰仟壹佰零贰万肆仟壹佰贰拾肆元整
-
-cn2an.an2cn("0.414", "rmb")
-cn2an.an2cn(0.414, "rmb")
-# output: 肆角壹分
+# 在 smart 模式下，可以将混合描述数字转化为小写的中文数字 (开发中)
+utput = cn2an.an2cn("1百23", "smart")
+print(output)
+# 一百二十三
 ```
 
-### 3.2 命令行调用
-
-#### 1 `中文数字` => `阿拉伯数字`
-
-```bash
-cn2an 一百万零五十四
-# output: 1000054
-
-# 支持小数
-cn2an 零点四一四
-# output: 0.414
-
-# 支持大写
-cn2an 壹佰万零伍拾肆
-# output: 1000054
-```
-
-#### 2 `阿拉伯数字` => `中文数字`
-
-```bash
-an2cn 21024124
-# output: 二千一百零二万四千一百二十四
-
-# 支持小数
-an2cn 0.414
-# output: 零点四一四
-
-# 支持转化成中文数字大写 
-an2cn 1000054 up 
-# output: 壹佰万零伍十肆
-an2cn 0.414 up
-# output: 零点肆壹肆
-
-# 支持转化成人民币大写
-an2cn 21024124 rmb
-# output: 贰仟壹佰零贰万肆仟壹佰贰拾肆元整
-
-an2cn 0.414, rmb
-# output: 肆角壹分
-```
+详细用法见 [API](https://github.com/HaveTwoBrush/cn2an/wiki/API).
 
 ## 4 版本支持
 
@@ -166,14 +119,7 @@ an2cn 0.414, rmb
 
 ## 6 计划事项
 
-- [x] 阿拉伯数字转大写中文数字；
-- [x] 解决关于零的 bug；
-- [x] 支持 幺 => 1 的转化；
-- [x] 支持 Windows 10；
-- [x] 自动化单元测试；
-- [x] 支持在网页上使用；
-- [ ] 支持人民币大写转化；
-- [ ] auto 模式，自动尝试对数据进行转化，不对数据进行严格校验。
+本项目是用看板管理开发进度，请点击 [v0.3](https://github.com/HaveTwoBrush/cn2an/projects/1) 查看开发进度和计划事项。
 
 ## 7 协议
 

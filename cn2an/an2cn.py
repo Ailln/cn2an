@@ -7,96 +7,81 @@ class An2Cn():
     def __init__(self):
         self.conf = utils.get_default_conf()
 
-    def an2cn(self, input_data="defalut_key", method="low"):
-        if method not in ["low", "up", "rmb"]:
-            raise ValueError("method 仅支持「low：小写」、「up：大写」、「rmb：人民币」的转化。")
+    def an2cn(self, inputs=None, mode="low"):
+        if inputs != None:
+            if mode not in ["low", "up", "rmb"]:
+                raise ValueError("mode 仅支持 low up rmb smart 四种！")
 
-        # 将数字转化为字符串
-        if not isinstance(input_data, str):
-            input_data = self.convert_number_to_string(input_data)
+            # 将数字转化为字符串
+            if not isinstance(inputs, str):
+                inputs = self.convert_number_to_string(inputs)
 
-        # 检查数据是否有效
-        self.check_input_data_is_valid(input_data)
+            # 检查数据是否有效
+            self.check_inputs_is_valid(inputs)
 
-        # 切割整数部分和小数部分
-        split_result = input_data.split(".")
-        len_split_result = len(split_result)
-        if len_split_result == 1:
-            # 不包含小数的输入
-            integer_data = split_result[0]
-            if method == "rmb":
-                output = self.integer_convert(integer_data, "up") + "元整"
-            else:
-                output = self.integer_convert(integer_data, method)
-        elif len_split_result == 2:
-            # 包含小数的输入
-            integer_data = split_result[0]
-            decimal_data = split_result[1]
-            if method == "rmb":
-                int_data = self.integer_convert(integer_data, "up")
-                dec_data = self.decimal_convert(decimal_data, "up")
-                len_dec_data = len(dec_data)
-
-                if len_dec_data == 0:
-                    output = int_data + "元整"
-                elif len_dec_data == 1:
-                    raise ValueError(f"异常输出：{dec_data}")
-                elif len_dec_data == 2:
-                    if dec_data[1] != "零":
-                        if int_data == "零":
-                            output = dec_data[1] + "角"
-                        else:
-                            output = int_data + "元" + dec_data[1] + "角"
-                    else:
-                        output = int_data + "元整"
+            # 切割整数部分和小数部分
+            split_result = inputs.split(".")
+            len_split_result = len(split_result)
+            if len_split_result == 1:
+                # 不包含小数的输入
+                integer_data = split_result[0]
+                if mode == "rmb":
+                    output = self.integer_convert(integer_data, "up") + "元整"
                 else:
-                    if dec_data[1] != "零":
-                        if dec_data[2] != "零":
-                            if int_data == "零":
-                                output = dec_data[1] + "角" + dec_data[2] + "分"
-                            else:
-                                output = int_data + "元" + dec_data[1] + "角" + dec_data[2] + "分"
-                        else:
+                    output = self.integer_convert(integer_data, mode)
+            elif len_split_result == 2:
+                # 包含小数的输入
+                integer_data = split_result[0]
+                decimal_data = split_result[1]
+                if mode == "rmb":
+                    int_data = self.integer_convert(integer_data, "up")
+                    dec_data = self.decimal_convert(decimal_data, "up")
+                    len_dec_data = len(dec_data)
+
+                    if len_dec_data == 0:
+                        output = int_data + "元整"
+                    elif len_dec_data == 1:
+                        raise ValueError(f"异常输出：{dec_data}")
+                    elif len_dec_data == 2:
+                        if dec_data[1] != "零":
                             if int_data == "零":
                                 output = dec_data[1] + "角"
                             else:
                                 output = int_data + "元" + dec_data[1] + "角"
-                    else:
-                        if dec_data[2] != "零":
-                            if int_data == "零":
-                                output =  dec_data[2] + "分"
-                            else:
-                                output = int_data + "元" + "零" + dec_data[2] + "分"
                         else:
                             output = int_data + "元整"
+                    else:
+                        if dec_data[1] != "零":
+                            if dec_data[2] != "零":
+                                if int_data == "零":
+                                    output = dec_data[1] + "角" + dec_data[2] + "分"
+                                else:
+                                    output = int_data + "元" + dec_data[1] + "角" + dec_data[2] + "分"
+                            else:
+                                if int_data == "零":
+                                    output = dec_data[1] + "角"
+                                else:
+                                    output = int_data + "元" + dec_data[1] + "角"
+                        else:
+                            if dec_data[2] != "零":
+                                if int_data == "零":
+                                    output =  dec_data[2] + "分"
+                                else:
+                                    output = int_data + "元" + "零" + dec_data[2] + "分"
+                            else:
+                                output = int_data + "元整"
 
+                else:
+                    output = self.integer_convert(integer_data, mode) + self.decimal_convert(decimal_data, mode)
             else:
-                output = self.integer_convert(integer_data, method) + self.decimal_convert(decimal_data, method)
+                raise ValueError(f"输入格式错误：{inputs}！")
         else:
-            raise ValueError(f"输入格式错误：{input_data}！")
+            raise ValueError(f"输入数据为空！") 
 
         return output
 
-    def an2cn_shell(self):
-        len_argv = len(sys.argv)
-        if len_argv == 1:
-            raise Exception("请在an2cn后输入需要转化的阿拉伯数字！")
-        elif len_argv == 2:
-            input_an = sys.argv[1]
-            method = "low"
-        elif len_argv == 3:
-            input_an = sys.argv[1]
-            if sys.argv[2] in ["low", "up", "rmb"]:
-                method = sys.argv[2]
-            else:
-                raise Exception("method 仅支持「low：小写」、「up：大写」、「rmb：人民币」的转化。")
-        else:
-            raise Exception("an2cn后的参数过多！")
-
-        return self.an2cn(input_an, method)
-
     @staticmethod
-    def check_input_data_is_valid(check_data):
+    def check_inputs_is_valid(check_data):
         # 检查输入数据是否在规定的字典中
         all_check_keys = ["0", "1", "2", "3",
             "4", "5", "6", "7", "8", "9", "."]
@@ -119,9 +104,9 @@ class An2Cn():
 
         return string_data
 
-    def integer_convert(self, integer_data, method):
-        numeral_list = self.conf[f"number_{method}"]
-        unit_list = self.conf[f"unit_{method}"]
+    def integer_convert(self, integer_data, mode):
+        numeral_list = self.conf[f"number_{mode}"]
+        unit_list = self.conf[f"unit_{mode}"]
 
         # 去除前面的 0，比如 007 => 7
         integer_data = str(int(integer_data))
@@ -155,7 +140,7 @@ class An2Cn():
         return output_an
 
 
-    def decimal_convert(self, decimal_data, method):
+    def decimal_convert(self, decimal_data, mode):
         len_decimal_data = len(decimal_data) 
 
         if len_decimal_data > 15:
@@ -167,7 +152,7 @@ class An2Cn():
         else:
             output_an = ""
 
-        numeral_list = self.conf[f"number_{method}"]
+        numeral_list = self.conf[f"number_{mode}"]
 
         for data in decimal_data:
             output_an += numeral_list[int(data)]

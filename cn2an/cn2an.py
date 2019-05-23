@@ -1,3 +1,4 @@
+import re
 import sys
 
 from . import utils
@@ -7,57 +8,95 @@ class Cn2An():
     def __init__(self):
         self.conf = utils.get_default_conf()
 
-    def cn2an(self, input_data="default_key"):
-        if input_data:
-            # 检查数据是否有效
-            self.check_input_data_is_valid(input_data)
-            
-            # 切割整数部分和小数部分
-            split_result = input_data.split("点")
-            len_split_result = len(split_result)
-            if len_split_result == 1:
+    def cn2an(self, inputs=None, mode="strict"):
+        if inputs != None:
+            # 检查转换模式是否有效
+            if mode not in ["strict", "normal", "smart"]:
+                raise ValueError("mode 仅支持 strict normal smart 三种！")
+
+            # 检查输入数据是否有效
+            data_type = self.check_input_data_is_valid(inputs, mode)
+
+            if data_type == "integer":
                 # 不包含小数的输入
-                integer_data = split_result[0]
-                output = self.integer_convert(integer_data)
-            elif len_split_result == 2:
+                output = self.integer_convert(inputs)
+            elif data_type == "decimal":
                 # 包含小数的输入
-                integer_data = split_result[0]
-                decimal_data = split_result[1]
+                integer_data, decimal_data = inputs.split("点")
                 output = self.integer_convert(integer_data) + self.decimal_convert(decimal_data)
+            elif data_type == "all_num":
+                output = self.decimal_convert(inputs) * 10 ** (len(inputs))
             else:
-                raise ValueError("输入格式错误：{}！".format(input_data))
+                raise ValueError(f"输入格式错误：{inputs}！")
         else:
             raise ValueError("输入数据为空！")
-        
-        if len(sys.argv) == 1:
-            return output
-        elif len(sys.argv) == 2:
-            return str(output)
-        else:
-            raise ValueError("参数过多！")
 
-    def cn2an_shell(self, input_data="default_key"):
-        len_argv = len(sys.argv)
-        if len_argv == 1:
-            if input_data == "default_key":
-                raise Exception("请在cn2an后输入需要转化的中文数字！")
-            else:
-                return input_data
-        elif len_argv == 2:
-            input_cn = sys.argv[1]
-        else:
-            raise Exception("cn2an后的参数过多！")
+        return output
 
-        return self.cn2an(input_cn)
-
-    def check_input_data_is_valid(self, check_data):
+    def check_input_data_is_valid(self, check_data, mode):
         # 检查输入数据是否在规定的字典中
         all_check_keys = list(self.conf["number_unit"].keys())
         all_check_keys.append("点")
+
         for data in check_data:
             if data not in all_check_keys:
-                raise ValueError("输入的数据不在转化范围内：{}！".format(data))
-        
+                raise ValueError(f"输入的数据不在转化范围内：{data}！")
+
+        if "点" in check_data:
+            split_data = check_data.split("点")
+            if len(split_data) == 2:
+                intager_data, decimal_data = split_data
+            else:
+                raise ValueError("数据中包含不止一个 点！")
+        else:
+            intager_data = check_data
+            decimal_data = None
+
+        all_num = "".join(
+            set(self.conf["number_low"] + self.conf["number_up"]))
+        all_unit = "".join(set(self.conf["unit_low"] + self.conf["unit_up"]))
+
+        # 整数部分检查
+        ptn_normal = re.compile(
+            f"(([{all_num}]+[{all_unit}]+)+零?[{all_num}]|([{all_num}]+[{all_unit}]+)+|十[{all_num}]|[{all_num}])$")
+        re_normal = ptn_normal.search(intager_data)
+        if re_normal:
+            if re_normal.group() != intager_data:
+                if mode == "strict":
+                    raise ValueError(f"不符合格式的数据：{intager_data}")
+                elif mode == "normal":
+                    # 纯数字情况
+                    ptn_all_num = re.compile(f"[{all_num}]+")
+                    re_all_num = ptn_all_num.search(intager_data)
+                    if re_all_num:
+                        if re_all_num.group() != intager_data:
+                            raise ValueError(f"不符合格式的数据：{intager_data}")
+                        else:
+                            return "all_num"
+                else:
+                    raise ValueError(f"不符合格式的数据：{intager_data}")
+            else:
+                if decimal_data:
+                    return "decimal"
+                else:
+                    if check_data[-1] == "点":
+                        if mode == "strict":
+                            raise ValueError(f"不符合格式的数据：{check_data}")
+                        elif mode == "normal":
+                            return "decimal"
+                    else:
+                        return "integer"
+        else:
+            if mode == "strict":
+                raise ValueError(f"不符合格式的数据：{intager_data}")
+            elif mode == "normal":
+                if decimal_data:
+                    return "decimal"
+                else:
+                    raise ValueError(f"不符合格式的数据：{intager_data}")
+            else:
+                raise ValueError(f"不符合格式的数据：{intager_data}")
+
     def integer_convert(self, integer_data):
         output_integer = 0
         unit_value = 1
@@ -85,13 +124,14 @@ class Cn2An():
         return output_integer
 
     def decimal_convert(self, decimal_data):
-        len_decimal_data = len(decimal_data) 
-        
+        len_decimal_data = len(decimal_data)
+
         if len_decimal_data > 15:
-            print("warning: 小数部分长度为{}，超过15位有效精度长度，将自动截取前15位！".format(len_decimal_data))
+            print("warning: 小数部分长度为{}，超过15位有效精度长度，将自动截取前15位！".format(
+                len_decimal_data))
             decimal_data = decimal_data[:15]
             len_decimal_data = 15
-        
+
         output_decimal = 0
         for index in range(len(decimal_data)-1, -1, -1):
             unit_key = self.conf["number_unit"].get(decimal_data[index])
