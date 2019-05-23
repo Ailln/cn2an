@@ -1,11 +1,36 @@
-os: linux
-sudo: false
 language: python
+sudo: false
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      python: "nightly"
+    - os: linux
+      dist: xenial
+      python: "3.8-dev"
+    - os: linux
+      dist: xenial
+      python: "3.7-dev"
+    - os: linux
+      dist: xenial
+      python: "3.7"
+    - os: linux
+      dist: trusty
+      python: "3.6-dev"
+    - os: linux
+      dist: trusty
+      python: "3.6"
+  allow_failures:
+    - python: nightly
+    - python: 3.8-dev
+    - python: 3.7-dev
+    - python: 3.6-dev
 
-python:
-  - "3.6"
+before_install:
+  - pip install -U pip
+
 install:
-  - pip install -r requirements.txt
+  - pip install -Ur requirements.txt
 script:
   - python -m cn2an.cn2an_test
   - python -m cn2an.an2cn_test
@@ -16,4 +41,4 @@ branches:
     - master
 
 notifications:
-  email: true 
+  email: true

@@ -8,8 +8,7 @@
 
 **`cn2an`** 是一个将 `中文数字` 和 `阿拉伯数字` 快速转化的工具包！
 
-![](./src/cn2an-site.png)
-
+[![](./src/cn2an-site.png)](https://www.dovolopor.com/cn2an)
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
 ## 1 功能
@@ -60,12 +59,12 @@ cn2an.__version__
 ```python
 # 在 strict 模式下，只有严格符合的才可以进行转化
 output = cn2an.cn2an("一百二十三", "strict")
+# or output = cn2an.cn2an("一二三")
 print(output)
 # 123
 
 # 在 normal 模式下，还可以将 一二三 进行转化
 output = cn2an.cn2an("一二三", "normal")
-# or output = cn2an.cn2an("一二三")
 print(output)
 # 123
 
