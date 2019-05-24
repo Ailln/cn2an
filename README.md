@@ -28,7 +28,7 @@
 
 ## 2 安装
 
-> ⚠️注意：目前仅支持 Python 3.6。
+> ⚠️注意：仅支持 `Python 3.6+` 版本。
 
 ### 2.1 使用 pip 安装
 
@@ -51,12 +51,14 @@ import cn2an
 
 # 查看版本
 cn2an.__version__
-# output: 0.3.1
+# output: 0.3.2
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
 
 ```python
+import cn2an
+
 # 在 strict 模式下，只有严格符合的才可以进行转化
 output = cn2an.cn2an("一百二十三", "strict")
 # or output = cn2an.cn2an("一二三")
@@ -77,6 +79,8 @@ print(output)
 ### 3.2 `阿拉伯数字` => `中文数字`
 
 ```python
+import cn2an
+
 # 在 low 模式下，数字转化为小写的中文数字
 output = cn2an.an2cn("123", "low")
 # or output = cn2an.an2cn("123")
@@ -103,7 +107,7 @@ print(output)
 
 ## 4 版本支持
 
-- 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6` 的版本。
+- 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6+` 的版本。
 - 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.3` 上做过完整测试。
 - 欢迎提交其他版本使用情况到 [Issues](https://github.com/HaveTwoBrush/cn2an/issues) 中，期待你的反馈。
 - 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，贡献自己代码给其他人。
