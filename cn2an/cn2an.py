@@ -58,7 +58,7 @@ class Cn2An():
 
         # 整数部分检查
         ptn_normal = re.compile(
-            f"(([{all_num}]+[{all_unit}]+)+零?[{all_num}]|([{all_num}]+[{all_unit}]+)+|十[{all_num}]|[{all_num}])$")
+            f"(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}])$")
         re_normal = ptn_normal.search(intager_data)
         if re_normal:
             if re_normal.group() != intager_data:
