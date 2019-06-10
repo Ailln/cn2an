@@ -51,7 +51,7 @@ import cn2an
 
 # 查看版本
 cn2an.__version__
-# output: 0.3.2
+# output: 0.3.3
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`

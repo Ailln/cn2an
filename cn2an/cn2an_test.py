@@ -7,6 +7,9 @@ class Cn2anTest(unittest.TestCase):
     def setUp(self):
         self.strict_data_dict = {
             "一": 1,
+            "两": 2,
+            "十": 10,
+            "十一": 11,
             "一十一": 11,
             "一百一十一": 111,
             "一千一百一十一": 1111,
@@ -19,6 +22,8 @@ class Cn2anTest(unittest.TestCase):
             "一百一十一亿一千一百一十一万一千一百一十一": 11111111111,
             "一千一百一十一亿一千一百一十一万一千一百一十一": 111111111111,
             "壹": 1,
+            "拾": 10,
+            "拾壹": 11,
             "壹拾壹": 11,
             "壹佰壹拾壹": 111,
             "壹仟壹佰壹拾壹": 1111,
@@ -66,15 +71,12 @@ class Cn2anTest(unittest.TestCase):
         }
 
         self.normal_data_dict = {
-            "十一": 11,
             "十万": 100000,
             "十万零一": 100001,
             "十亿零一万零一": 1000010001,
             "一一": 11,
             "一一一": 111,
             "一一一一": 1111,
-            "拾壹": 11,
-            "拾万": 100000,
             "拾万零壹": 100001,
             "拾亿零壹万零壹": 1000010001,
             "壹壹": 11,
@@ -89,19 +91,14 @@ class Cn2anTest(unittest.TestCase):
         self.normal_data_dict.update(self.strict_data_dict)
 
         self.error_normal_datas = [
-            "点"
             "零点点",
             "零点零大"
         ]
 
         self.error_strict_datas = [
-            "十一",
-            "拾壹",
             "一一",
             "壹壹",
             "零点",
-            "零点零",
-            "零点零零",
             "点零",
             "点一",
         ]
@@ -118,14 +115,21 @@ class Cn2anTest(unittest.TestCase):
             self.assertEqual(self.ca.cn2an(normal_item, "normal"),
                              self.normal_data_dict[normal_item])
 
-        with self.assertRaises(ValueError):
-            for error_strict_item in self.error_strict_datas:
+        for error_strict_item in self.error_strict_datas:
+            try:
                 self.ca.cn2an(error_strict_item)
+            except ValueError as e:
+                self.assertEqual(type(e), ValueError)
+            else:
+                raise Exception(f'ValueError not raised: {error_strict_item}')
 
-        with self.assertRaises(ValueError):
-            for error_normal_item in self.error_normal_datas:
+        for error_normal_item in self.error_normal_datas:
+            try:
                 self.ca.cn2an(error_normal_item)
-
+            except ValueError as e:
+                self.assertEqual(type(e), ValueError)
+            else:
+                raise Exception(f'ValueError not raised: {error_normal_item}')
 
 if __name__ == '__main__':
     unittest.main()

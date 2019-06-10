@@ -52,13 +52,12 @@ class Cn2An():
             intager_data = check_data
             decimal_data = None
 
-        all_num = "".join(
-            set(self.conf["number_low"] + self.conf["number_up"]))
+        all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "两"
         all_unit = "".join(set(self.conf["unit_low"] + self.conf["unit_up"]))
 
         # 整数部分检查
         ptn_normal = re.compile(
-            f"(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}])$")
+            f"(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}]|[十拾])$")
         re_normal = ptn_normal.search(intager_data)
         if re_normal:
             if re_normal.group() != intager_data:
