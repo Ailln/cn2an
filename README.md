@@ -51,7 +51,7 @@ import cn2an
 
 # 查看版本
 cn2an.__version__
-# output: 0.3.4
+# output: 0.3.6
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -98,7 +98,7 @@ print(output)
 # 壹佰贰拾叁元整
 
 # 在 smart 模式下，可以将混合描述数字转化为小写的中文数字 (开发中)
-utput = cn2an.an2cn("1百23", "smart")
+output = cn2an.an2cn("1百23", "smart")
 print(output)
 # 一百二十三
 ```
@@ -126,7 +126,7 @@ print(output)
 
 ## 7 协议
 
-[MIT License](https://github.com/HaveTwoBrush/cn2an/blob/master/LICENSE)
+[MIT License](./LICENSE)
 
 ## 8 交流
 
