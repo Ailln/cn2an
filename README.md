@@ -8,6 +8,8 @@
 
 **`cn2an`** 是一个将 `中文数字` 和 `阿拉伯数字` 快速转化的工具包！
 
+[![](https://award.dovolopor.com?left=Ailln's&right=idea)](https://github.com/HaveTwoBrush/award)
+
 [![](./src/cn2an-site.png)](https://www.dovolopor.com/cn2an)
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
