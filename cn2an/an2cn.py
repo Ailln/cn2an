@@ -1,14 +1,12 @@
-import sys
-
 from . import utils
 
 
-class An2Cn():
+class An2Cn(object):
     def __init__(self):
         self.conf = utils.get_default_conf()
 
     def an2cn(self, inputs=None, mode="low"):
-        if inputs != None:
+        if inputs is not None:
             if mode not in ["low", "up", "rmb"]:
                 raise ValueError("mode 仅支持 low up rmb smart 四种！")
 
@@ -65,7 +63,7 @@ class An2Cn():
                         else:
                             if dec_data[2] != "零":
                                 if int_data == "零":
-                                    output =  dec_data[2] + "分"
+                                    output = dec_data[2] + "分"
                                 else:
                                     output = int_data + "元" + "零" + dec_data[2] + "分"
                             else:
@@ -83,8 +81,7 @@ class An2Cn():
     @staticmethod
     def check_inputs_is_valid(check_data):
         # 检查输入数据是否在规定的字典中
-        all_check_keys = ["0", "1", "2", "3",
-            "4", "5", "6", "7", "8", "9", "."]
+        all_check_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
         for data in check_data:
             if data not in all_check_keys:
                 raise ValueError(f"输入的数据不在转化范围内：{data}！")
@@ -138,7 +135,6 @@ class An2Cn():
             output_an = "零"
             
         return output_an
-
 
     def decimal_convert(self, decimal_data, mode):
         len_decimal_data = len(decimal_data) 

@@ -86,7 +86,10 @@ class Cn2anTest(unittest.TestCase):
             "零点零": 0,
             "零点零零": 0,
             "点零": 0,
-            "点一": 0.1
+            "点一": 0.1,
+            "一七二零": 1720,
+            "一七二零点一": 1720.1,
+            "一七二零点一三四": 1720.134
         }
         self.normal_data_dict.update(self.strict_data_dict)
 
@@ -130,6 +133,7 @@ class Cn2anTest(unittest.TestCase):
                 self.assertEqual(type(e), ValueError)
             else:
                 raise Exception(f'ValueError not raised: {error_normal_item}')
+
 
 if __name__ == '__main__':
     unittest.main()

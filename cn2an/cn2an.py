@@ -1,15 +1,14 @@
 import re
-import sys
 
 from . import utils
 
 
-class Cn2An():
+class Cn2An(object):
     def __init__(self):
         self.conf = utils.get_default_conf()
 
     def cn2an(self, inputs=None, mode="strict"):
-        if inputs != None:
+        if inputs is not None:
             # 检查转换模式是否有效
             if mode not in ["strict", "normal", "smart"]:
                 raise ValueError("mode 仅支持 strict normal smart 三种！")
@@ -25,7 +24,7 @@ class Cn2An():
                 integer_data, decimal_data = inputs.split("点")
                 output = self.integer_convert(integer_data) + self.decimal_convert(decimal_data)
             elif data_type == "all_num":
-                output = self.decimal_convert(inputs) * 10 ** (len(inputs))
+                output = self.direct_convert(inputs)
             else:
                 raise ValueError(f"输入格式错误：{inputs}！")
         else:
@@ -45,11 +44,11 @@ class Cn2An():
         if "点" in check_data:
             split_data = check_data.split("点")
             if len(split_data) == 2:
-                intager_data, decimal_data = split_data
+                integer_data, decimal_data = split_data
             else:
                 raise ValueError("数据中包含不止一个 点！")
         else:
-            intager_data = check_data
+            integer_data = check_data
             decimal_data = None
 
         all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "两"
@@ -58,22 +57,23 @@ class Cn2An():
         # 整数部分检查
         ptn_normal = re.compile(
             f"(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}]|[十拾])$")
-        re_normal = ptn_normal.search(intager_data)
+        re_normal = ptn_normal.search(integer_data)
+
         if re_normal:
-            if re_normal.group() != intager_data:
+            if re_normal.group() != integer_data:
                 if mode == "strict":
-                    raise ValueError(f"不符合格式的数据：{intager_data}")
+                    raise ValueError(f"不符合格式的数据：{integer_data}")
                 elif mode == "normal":
                     # 纯数字情况
                     ptn_all_num = re.compile(f"[{all_num}]+")
-                    re_all_num = ptn_all_num.search(intager_data)
+                    re_all_num = ptn_all_num.search(integer_data)
                     if re_all_num:
-                        if re_all_num.group() != intager_data:
-                            raise ValueError(f"不符合格式的数据：{intager_data}")
+                        if re_all_num.group() != integer_data:
+                            raise ValueError(f"不符合格式的数据：{integer_data}")
                         else:
                             return "all_num"
                 else:
-                    raise ValueError(f"不符合格式的数据：{intager_data}")
+                    raise ValueError(f"不符合格式的数据：{integer_data}")
             else:
                 if decimal_data:
                     return "decimal"
@@ -87,14 +87,14 @@ class Cn2An():
                         return "integer"
         else:
             if mode == "strict":
-                raise ValueError(f"不符合格式的数据：{intager_data}")
+                raise ValueError(f"不符合格式的数据：{integer_data}")
             elif mode == "normal":
                 if decimal_data:
                     return "decimal"
                 else:
-                    raise ValueError(f"不符合格式的数据：{intager_data}")
+                    raise ValueError(f"不符合格式的数据：{integer_data}")
             else:
-                raise ValueError(f"不符合格式的数据：{intager_data}")
+                raise ValueError(f"不符合格式的数据：{integer_data}")
 
     def integer_convert(self, integer_data):
         output_integer = 0
@@ -140,3 +140,24 @@ class Cn2An():
         output_decimal = round(output_decimal, len_decimal_data)
 
         return output_decimal
+
+    def direct_convert(self, data):
+        output_data = 0
+        if "点" in data:
+            point_index = data.index("点")
+            for index_integer in range(point_index - 1, -1, -1):
+                unit_key = self.conf["number_unit"].get(data[index_integer])
+                output_data += unit_key * 10 ** (point_index - index_integer - 1)
+
+            for index_decimal in range(len(data)-1, point_index, -1):
+                unit_key = self.conf["number_unit"].get(data[index_decimal])
+                output_data += unit_key * 10 ** -(index_decimal - point_index)
+
+            # 处理精度溢出问题
+            output_data = round(output_data, len(data) - point_index)
+        else:
+            for index in range(len(data)-1, -1, -1):
+                unit_key = self.conf["number_unit"].get(data[index])
+                output_data += unit_key * 10 ** (len(data)-index-1)
+
+        return output_data
