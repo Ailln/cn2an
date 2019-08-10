@@ -26,7 +26,7 @@ class Cn2An(object):
             elif data_type == "all_num":
                 output = self.direct_convert(inputs)
             else:
-                raise ValueError(f"输入格式错误：{inputs}！")
+                raise ValueError("输入格式错误：{inputs}！".format(inputs=inputs))
         else:
             raise ValueError("输入数据为空！")
 
@@ -39,7 +39,7 @@ class Cn2An(object):
 
         for data in check_data:
             if data not in all_check_keys:
-                raise ValueError(f"输入的数据不在转化范围内：{data}！")
+                raise ValueError("输入的数据不在转化范围内：{data}！".format(data=data))
 
         if "点" in check_data:
             split_data = check_data.split("点")
@@ -56,49 +56,49 @@ class Cn2An(object):
 
         # 整数部分检查
         ptn_normal = re.compile(
-            f"(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}]|[十拾])$")
+            "(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}]|[十拾])$".format(all_num=all_num))
         re_normal = ptn_normal.search(integer_data)
 
         if re_normal:
             if re_normal.group() != integer_data:
                 if mode == "strict":
-                    raise ValueError(f"不符合格式的数据：{integer_data}")
+                    raise ValueError("不符合格式的数据：{integer_data}".format(integer_data=integer_data))
                 elif mode == "normal":
                     # 纯数字情况
-                    ptn_all_num = re.compile(f"[{all_num}]+")
+                    ptn_all_num = re.compile("[{all_num}]+".format(all_num=all_num))
                     re_all_num = ptn_all_num.search(integer_data)
                     if re_all_num:
                         if re_all_num.group() != integer_data:
-                            raise ValueError(f"不符合格式的数据：{integer_data}")
+                            raise ValueError("不符合格式的数据：{integer_data}".format(integer_data=integer_data))
                         else:
                             return "all_num"
                 else:
-                    raise ValueError(f"不符合格式的数据：{integer_data}")
+                    raise ValueError("不符合格式的数据：{integer_data}".format(integer_data=integer_data))
             else:
                 if decimal_data:
                     return "decimal"
                 else:
                     if check_data[-1] == "点":
                         if mode == "strict":
-                            raise ValueError(f"不符合格式的数据：{check_data}")
+                            raise ValueError("不符合格式的数据：{check_data}".format(check_data=check_data))
                         elif mode == "normal":
                             return "decimal"
                     else:
                         return "integer"
         else:
             if mode == "strict":
-                raise ValueError(f"不符合格式的数据：{integer_data}")
+                raise ValueError("不符合格式的数据：{integer_data}".format(integer_data=integer_data))
             elif mode == "normal":
                 if decimal_data:
                     return "decimal"
                 else:
-                    raise ValueError(f"不符合格式的数据：{integer_data}")
+                    raise ValueError("不符合格式的数据：{integer_data}".format(integer_data=integer_data))
             else:
-                raise ValueError(f"不符合格式的数据：{integer_data}")
+                raise ValueError("不符合格式的数据：{integer_data}".format(integer_data=integer_data))
 
     def integer_convert(self, integer_data):
         all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "两"
-        ptn_speaking_mode = re.compile(f"^[{all_num}][万千百][{all_num}]$")
+        ptn_speaking_mode = re.compile("^[{all_num}][万千百][{all_num}]$".format(all_num=all_num))
         result = ptn_speaking_mode.search(integer_data)
 
         if result:
