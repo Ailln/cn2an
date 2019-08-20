@@ -8,7 +8,7 @@ class An2Cn(object):
     def an2cn(self, inputs=None, mode="low"):
         if inputs is not None:
             if mode not in ["low", "up", "rmb"]:
-                raise ValueError("mode 仅支持 low up rmb smart 四种！")
+                raise ValueError("mode 仅支持 low up rmb 三种！")
 
             # 将数字转化为字符串
             if not isinstance(inputs, str):

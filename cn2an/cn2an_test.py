@@ -92,7 +92,8 @@ class Cn2anTest(unittest.TestCase):
             "一七二零点一三四": 1720.134,
             "三万五": 35000,
             "两千六": 2600,
-            "一百二": 120
+            "一百二": 120,
+            "一二三": 123
         }
         self.normal_data_dict.update(self.strict_data_dict)
 

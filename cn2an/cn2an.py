@@ -10,8 +10,8 @@ class Cn2An(object):
     def cn2an(self, inputs=None, mode="strict"):
         if inputs is not None:
             # 检查转换模式是否有效
-            if mode not in ["strict", "normal", "smart"]:
-                raise ValueError("mode 仅支持 strict normal smart 三种！")
+            if mode not in ["strict", "normal"]:
+                raise ValueError("mode 仅支持 strict normal 两种！")
 
             # 检查输入数据是否有效
             data_type = self.check_input_data_is_valid(inputs, mode)
@@ -130,7 +130,7 @@ class Cn2An(object):
                     if index == 0:
                         output_integer += unit_value
 
-        return output_integer
+        return int(output_integer)
 
     def decimal_convert(self, decimal_data):
         len_decimal_data = len(decimal_data)
