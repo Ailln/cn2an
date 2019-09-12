@@ -1,4 +1,4 @@
-# 📦 cn2an: Chinese Numerals To Arabic Numerals
+# cn2an: Chinese Numerals To Arabic Numerals
 
 [![Build Status](https://travis-ci.org/HaveTwoBrush/cn2an.svg?branch=master)](https://travis-ci.org/HaveTwoBrush/cn2an)
 [![Pypi](https://img.shields.io/pypi/v/cn2an.svg)](https://pypi.org/project/cn2an/)
@@ -6,7 +6,7 @@
 [![stars](https://img.shields.io/github/stars/HaveTwoBrush/cn2an.svg)](https://github.com/HaveTwoBrush/cn2an/stargazers)
 [![API](https://img.shields.io/badge/API-reference-pink.svg)](https://github.com/HaveTwoBrush/cn2an/wiki/API)
 
-**`cn2an`** 是一个将 `中文数字` 和 `阿拉伯数字` 快速转化的工具包！
+📦 **`cn2an`** 是一个将 `中文数字` 和 `阿拉伯数字` 快速转化的工具包！
 
 [![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/HaveTwoBrush/award)
 
