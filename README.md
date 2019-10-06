@@ -35,14 +35,15 @@
 ### 2.1 使用 pip 安装
 
 ```shell
-pip install cn2an
+$ pip install cn2an
 ```
 
 ### 2.2 从代码库安装
 
 ```shell
-git clone https://github.com/HaveTwoBrush/cn2an.git
-cd cn2an && python setup.py install
+$ git clone https://github.com/HaveTwoBrush/cn2an.git
+$ cd cn2an
+$ python setup.py install
 ```
 
 ## 3 使用
@@ -126,7 +127,7 @@ print(output)
 
 本项目是用看板管理开发进度，请点击 [v0.3](https://github.com/HaveTwoBrush/cn2an/projects/1) 查看开发进度和计划事项。
 
-## 7 协议
+## 7 许可证
 
 [![](https://award.dovolopor.com?lt=License&rt=MIT&rbc=green)](./LICENSE)
 
