@@ -1,15 +1,15 @@
-name: Python package
+name: build
 
 on: [push]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform }}
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.6, 3.7]
+        platform: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
     - uses: actions/checkout@v1
