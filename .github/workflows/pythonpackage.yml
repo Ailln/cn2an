@@ -61,7 +61,7 @@ jobs:
         pip install pytest
         pytest
 
-- windows-build:
+  - windows-build:
     runs-on: windows-latest
     strategy:
       max-parallel: 4
