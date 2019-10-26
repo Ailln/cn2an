@@ -14,7 +14,6 @@ class An2Cn(object):
             # 将数字转化为字符串
             if not isinstance(inputs, str):
                 inputs = self.convert_number_to_string(inputs)
-
             # 检查数据是否有效
             self.check_inputs_is_valid(inputs)
 
@@ -74,13 +73,12 @@ class An2Cn(object):
                                     output = int_data + "元" + "零" + dec_data[2] + "分"
                             else:
                                 output = int_data + "元整"
-
                 else:
                     output = self.integer_convert(integer_data, mode) + self.decimal_convert(decimal_data, mode)
             else:
                 raise ValueError(f"输入格式错误：{inputs}！")
         else:
-            raise ValueError(f"输入数据为空！") 
+            raise ValueError(f"输入数据为空！")
 
         return negative + output
 
@@ -115,7 +113,6 @@ class An2Cn(object):
         integer_data = str(int(integer_data))
 
         len_integer_data = len(integer_data)
-        
         if len_integer_data > len(unit_list):
             raise ValueError("超出数据范围，最长支持 16 位")
 
@@ -126,7 +123,7 @@ class An2Cn(object):
             else:
                 if not (len_integer_data - i - 1) % 4:
                     output_an += numeral_list[int(d)] + unit_list[len_integer_data - i - 1]
-                
+
                 if i > 0 and not output_an[-1] == "零":
                     output_an += numeral_list[int(d)]
 
@@ -135,15 +132,15 @@ class An2Cn(object):
         # 解决「一十几」和「壹拾几」问题
         if output_an[:2] in ["一十", "壹拾"]:
             output_an = output_an[1:]
-            
+
         # 0 - 1 之间的小数
         if not output_an:
             output_an = "零"
-            
+
         return output_an
 
     def decimal_convert(self, decimal_data, mode):
-        len_decimal_data = len(decimal_data) 
+        len_decimal_data = len(decimal_data)
 
         if len_decimal_data > 15:
             print(f"warning: 小数部分长度为{len_decimal_data}，超过15位有效精度长度，将自动截取前15位！")
@@ -153,10 +150,8 @@ class An2Cn(object):
             output_an = "点"
         else:
             output_an = ""
-
         numeral_list = self.conf[f"number_{mode}"]
 
         for data in decimal_data:
             output_an += numeral_list[int(data)]
-
         return output_an
