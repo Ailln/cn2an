@@ -13,6 +13,11 @@ class Cn2An(object):
             if mode not in ["strict", "normal"]:
                 raise ValueError("mode 仅支持 strict normal 两种！")
 
+            negative = 1
+            if inputs[0] == "负":
+                negative = -1
+                inputs = inputs[1:]
+
             # 检查输入数据是否有效
             data_type = self.check_input_data_is_valid(inputs, mode)
 
@@ -30,7 +35,7 @@ class Cn2An(object):
         else:
             raise ValueError("输入数据为空！")
 
-        return output
+        return negative*output
 
     def check_input_data_is_valid(self, check_data, mode):
         # 检查输入数据是否在规定的字典中
@@ -112,7 +117,6 @@ class Cn2An(object):
 
             for index in range(len(integer_data) - 1, -1, -1):
                 unit_key = self.conf["number_unit"].get(integer_data[index])
-
                 if unit_key < 10:
                     output_integer += unit_value * unit_key
                 else:

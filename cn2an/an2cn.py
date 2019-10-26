@@ -7,6 +7,7 @@ class An2Cn(object):
 
     def an2cn(self, inputs=None, mode="low"):
         if inputs is not None:
+            negative = ""
             if mode not in ["low", "up", "rmb"]:
                 raise ValueError("mode 仅支持 low up rmb 三种！")
 
@@ -16,6 +17,11 @@ class An2Cn(object):
 
             # 检查数据是否有效
             self.check_inputs_is_valid(inputs)
+
+            # 判断正负
+            if inputs[0] == "-":
+                inputs = inputs[1:]
+                negative = "负"
 
             # 切割整数部分和小数部分
             split_result = inputs.split(".")
@@ -76,12 +82,12 @@ class An2Cn(object):
         else:
             raise ValueError(f"输入数据为空！") 
 
-        return output
+        return negative + output
 
     @staticmethod
     def check_inputs_is_valid(check_data):
         # 检查输入数据是否在规定的字典中
-        all_check_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
+        all_check_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"]
         for data in check_data:
             if data not in all_check_keys:
                 raise ValueError(f"输入的数据不在转化范围内：{data}！")
