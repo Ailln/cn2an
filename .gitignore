@@ -6,3 +6,4 @@ build
 cn2an.egg-info
 dist
 .vscode
+.pytest_cache

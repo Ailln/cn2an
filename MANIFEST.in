@@ -8,3 +8,4 @@ recursive-include cn2an *
 recursive-exclude * *.pyc
 recursive-exclude * .DS_Store
 recursive-exclude * __pycache__
+recursive-exclude * .pytest_cache

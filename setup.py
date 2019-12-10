@@ -2,9 +2,6 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-from cn2an import version
-
-
 py_version = sys.version_info[:2]
 
 if py_version < (3, 6):
@@ -12,10 +9,10 @@ if py_version < (3, 6):
 
 setup(
     name="cn2an",
-    version=version.VERSION,
-    author="HaveTwoBrush",
+    version="0.3.9",
+    author="Ailln",
     author_email="kinggreenhall@gmail.com",
-    url="https://github.com/HaveTwoBrush/cn2an",
+    url="https://github.com/Ailln/cn2an",
     packages=find_packages(),
     include_package_data=True,
     install_requires=open("./requirements.txt", "r",
