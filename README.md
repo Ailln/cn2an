@@ -57,7 +57,7 @@ import cn2an
 
 # 查看版本
 cn2an.__version__
-# output: 0.3.8
+# output: 0.3.9
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -124,7 +124,7 @@ print(output)
 ## 4 版本支持
 
 - 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6+` 的版本。
-- 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.3` 上做过完整测试。
+- 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.9` 和 `Python3.7.4` 上做过完整测试。
 - 欢迎提交其他版本使用情况到 [Issues](https://github.com/Ailln/cn2an/issues) 中，期待你的反馈。
 - 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，贡献自己代码给其他人。
 
@@ -154,5 +154,5 @@ print(output)
 
 ## 10 参考
 
-- [如何发布自己的包到 pypi ？](https://www.v2ai.cn/python/2018/07/30/PY-1.html)
+- [如何发布自己的包到 pypi](https://www.v2ai.cn/python/2018/07/30/PY-1.html)
 - [Python 中的小陷阱](https://www.v2ai.cn/python/2019/01/01/PY-6.html)
