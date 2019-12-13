@@ -103,6 +103,7 @@ class Cn2An(object):
 
     def integer_convert(self, integer_data):
         all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "两"
+        # 口语模式 比如：两千三
         ptn_speaking_mode = re.compile(f"^[{all_num}][万千百][{all_num}]$")
         result = ptn_speaking_mode.search(integer_data)
 
@@ -111,27 +112,32 @@ class Cn2An(object):
             low_num = self.conf["number_unit"].get(integer_data[2]) * self.conf["number_unit"].get(integer_data[1])/10
             output_integer = high_num + low_num
         else:
+            # 核心
             output_integer = 0
             unit_value = 1
             ten_thousand_unit_key = 1
 
-            for index in range(len(integer_data) - 1, -1, -1):
-                unit_key = self.conf["number_unit"].get(integer_data[index])
+            for index, int_key in enumerate(reversed(integer_data)):
+                unit_key = self.conf["number_unit"].get(int_key)
+                # 数值
                 if unit_key < 10:
                     output_integer += unit_value * unit_key
+                # 单位
                 else:
+                    # 判断出"万、亿"
                     if unit_key % 10000 == 0:
                         if unit_key > ten_thousand_unit_key:
                             ten_thousand_unit_key = unit_key
                         else:
                             ten_thousand_unit_key = ten_thousand_unit_key * unit_key
+                            unit_key = ten_thousand_unit_key
 
                     if unit_key > unit_value:
                         unit_value = unit_key
                     else:
                         unit_value = ten_thousand_unit_key * unit_key
 
-                    if index == 0:
+                    if index == len(integer_data)-1:
                         output_integer += unit_value
 
         return int(output_integer)
