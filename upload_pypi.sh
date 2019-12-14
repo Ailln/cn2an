@@ -3,5 +3,5 @@
 rm dist/*
 python setup.py sdist bdist_wheel
 
-pip install twine
+pip install -r requirements_dev.txt
 twine upload dist/*

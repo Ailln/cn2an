@@ -135,14 +135,52 @@ print(output)
 ## 5 问题反馈
 
 1. 先搜索 [Issues](https://github.com/Ailln/cn2an/issues) 中有没有人已经问过类似的问题；
-2. 如果没有找到解答，请新开一个 issue；
-3. 在「issue 标题」中填写你遇到的问题的简介；
-4. 在「issue 详情」中填写你遇到的问题的详情；
-5. 最后，不要忘记注明你使用的操作系统（比如 Windows 10）和 Python 版本（比如 Python 3.6.3）。
+2. 如果没有找到解答，请新开一个 issue：
+    1. 首先，在「issue 标题」中填写你遇到的问题的简介；
+    2. 然后，在「issue 详情」中填写你遇到的问题的详情；
+    3. 最后，不要忘记注明你使用的操作系统（比如 Windows 10）和 Python 版本（比如 Python 3.6.3）。
+3. 还可以参考 [issue 模版](https://github.com/Ailln/cn2an/tree/master/.github/ISSUE_TEMPLATE)。
 
-## 6 计划事项
+## 6 开发相关
+
+### 6.1 开发进度
 
 本项目是用看板管理开发进度，请点击 [v0.3](https://github.com/Ailln/cn2an/projects/1) 查看开发进度和计划事项。
+
+### 6.2 代码测试
+
+本地测试使用 [Anaconda](https://www.anaconda.com/) 的虚拟环境，测试方法如下。
+
+```bash
+# 安装 conda 环境
+conda create -n py369 python=3.6.9
+conda create -n py374 python=3.7.4
+
+# 执行测试
+bash local_test.sh
+```
+
+线上测试使用 [GitHub Actions](https://github.com/Ailln/cn2an/actions)。
+
+### 6.3 性能测试
+
+- 测试设备：`2.3 GHz 双核Intel Core i5 MacBook Pro`
+- 测试代码：[performance_test.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance_test.py)
+- 测试方法：
+
+    ```bash
+    pip install -r requirements_test.txt
+
+    python -m cn2an.performance_test
+    ```
+
+- 测试结果：
+    | 序号 | 功能 | 执行次数 | 执行时间(平均) | 性能(次/秒)
+    | :-: | :-: | :-: | :-: | :-: |
+    |  1  | an2cn | 10000 | 0.23 | **43k** |
+    |  2  | cn2an | 10000 | 0.56 | **18k** |
+
+ 在测试时，我使用的测试数据是最大数据，因此大多数情况下性能要比这个要好。
 
 ## 7 许可证
 
