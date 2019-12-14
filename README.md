@@ -5,7 +5,7 @@
 [![stars](https://img.shields.io/github/stars/Ailln/cn2an.svg)](https://github.com/Ailln/cn2an/stargazers)
 [![API](https://img.shields.io/badge/API-reference-pink.svg)](https://github.com/Ailln/cn2an/wiki/API)
 
-📦 **`cn2an`** 是一个将 `中文数字` 和 `阿拉伯数字` 快速转化的工具包！
+📦 **`cn2an`** 是一个快速转化 `中文数字` 和 `阿拉伯数字` 的工具包！
 
 [![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
 
@@ -56,11 +56,13 @@ python setup.py install
 import cn2an
 
 # 查看版本
-cn2an.__version__
-# output: 0.3.9
+print(cn2an.__version__)
+# 0.3.10
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
+
+> 最大支持到`万亿兆`，即`10**32`。
 
 ```python
 import cn2an
@@ -88,6 +90,8 @@ print(output)
 ```
 
 ### 3.2 `阿拉伯数字` => `中文数字`
+
+> 最大支持到`10**32`，即`万亿兆`。
 
 ```python
 import cn2an

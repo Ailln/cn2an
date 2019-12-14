@@ -114,31 +114,41 @@ class Cn2An(object):
         else:
             # 核心
             output_integer = 0
-            unit_value = 1
-            ten_thousand_unit_key = 1
+            unit = 1
+            # 万、亿、万亿、兆、万兆、亿兆、万亿兆
+            ten_thousand_unit = 1
+            # 万、亿、兆
+            max_ten_thousand_unit = 1
+            last_unit = 0
 
-            for index, int_key in enumerate(reversed(integer_data)):
-                unit_key = self.conf["number_unit"].get(int_key)
+            for index, cn_num in enumerate(reversed(integer_data)):
+                num = self.conf["number_unit"].get(cn_num)
                 # 数值
-                if unit_key < 10:
-                    output_integer += unit_value * unit_key
+                if num < 10:
+                    output_integer += num * unit
                 # 单位
                 else:
-                    # 判断出"万、亿"
-                    if unit_key % 10000 == 0:
-                        if unit_key > ten_thousand_unit_key:
-                            ten_thousand_unit_key = unit_key
+                    # 判断出"万、亿、兆"
+                    if num % 10000 == 0:
+                        if num > ten_thousand_unit:
+                            ten_thousand_unit = num
+                            max_ten_thousand_unit = num
                         else:
-                            ten_thousand_unit_key = ten_thousand_unit_key * unit_key
-                            unit_key = ten_thousand_unit_key
+                            # 亿兆
+                            if last_unit < num < max_ten_thousand_unit:
+                                ten_thousand_unit = num * max_ten_thousand_unit
+                            else:
+                                ten_thousand_unit = num * ten_thousand_unit
+                            last_unit = num
+                            num = ten_thousand_unit
 
-                    if unit_key > unit_value:
-                        unit_value = unit_key
+                    if num > unit:
+                        unit = num
                     else:
-                        unit_value = ten_thousand_unit_key * unit_key
+                        unit = num * ten_thousand_unit
 
-                    if index == len(integer_data)-1:
-                        output_integer += unit_value
+                    if index == len(integer_data) - 1:
+                        output_integer += unit
 
         return int(output_integer)
 

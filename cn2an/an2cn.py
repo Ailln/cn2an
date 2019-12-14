@@ -114,7 +114,7 @@ class An2Cn(object):
 
         len_integer_data = len(integer_data)
         if len_integer_data > len(unit_list):
-            raise ValueError("超出数据范围，最长支持 16 位")
+            raise ValueError(f"超出数据范围，最长支持 {len(unit_list)} 位")
 
         output_an = ""
         for i, d in enumerate(integer_data):
@@ -127,7 +127,7 @@ class An2Cn(object):
                 if i > 0 and not output_an[-1] == "零":
                     output_an += numeral_list[int(d)]
 
-        output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").replace("亿万", "亿").strip("零")
+        output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").replace("零兆", "兆").strip("零")
 
         # 解决「一十几」和「壹拾几」问题
         if output_an[:2] in ["一十", "壹拾"]:
