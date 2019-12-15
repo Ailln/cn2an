@@ -165,13 +165,13 @@ bash local_test.sh
 ### 6.3 性能测试
 
 - 测试设备：`2.3 GHz 双核Intel Core i5 MacBook Pro`
-- 测试代码：[performance_test.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance_test.py)
+- 测试代码：[performance.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance.py)
 - 测试方法：
 
     ```bash
     pip install -r requirements_test.txt
 
-    python -m cn2an.performance_test
+    python -m cn2an.performance
     ```
 
 - 测试结果：
