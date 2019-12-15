@@ -25,7 +25,6 @@
 - 支持 `阿拉伯数字` => `中文数字`；
 - 支持 `阿拉伯数字` => `大写中文数字`；
 - 支持 `阿拉伯数字` => `大写人民币`； 
-- 支持 `中文数字和阿拉伯数字` => `中文数字`；(开发中，暂不能使用)
 
 ### 1.3 支持负数
 
@@ -57,7 +56,7 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.3.10
+# 0.3.11
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -78,7 +77,7 @@ output = cn2an.cn2an("一二三", "normal")
 print(output)
 # 123
 
-# 在 smart 模式下，还可以将混合描述的 1百23 进行转化
+# 在 smart 模式下，还可以将混合描述的 1百23 进行转化（暂不支持小数）
 output = cn2an.cn2an("1百23", "smart")
 print(output)
 # 123
@@ -111,11 +110,6 @@ print(output)
 output = cn2an.an2cn("123", "rmb")
 print(output)
 # 壹佰贰拾叁元整
-
-# 在 smart 模式下，可以将混合描述数字转化为小写的中文数字 (开发中，暂不能使用)
-output = cn2an.an2cn("1百23", "smart")
-print(output)
-# 一百二十三
 
 # 全模式支持负数
 output = cn2an.cn2an("-123")
