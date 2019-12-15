@@ -18,7 +18,7 @@
 
 - 支持 `中文数字` => `阿拉伯数字`；
 - 支持 `大写中文数字` => `阿拉伯数字`；
-- 支持 `中文数字和阿拉伯数字` => `阿拉伯数字`；(开发中，暂不能使用)
+- 支持 `中文数字和阿拉伯数字` => `阿拉伯数字`；
 
 ### 1.2 `阿拉伯数字` => `中文数字`
 
@@ -78,7 +78,7 @@ output = cn2an.cn2an("一二三", "normal")
 print(output)
 # 123
 
-# 在 smart 模式下，还可以将混合描述的 1百23 进行转化 (开发中，暂不能使用)
+# 在 smart 模式下，还可以将混合描述的 1百23 进行转化
 output = cn2an.cn2an("1百23", "smart")
 print(output)
 # 123
@@ -164,6 +164,7 @@ bash local_test.sh
 
 ### 6.3 性能测试
 
+- 测试版本：0.3.10
 - 测试设备：`2.3 GHz 双核Intel Core i5 MacBook Pro`
 - 测试代码：[performance.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance.py)
 - 测试方法：

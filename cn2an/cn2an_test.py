@@ -7,7 +7,7 @@ class Cn2anTest(unittest.TestCase):
     def setUp(self):
         self.strict_data_dict = {
             "一": 1,
-            "两": 2,
+            "二": 2,
             "十": 10,
             "十一": 11,
             "一十一": 11,
@@ -112,10 +112,22 @@ class Cn2anTest(unittest.TestCase):
         }
         self.normal_data_dict.update(self.strict_data_dict)
 
+        self.smart_data_dict = {
+            "100万": 1000000,
+            "100万三千": 1003000,
+            "200亿零四千230": 20000004230
+        }
+        self.smart_data_dict.update(self.normal_data_dict)
+
+        self.error_smart_datas = [
+            "10.1万"
+        ]
+
         self.error_normal_datas = [
             "零点点",
             "零点零大"
         ]
+        self.error_normal_datas.extend(self.error_smart_datas)
 
         self.error_strict_datas = [
             "一一",
@@ -137,6 +149,10 @@ class Cn2anTest(unittest.TestCase):
             self.assertEqual(self.ca.cn2an(normal_item, "normal"),
                              self.normal_data_dict[normal_item])
 
+        for smart_item in self.smart_data_dict.keys():
+            self.assertEqual(self.ca.cn2an(smart_item, "smart"),
+                             self.smart_data_dict[smart_item])
+
         for error_strict_item in self.error_strict_datas:
             try:
                 self.ca.cn2an(error_strict_item)
@@ -152,6 +168,14 @@ class Cn2anTest(unittest.TestCase):
                 self.assertEqual(type(e), ValueError)
             else:
                 raise Exception(f'ValueError not raised: {error_normal_item}')
+
+        for error_smart_item in self.error_smart_datas:
+            try:
+                self.ca.cn2an(error_smart_item)
+            except ValueError as e:
+                self.assertEqual(type(e), ValueError)
+            else:
+                raise Exception(f'ValueError not raised: {error_smart_item}')
 
 
 if __name__ == '__main__':
