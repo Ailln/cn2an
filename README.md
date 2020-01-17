@@ -32,7 +32,9 @@
 
 ## 2 安装
 
-> ⚠️注意：仅支持 `Python 3.6+` 版本。
+> ⚠️注意：
+> 1. 仅支持 Python 的 3.6 以上版本；
+> 2. 请安装使用 cn2an 的最新版本。
 
 ### 2.1 使用 pip 安装
 
@@ -66,7 +68,7 @@ print(cn2an.__version__)
 ```python
 import cn2an
 
-# 在 strict 模式下，只有严格符合的才可以进行转化
+# 在 strict 模式下，只有严格符合数字拼写的才可以进行转化
 output = cn2an.cn2an("一百二十三", "strict")
 # or output = cn2an.cn2an("一二三")
 print(output)
@@ -77,12 +79,12 @@ output = cn2an.cn2an("一二三", "normal")
 print(output)
 # 123
 
-# 在 smart 模式下，还可以将混合描述的 1百23 进行转化（暂不支持小数）
+# 在 smart 模式下，还可以将混合拼写的 1百23 进行转化（暂不支持小数）
 output = cn2an.cn2an("1百23", "smart")
 print(output)
 # 123
 
-# 全模式支持负数
+# 以上三种模式均支持负数
 output = cn2an.cn2an("负一百二十三")
 print(output)
 # -123
@@ -111,7 +113,7 @@ output = cn2an.an2cn("123", "rmb")
 print(output)
 # 壹佰贰拾叁元整
 
-# 全模式支持负数
+# 以上三种模式均支持负数
 output = cn2an.cn2an("-123")
 print(output)
 # 负一百二十三
@@ -176,7 +178,7 @@ bash local_test.sh
     |  1  | an2cn | 10000 | 0.23 | **43k** |
     |  2  | cn2an | 10000 | 0.56 | **18k** |
 
- 在测试时，我使用的测试数据是最大数据，因此大多数情况下性能要比这个要好。
+ 在测试时，我使用的测试数据是长度最大的数据！因此，大多数情况下性能要比上述情况更好～
 
 ## 7 许可证
 

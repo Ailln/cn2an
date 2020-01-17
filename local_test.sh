@@ -43,8 +43,3 @@ pip install pytest
 pytest
 
 conda deactivate
-
-echo -e "\nTest for python 3.7.4...\n"
-conda activate py374
-
-conda deactivate
