@@ -9,7 +9,7 @@
 
 [![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
 
-[![](./src/cn2an-site.png)](https://www.dovolopor.com/cn2an)
+[![](./src/cn2an-site-v0.3.11.png)](https://www.dovolopor.com/cn2an)
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
 ## 1 功能
@@ -141,7 +141,7 @@ print(output)
 
 ### 6.1 开发进度
 
-本项目是用看板管理开发进度，请点击 [v0.3](https://github.com/Ailln/cn2an/projects/1) 查看开发进度和计划事项。
+本项目是用看板管理开发进度，请点击 [v0.4](https://github.com/Ailln/cn2an/projects/2) 查看开发进度和计划事项。
 
 ### 6.2 代码测试
 
