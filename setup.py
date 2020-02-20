@@ -9,14 +9,13 @@ if py_version < (3, 6):
 
 setup(
     name="cn2an",
-    version="0.3.11",
+    version="0.4.0",
     author="Ailln",
     author_email="kinggreenhall@gmail.com",
     url="https://github.com/Ailln/cn2an",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=open("./requirements.txt", "r",
-                          encoding="utf-8").read().splitlines(),
+    install_requires=open("./requirements.txt", "r", encoding="utf-8").read().splitlines(),
     description="Convert Chinese numerals and Arabic numerals.",
     long_description=open("./README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",

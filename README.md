@@ -24,11 +24,17 @@
 
 - 支持 `阿拉伯数字` => `中文数字`；
 - 支持 `阿拉伯数字` => `大写中文数字`；
-- 支持 `阿拉伯数字` => `大写人民币`； 
+- 支持 `阿拉伯数字` => `大写人民币`；
 
-### 1.3 支持负数
+### 1.3 句子转化
 
-- 所有转化支持 `负数`。
+- 支持 `中文数字` => `阿拉伯数字`；
+- 支持 `阿拉伯数字` => `中文数字`；
+
+### 1.4 其他
+
+- 支持小数
+- 支持负数
 
 ## 2 安装
 
@@ -58,7 +64,7 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.3.11
+# 0.4.0
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -117,6 +123,21 @@ print(output)
 output = cn2an.cn2an("-123")
 print(output)
 # 负一百二十三
+```
+
+### 3.3 句子转化
+
+```python
+import cn2an
+
+output = cn2an.transform("我捡了一百块钱", "cn2an")
+# or output = cn2an.transform("我捡了一百块钱")
+print(output)
+# 我捡了100块钱
+
+output = cn2an.transform("我捡了100块钱", "an2cn")
+print(output)
+# 我捡了一百块钱
 ```
 
 详细用法见 [API](https://github.com/Ailln/cn2an/wiki/API).
