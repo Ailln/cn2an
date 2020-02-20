@@ -11,15 +11,14 @@ class Transform(object):
         self.cn2an = Cn2An().cn2an
         self.an2cn = An2Cn().an2cn
 
-    def transform(self, sentence, method="cn2an"):
-        if method == "cn2an":
-            re_item = self.conf["number_low"] + list(set(self.conf["unit_low"]))
-            pattern = r"[负" + "".join(re_item) + "]+"
-            output = re.sub(pattern, lambda x: str(self.cn2an(x.group())), sentence)
-        elif method == "an2cn":
+    def transform(self, inputs, mode="cn2an"):
+        if mode == "cn2an":
+            pattern = r"[负" + "".join(self.conf["number_low"] + list(set(self.conf["unit_low"]))) + "]+"
+            output = re.sub(pattern, lambda x: str(self.cn2an(x.group())), inputs)
+        elif mode == "an2cn":
             pattern = r"[0-9]+"
-            output = re.sub(pattern, lambda x: self.an2cn(x.group()), sentence)
+            output = re.sub(pattern, lambda x: self.an2cn(x.group()), inputs)
         else:
-            raise ValueError(f"error method: {method}, only support 'cn2an' and 'an2cn'!")
+            raise ValueError(f"error mode: {mode}, only support 'cn2an' and 'an2cn'!")
 
         return output

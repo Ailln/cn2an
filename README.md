@@ -9,7 +9,7 @@
 
 [![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
 
-[![](./src/cn2an-site-v0.3.11.png)](https://www.dovolopor.com/cn2an)
+[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.3.11.png)](https://www.dovolopor.com/cn2an)
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
 ## 1 功能
@@ -64,7 +64,7 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.4.0
+# 0.4.1
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -181,7 +181,7 @@ bash local_test.sh
 
 ### 6.3 性能测试
 
-- 测试版本：0.3.10
+- 测试版本：`v0.3.10`
 - 测试设备：`2.3 GHz 双核Intel Core i5 MacBook Pro`
 - 测试代码：[performance.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance.py)
 - 测试方法：
