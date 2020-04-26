@@ -16,7 +16,8 @@ class Transform(object):
             pattern = r"[负" + "".join(self.conf["number_low"] + list(set(self.conf["unit_low"]))) + "]+"
             output = re.sub(pattern, lambda x: str(self.cn2an(x.group())), inputs)
         elif mode == "an2cn":
-            pattern = r"[0-9]+"
+            # pattern = r"[0-9]+"
+            pattern = r"\d+"
             output = re.sub(pattern, lambda x: self.an2cn(x.group()), inputs)
         else:
             raise ValueError(f"error mode: {mode}, only support 'cn2an' and 'an2cn'!")

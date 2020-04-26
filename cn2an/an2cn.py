@@ -83,7 +83,22 @@ class An2Cn(object):
         return negative + output
 
     @staticmethod
+    def full_to_half(ustring):
+        """全角转半角"""
+        r = ""
+        for uchar in ustring:
+            inside_code = ord(uchar)
+            if inside_code == 12288:  # 全角空格直接转换
+                inside_code = 32
+            elif 65281 <= inside_code <= 65374:  # 全角字符（除空格）根据关系转化
+                inside_code -= 65248
+            r += chr(inside_code)
+        return r
+
+    @staticmethod
     def check_inputs_is_valid(check_data):
+        # 将全角数字和符号转化为半角，增加对全角数字和全角符号的支持
+        check_data = An2Cn.full_to_half(check_data)
         # 检查输入数据是否在规定的字典中
         all_check_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"]
         for data in check_data:
@@ -99,9 +114,9 @@ class An2Cn(object):
             string_key = string_data_list[0]
             string_value = string_data_list[1]
             if string_value[0] == "-":
-                string_data = "0." + "0"*(int(string_value[1:])-1) + string_key
+                string_data = "0." + "0" * (int(string_value[1:]) - 1) + string_key
             else:
-                string_data = string_key + "0"*int(string_value)
+                string_data = string_key + "0" * int(string_value)
 
         return string_data
 
