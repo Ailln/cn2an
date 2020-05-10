@@ -216,6 +216,6 @@ bash local_test.sh
 
 ## 10 参考
 
-- [如何发布自己的包到 pypi](https://www.v2ai.cn/python/2018/07/30/PY-1.html)
-- [Python 中的小陷阱](https://www.v2ai.cn/python/2019/01/01/PY-6.html)
+- [如何发布自己的包到 pypi](https://www.v2ai.cn/2018/07/30/python/1-pypi/)
+- [Python 中的小陷阱](https://www.v2ai.cn/2019/01/01/python/4-python-trap/)
 - [汉字数字转阿拉伯数字](https://www.zouyesheng.com/han-number-convert.html)
