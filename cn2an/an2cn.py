@@ -84,14 +84,18 @@ class An2Cn(object):
 
     @staticmethod
     def full_to_half(ustring):
-        """全角转半角"""
+        # 全角转半角
         r = ""
         for uchar in ustring:
             inside_code = ord(uchar)
-            if inside_code == 12288:  # 全角空格直接转换
+            # 全角空格直接转换
+            if inside_code == 12288:
                 inside_code = 32
-            elif 65281 <= inside_code <= 65374:  # 全角字符（除空格）根据关系转化
+            # 全角字符（除空格）根据关系转化
+            elif 65281 <= inside_code <= 65374:
                 inside_code -= 65248
+            else:
+                pass
             r += chr(inside_code)
         return r
 
