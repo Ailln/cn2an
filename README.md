@@ -212,7 +212,8 @@ bash local_test.sh
 
 ## 9 致谢
 
-- [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能。
+- [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能；
+- [Damon Yu](https://github.com/20071313): 增加对全角数字和全角符号的支持。
 
 ## 10 参考
 
