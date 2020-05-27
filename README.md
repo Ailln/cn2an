@@ -9,7 +9,8 @@
 
 [![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
 
-[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.3.11.png)](https://www.dovolopor.com/cn2an)
+[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.4.1.png)](https://www.dovolopor.com/cn2an)
+
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
 ## 1 功能
@@ -26,7 +27,7 @@
 - 支持 `阿拉伯数字` => `大写中文数字`；
 - 支持 `阿拉伯数字` => `大写人民币`；
 
-### 1.3 句子转化
+### 1.3 句子转化（试验性功能）
 
 - 支持 `中文数字` => `阿拉伯数字`；
 - 支持 `阿拉伯数字` => `中文数字`；
@@ -125,7 +126,7 @@ print(output)
 # 负一百二十三
 ```
 
-### 3.3 句子转化
+### 3.3 句子转化（试验性功能）
 
 ```python
 import cn2an
@@ -215,6 +216,6 @@ bash local_test.sh
 
 ## 10 参考
 
-- [如何发布自己的包到 pypi](https://www.v2ai.cn/python/2018/07/30/PY-1.html)
-- [Python 中的小陷阱](https://www.v2ai.cn/python/2019/01/01/PY-6.html)
+- [如何发布自己的包到 pypi](https://www.v2ai.cn/2018/07/30/python/1-pypi/)
+- [Python 中的小陷阱](https://www.v2ai.cn/2019/01/01/python/4-python-trap/)
 - [汉字数字转阿拉伯数字](https://www.zouyesheng.com/han-number-convert.html)
