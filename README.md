@@ -208,7 +208,7 @@ bash local_test.sh
 
 ## 8 交流
 
-欢迎添加微信号：`kinggreenhall`，备注「cn2an」，我邀请你进入交流群。
+欢迎添加微信号：`Ailln_`，备注「cn2an」，我邀请你进入交流群。
 
 ## 9 致谢
 
