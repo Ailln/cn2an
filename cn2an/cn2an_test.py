@@ -135,6 +135,9 @@ class Cn2anTest(unittest.TestCase):
             "零点",
             "点零",
             "点一",
+            "百十一",
+            "十一十二",
+            "负十一十二"
         ]
         self.error_strict_datas.extend(self.error_normal_datas)
 

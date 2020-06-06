@@ -7,6 +7,9 @@ from .an2cn import An2Cn
 class Cn2An(object):
     def __init__(self):
         self.conf = utils.get_default_conf()
+        self.all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "幺两"
+        self.all_num_with_ten = self.all_num + "十拾"
+        self.all_unit = "".join(set(self.conf["unit_low"] + self.conf["unit_up"]))
         self.ac = An2Cn()
 
     def cn2an(self, inputs=None, mode="strict"):
@@ -36,7 +39,7 @@ class Cn2An(object):
 
     def check_input_data_is_valid(self, check_data, mode):
         # 正负号
-        nag = 1
+        sign = 1
 
         if mode == "strict":
             strict_check_key = self.conf["number_low"] + self.conf["number_up"] + ["十", "拾", "百", "佰", "千", "仟", "万",
@@ -48,7 +51,7 @@ class Cn2An(object):
             # 确定正负号
             if check_data[0] == "负":
                 check_data = check_data[1:]
-                nag = -1
+                sign = -1
 
         elif mode == "normal":
             normal_check_key = list(self.conf["number_unit"].keys()) + ["点", "负"]
@@ -59,7 +62,7 @@ class Cn2An(object):
             # 确定正负号
             if check_data[0] == "负":
                 check_data = check_data[1:]
-                nag = -1
+                sign = -1
 
         elif mode == "smart":
             smart_check_key = list(self.conf["number_unit"].keys()) + ["点", "负", "0", "1", "2", "3", "4", "5", "6", "7",
@@ -71,7 +74,7 @@ class Cn2An(object):
             # 确定正负号
             if check_data[0] in ["负", "-"]:
                 check_data = check_data[1:]
-                nag = -1
+                sign = -1
 
             def an2cn_sub(matched):
                 return self.ac.an2cn(matched.group())
@@ -89,12 +92,11 @@ class Cn2An(object):
             integer_data = check_data
             decimal_data = None
 
-        all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "两幺"
-        all_unit = "".join(set(self.conf["unit_low"] + self.conf["unit_up"]))
-
         # 整数部分检查
+        # all_num: 零一二三四五六七八九壹贰叁肆伍陆柒捌玖幺两
+        # all_num_with_ten: 零一二三四五六七八九十壹贰叁肆伍陆柒捌玖拾幺两
         ptn_normal = re.compile(
-            f"(([{all_num}十拾]+[{all_unit}]+)+零?[{all_num}]|([{all_num}十拾]+[{all_unit}]+)+|[十拾][{all_num}]|[{all_num}]|[十拾])$")
+            f"(([{self.all_num_with_ten}]+[{self.all_unit}]+)+零?[{self.all_num}]|([{self.all_num_with_ten}]+[{self.all_unit}]+)+|[十拾][{self.all_num}]|[{self.all_num}]|[十拾])$")
         re_normal = ptn_normal.search(integer_data)
 
         if re_normal:
@@ -103,41 +105,43 @@ class Cn2An(object):
                     raise ValueError(f"不符合格式的数据：{integer_data}")
                 elif mode == "normal":
                     # 纯数字情况
-                    ptn_all_num = re.compile(f"[{all_num}]+")
+                    ptn_all_num = re.compile(f"[{self.all_num}]+")
                     re_all_num = ptn_all_num.search(integer_data)
                     if re_all_num:
                         if re_all_num.group() != integer_data:
                             raise ValueError(f"不符合格式的数据：{integer_data}")
                         else:
-                            return nag, check_data, "all_num"
+                            return sign, check_data, "all_num"
                 else:
                     raise ValueError(f"不符合格式的数据：{integer_data}")
             else:
                 if decimal_data:
-                    return nag, check_data, "decimal"
+                    return sign, check_data, "decimal"
                 else:
                     if check_data[-1] == "点":
                         if mode == "strict":
                             raise ValueError(f"不符合格式的数据：{check_data}")
                         elif mode == "normal":
-                            return nag, check_data, "decimal"
+                            return sign, check_data, "decimal"
                     else:
-                        return nag, check_data, "integer"
+                        if mode == "strict":
+                            if check_data[0] == "十" and len(check_data) > 2:
+                                raise ValueError(f"不符合格式的数据：{check_data}")
+                        return sign, check_data, "integer"
         else:
             if mode == "strict":
                 raise ValueError(f"不符合格式的数据：{integer_data}")
             elif mode == "normal":
                 if decimal_data:
-                    return nag, check_data, "decimal"
+                    return sign, check_data, "decimal"
                 else:
                     raise ValueError(f"不符合格式的数据：{integer_data}")
             else:
                 raise ValueError(f"不符合格式的数据：{integer_data}")
 
     def integer_convert(self, integer_data):
-        all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "两幺"
         # 口语模式 比如：两千三
-        ptn_speaking_mode = re.compile(f"^[{all_num}][万千百][{all_num}]$")
+        ptn_speaking_mode = re.compile(f"^[{self.all_num}][万千百][{self.all_num}]$")
         result = ptn_speaking_mode.search(integer_data)
 
         if result:
