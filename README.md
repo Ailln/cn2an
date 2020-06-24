@@ -3,6 +3,7 @@
 [![Pypi](https://img.shields.io/pypi/v/cn2an.svg)](https://pypi.org/project/cn2an/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Ailln/cn2an/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/Ailln/cn2an.svg)](https://github.com/Ailln/cn2an/stargazers)
+[![build](https://img.shields.io/github/workflow/status/Ailln/cn2an/build)](https://github.com/Ailln/cn2an/actions?query=workflow%3Abuild)
 [![API](https://img.shields.io/badge/API-reference-pink.svg)](https://github.com/Ailln/cn2an/wiki/API)
 
 📦 **`cn2an`** 是一个快速转化 `中文数字` 和 `阿拉伯数字` 的工具包！
