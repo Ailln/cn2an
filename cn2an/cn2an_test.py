@@ -4,7 +4,7 @@ from .cn2an import Cn2An
 
 
 class Cn2anTest(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.strict_data_dict = {
             "一": 1,
             "二": 2,

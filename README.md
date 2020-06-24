@@ -54,8 +54,7 @@ pip install cn2an
 
 ```shell
 git clone https://github.com/Ailln/cn2an.git
-cd cn2an
-python setup.py install
+cd cn2an && python setup.py install
 ```
 
 ## 3 使用
@@ -76,25 +75,26 @@ print(cn2an.__version__)
 ```python
 import cn2an
 
-# 在 strict 模式下，只有严格符合数字拼写的才可以进行转化
-output = cn2an.cn2an("一百二十三", "strict")
-# or output = cn2an.cn2an("一二三")
-print(output)
+# 在 strict 模式（默认）下，只有严格符合数字拼写的才可以进行转化
+output = cn2an.cn2an("一百二十三")
+# 或者
+output = cn2an.cn2an("一二三", "strict")
+# output:
 # 123
 
 # 在 normal 模式下，还可以将 一二三 进行转化
 output = cn2an.cn2an("一二三", "normal")
-print(output)
+# output:
 # 123
 
 # 在 smart 模式下，还可以将混合拼写的 1百23 进行转化（暂不支持小数）
 output = cn2an.cn2an("1百23", "smart")
-print(output)
+# output:
 # 123
 
 # 以上三种模式均支持负数
 output = cn2an.cn2an("负一百二十三")
-print(output)
+# output:
 # -123
 ```
 
@@ -105,25 +105,26 @@ print(output)
 ```python
 import cn2an
 
-# 在 low 模式下，数字转化为小写的中文数字
+# 在 low 模式（默认）下，数字转化为小写的中文数字
+output = cn2an.an2cn("123")
+# 或者
 output = cn2an.an2cn("123", "low")
-# or output = cn2an.an2cn("123")
-print(output)
+# output:
 # 一百二十三
 
 # 在 up 模式下，数字转化为大写的中文数字
 output = cn2an.an2cn("123", "up")
-print(output)
+# output:
 # 壹佰贰拾叁
 
 # 在 rmb 模式下，数字转化为人民币专用的描述
 output = cn2an.an2cn("123", "rmb")
-print(output)
+# output:
 # 壹佰贰拾叁元整
 
 # 以上三种模式均支持负数
 output = cn2an.cn2an("-123")
-print(output)
+# output:
 # 负一百二十三
 ```
 
@@ -132,13 +133,14 @@ print(output)
 ```python
 import cn2an
 
+output = cn2an.transform("我捡了一百块钱")
+# 或者
 output = cn2an.transform("我捡了一百块钱", "cn2an")
-# or output = cn2an.transform("我捡了一百块钱")
-print(output)
+# output:
 # 我捡了100块钱
 
 output = cn2an.transform("我捡了100块钱", "an2cn")
-print(output)
+# output:
 # 我捡了一百块钱
 ```
 
@@ -147,7 +149,7 @@ print(output)
 ## 4 版本支持
 
 - 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6+` 的版本。
-- 实际上仅在 `Windows 10`、`MacOS 10.14`、`Ubuntu 16.04` 的 `Python 3.6.9` 和 `Python3.7.4` 上做过完整测试。
+- 实际上仅在 `ubuntu-latest`、`windows-latest`、`macOS-latest` 的 `Python 3.6, 3.7, 3.8` 上做过完整测试。
 - 欢迎提交其他版本使用情况到 [Issues](https://github.com/Ailln/cn2an/issues) 中，期待你的反馈。
 - 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，贡献自己代码给其他人。
 
@@ -176,7 +178,7 @@ conda create -n py369 python=3.6.9
 conda create -n py374 python=3.7.4
 
 # 执行测试
-bash local_test.sh
+bash scripts/local_test.sh
 ```
 
 线上测试使用 [GitHub Actions](https://github.com/Ailln/cn2an/actions)。

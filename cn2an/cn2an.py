@@ -1,25 +1,26 @@
 import re
+from typing import Union
 
 from . import utils
 from .an2cn import An2Cn
 
 
 class Cn2An(object):
-    def __init__(self):
+    def __init__(self) -> None:
         self.conf = utils.get_default_conf()
         self.all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "幺两"
         self.all_num_with_ten = self.all_num + "十拾"
         self.all_unit = "".join(set(self.conf["unit_low"] + self.conf["unit_up"]))
         self.ac = An2Cn()
 
-    def cn2an(self, inputs=None, mode="strict"):
+    def cn2an(self, inputs: str = None, mode: str = "strict") -> int:
         if inputs is not None:
             # 检查转换模式是否有效
             if mode not in ["strict", "normal", "smart"]:
                 raise ValueError("mode 仅支持 strict normal smart 三种！")
 
             # 检查输入数据是否有效
-            negative, inputs, data_type = self.check_input_data_is_valid(inputs, mode)
+            sign, inputs, data_type = self.check_input_data_is_valid(inputs, mode)
 
             if data_type == "integer":
                 # 不包含小数的输入
@@ -35,9 +36,9 @@ class Cn2An(object):
         else:
             raise ValueError("输入数据为空！")
 
-        return negative * output
+        return sign * output
 
-    def check_input_data_is_valid(self, check_data, mode):
+    def check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str):
         # 正负号
         sign = 1
 
@@ -139,7 +140,7 @@ class Cn2An(object):
             else:
                 raise ValueError(f"不符合格式的数据：{integer_data}")
 
-    def integer_convert(self, integer_data):
+    def integer_convert(self, integer_data: str) -> int:
         # 口语模式 比如：两千三
         ptn_speaking_mode = re.compile(f"^[{self.all_num}][万千百][{self.all_num}]$")
         result = ptn_speaking_mode.search(integer_data)
@@ -189,7 +190,7 @@ class Cn2An(object):
 
         return int(output_integer)
 
-    def decimal_convert(self, decimal_data):
+    def decimal_convert(self, decimal_data: str) -> float:
         len_decimal_data = len(decimal_data)
 
         if len_decimal_data > 15:
@@ -208,7 +209,7 @@ class Cn2An(object):
 
         return output_decimal
 
-    def direct_convert(self, data):
+    def direct_convert(self, data: str) -> Union[int, float]:
         output_data = 0
         if "点" in data:
             point_index = data.index("点")
