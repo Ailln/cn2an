@@ -7,11 +7,11 @@
 
 📦 **`cn2an`** 是一个快速转化 `中文数字` 和 `阿拉伯数字` 的工具包！
 
-[![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
-
 [![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.4.1.png)](https://www.dovolopor.com/cn2an)
 
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
+
+> 🎈[`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 
 ## 1 功能
 
@@ -205,6 +205,7 @@ bash local_test.sh
 ## 7 许可证
 
 [![](https://award.dovolopor.com?lt=License&rt=MIT&rbc=green)](./LICENSE)
+[![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
 
 ## 8 交流
 
