@@ -4,7 +4,7 @@ from .an2cn import An2Cn
 
 
 class An2CnTest(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.error_input_data = [
             "123.1.1",
             "0.1零"
@@ -46,7 +46,7 @@ class An2CnTest(unittest.TestCase):
         }
         self.ac = An2Cn()
 
-    def test_an2cn(self):
+    def test_an2cn(self) -> None:
         with self.assertRaises(ValueError):
             for error_data in self.error_input_data:
                 self.ac.an2cn(error_data)

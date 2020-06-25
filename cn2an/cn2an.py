@@ -20,17 +20,17 @@ class Cn2An(object):
                 raise ValueError("mode 仅支持 strict normal smart 三种！")
 
             # 检查输入数据是否有效
-            sign, inputs, data_type = self.check_input_data_is_valid(inputs, mode)
+            sign, inputs, data_type = self.__check_input_data_is_valid(inputs, mode)
 
             if data_type == "integer":
                 # 不包含小数的输入
-                output = self.integer_convert(inputs)
+                output = self.__integer_convert(inputs)
             elif data_type == "decimal":
                 # 包含小数的输入
                 integer_data, decimal_data = inputs.split("点")
-                output = self.integer_convert(integer_data) + self.decimal_convert(decimal_data)
+                output = self.__integer_convert(integer_data) + self.__decimal_convert(decimal_data)
             elif data_type == "all_num":
-                output = self.direct_convert(inputs)
+                output = self.__direct_convert(inputs)
             else:
                 raise ValueError(f"输入格式错误：{inputs}！")
         else:
@@ -38,7 +38,10 @@ class Cn2An(object):
 
         return sign * output
 
-    def check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str):
+    def __check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str):
+        # 去除 元整、圆整
+        check_data = check_data.replace("元整", "").replace("圆整", "")
+
         # 正负号
         sign = 1
 
@@ -140,7 +143,7 @@ class Cn2An(object):
             else:
                 raise ValueError(f"不符合格式的数据：{integer_data}")
 
-    def integer_convert(self, integer_data: str) -> int:
+    def __integer_convert(self, integer_data: str) -> int:
         # 口语模式 比如：两千三
         ptn_speaking_mode = re.compile(f"^[{self.all_num}][万千百][{self.all_num}]$")
         result = ptn_speaking_mode.search(integer_data)
@@ -190,7 +193,7 @@ class Cn2An(object):
 
         return int(output_integer)
 
-    def decimal_convert(self, decimal_data: str) -> float:
+    def __decimal_convert(self, decimal_data: str) -> float:
         len_decimal_data = len(decimal_data)
 
         if len_decimal_data > 15:
@@ -209,7 +212,7 @@ class Cn2An(object):
 
         return output_decimal
 
-    def direct_convert(self, data: str) -> Union[int, float]:
+    def __direct_convert(self, data: str) -> Union[int, float]:
         output_data = 0
         if "点" in data:
             point_index = data.index("点")

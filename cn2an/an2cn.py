@@ -1,26 +1,32 @@
+from typing import Union
+
 from . import utils
 
 
 class An2Cn(object):
-    def __init__(self):
+    def __init__(self) -> None:
         self.conf = utils.get_default_conf()
 
-    def an2cn(self, inputs=None, mode="low"):
+    def an2cn(self, inputs: Union[str, int] = None, mode: str = "low") -> str:
         if inputs is not None:
-            negative = ""
+            sign = ""
             if mode not in ["low", "up", "rmb"]:
                 raise ValueError("mode 仅支持 low up rmb 三种！")
 
             # 将数字转化为字符串
             if not isinstance(inputs, str):
-                inputs = self.convert_number_to_string(inputs)
+                inputs = self.__convert_number_to_string(inputs)
+
+            # 将全角数字和符号转化为半角，增加对全角数字和全角符号的支持
+            inputs = self.__full_to_half(inputs)
+
             # 检查数据是否有效
-            self.check_inputs_is_valid(inputs)
+            self.__check_inputs_is_valid(inputs)
 
             # 判断正负
             if inputs[0] == "-":
                 inputs = inputs[1:]
-                negative = "负"
+                sign = "负"
 
             # 切割整数部分和小数部分
             split_result = inputs.split(".")
@@ -29,16 +35,15 @@ class An2Cn(object):
                 # 不包含小数的输入
                 integer_data = split_result[0]
                 if mode == "rmb":
-                    output = self.integer_convert(integer_data, "up") + "元整"
+                    output = self.__integer_convert(integer_data, "up") + "元整"
                 else:
-                    output = self.integer_convert(integer_data, mode)
+                    output = self.__integer_convert(integer_data, mode)
             elif len_split_result == 2:
                 # 包含小数的输入
-                integer_data = split_result[0]
-                decimal_data = split_result[1]
+                integer_data, decimal_data = split_result
                 if mode == "rmb":
-                    int_data = self.integer_convert(integer_data, "up")
-                    dec_data = self.decimal_convert(decimal_data, "up")
+                    int_data = self.__integer_convert(integer_data, "up")
+                    dec_data = self.__decimal_convert(decimal_data, "up")
                     len_dec_data = len(dec_data)
 
                     if len_dec_data == 0:
@@ -74,16 +79,16 @@ class An2Cn(object):
                             else:
                                 output = int_data + "元整"
                 else:
-                    output = self.integer_convert(integer_data, mode) + self.decimal_convert(decimal_data, mode)
+                    output = self.__integer_convert(integer_data, mode) + self.__decimal_convert(decimal_data, mode)
             else:
                 raise ValueError(f"输入格式错误：{inputs}！")
         else:
-            raise ValueError(f"输入数据为空！")
+            raise ValueError("输入数据为空！")
 
-        return negative + output
+        return sign + output
 
     @staticmethod
-    def full_to_half(ustring):
+    def __full_to_half(ustring: str) -> str:
         # 全角转半角
         r = ""
         for uchar in ustring:
@@ -100,9 +105,7 @@ class An2Cn(object):
         return r
 
     @staticmethod
-    def check_inputs_is_valid(check_data):
-        # 将全角数字和符号转化为半角，增加对全角数字和全角符号的支持
-        check_data = An2Cn.full_to_half(check_data)
+    def __check_inputs_is_valid(check_data: str) -> None:
         # 检查输入数据是否在规定的字典中
         all_check_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"]
         for data in check_data:
@@ -110,7 +113,7 @@ class An2Cn(object):
                 raise ValueError(f"输入的数据不在转化范围内：{data}！")
 
     @staticmethod
-    def convert_number_to_string(number_data):
+    def __convert_number_to_string(number_data: int) -> str:
         # python 会自动把 0.00005 转化成 5e-05，因此 str(0.00005) != "0.00005"
         string_data = str(number_data)
         if "e" in string_data:
@@ -124,7 +127,7 @@ class An2Cn(object):
 
         return string_data
 
-    def integer_convert(self, integer_data, mode):
+    def __integer_convert(self, integer_data: str, mode: str) -> str:
         numeral_list = self.conf[f"number_{mode}"]
         unit_list = self.conf[f"unit_{mode}"]
 
@@ -158,7 +161,7 @@ class An2Cn(object):
 
         return output_an
 
-    def decimal_convert(self, decimal_data, mode):
+    def __decimal_convert(self, decimal_data: str, mode: str) -> str:
         len_decimal_data = len(decimal_data)
 
         if len_decimal_data > 15:

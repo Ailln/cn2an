@@ -40,6 +40,8 @@ class Cn2anTest(unittest.TestCase):
             "壹拾壹亿壹仟壹佰壹拾壹万壹仟壹佰壹拾壹": 1111111111,
             "壹佰壹拾壹亿壹仟壹佰壹拾壹万壹仟壹佰壹拾壹": 11111111111,
             "壹仟壹佰壹拾壹亿壹仟壹佰壹拾壹万壹仟壹佰壹拾壹": 111111111111,
+            "壹拾壹元整": 11,
+            "壹佰壹拾壹圆整": 111,
             "一百零一": 101,
             "一千零一": 1001,
             "一千零一十一": 1011,
@@ -143,7 +145,7 @@ class Cn2anTest(unittest.TestCase):
 
         self.ca = Cn2An()
 
-    def test_cn2an(self):
+    def test_cn2an(self) -> None:
         for strict_item in self.strict_data_dict.keys():
             self.assertEqual(self.ca.cn2an(strict_item, "strict"),
                              self.strict_data_dict[strict_item])

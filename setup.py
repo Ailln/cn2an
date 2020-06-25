@@ -9,7 +9,7 @@ if py_version < (3, 6):
 
 setup(
     name="cn2an",
-    version="0.4.1",
+    version="0.4.2",
     author="Ailln",
     author_email="kinggreenhall@gmail.com",
     url="https://github.com/Ailln/cn2an",
@@ -23,6 +23,7 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ]
