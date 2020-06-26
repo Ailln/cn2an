@@ -8,7 +8,7 @@
 
 📦 **`cn2an`** 是一个快速转化 `中文数字` 和 `阿拉伯数字` 的工具包！
 
-[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.4.1.png)](https://www.dovolopor.com/cn2an)
+[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.4.2.png)](https://www.dovolopor.com/cn2an)
 
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
@@ -35,9 +35,9 @@
 
 ### 1.4 其他
 
-- 支持小数
-- 支持负数
-- 支持 http api
+- 支持`小数`；
+- 支持`负数`；
+- 支持`http api`。
 
 ## 2 安装
 
@@ -49,7 +49,7 @@
 ### 2.1 使用 pip 安装
 
 ```shell
-pip install cn2an
+pip install cn2an -U
 ```
 
 ### 2.2 从代码库安装
@@ -80,7 +80,7 @@ import cn2an
 # 在 strict 模式（默认）下，只有严格符合数字拼写的才可以进行转化
 output = cn2an.cn2an("一百二十三")
 # 或者
-output = cn2an.cn2an("一二三", "strict")
+output = cn2an.cn2an("一百二十三", "strict")
 # output:
 # 123
 
@@ -89,7 +89,7 @@ output = cn2an.cn2an("一二三", "normal")
 # output:
 # 123
 
-# 在 smart 模式下，还可以将混合拼写的 1百23 进行转化（暂不支持小数）
+# 在 smart 模式下，还可以将混合拼写的 1百23 进行转化
 output = cn2an.cn2an("1百23", "smart")
 # output:
 # 123
@@ -98,6 +98,11 @@ output = cn2an.cn2an("1百23", "smart")
 output = cn2an.cn2an("负一百二十三")
 # output:
 # -123
+
+# strict 和 normal 模式支持小数，smart 模式暂不支持
+output = cn2an.cn2an("一点二三")
+# output:
+# 1.23
 ```
 
 ### 3.2 `阿拉伯数字` => `中文数字`
@@ -125,9 +130,14 @@ output = cn2an.an2cn("123", "rmb")
 # 壹佰贰拾叁元整
 
 # 以上三种模式均支持负数
-output = cn2an.cn2an("-123")
+output = cn2an.an2cn("-123")
 # output:
 # 负一百二十三
+
+# 以上三种模式均支持小数
+output = cn2an.an2cn("1.23")
+# output:
+# 一点二三
 ```
 
 ### 3.3 句子转化（试验性功能）
@@ -150,7 +160,7 @@ output = cn2an.transform("我捡了100块钱", "an2cn")
 
 ### 3.4 HTTP API
 
-主要为其他语言用户提供方便
+主要为其他语言用户提供方便，当然 Python 用户也可以使用。
 
 #### Python
 
@@ -272,7 +282,7 @@ bash scripts/local_test.sh
     |  1  | an2cn | 10000 | 0.23 | **43k** |
     |  2  | cn2an | 10000 | 0.56 | **18k** |
 
- 在测试时，我使用的测试数据是长度最大的数据！因此，大多数情况下性能要比上述情况更好～
+测试时，我使用的是最大长度的测试数据！因此，大多数情况下该库的性能会更好～
 
 ## 7 许可证
 

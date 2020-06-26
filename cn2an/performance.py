@@ -11,14 +11,14 @@ cn = "九千八百七十六万五千四百三十二亿九千八百七十六万�
 
 
 @tbn.run_time
-def run_cn2an_ten_thousand_times():
+def run_cn2an_ten_thousand_times() -> None:
     for _ in range(10000):
         result = ca.cn2an(cn)
         assert result == an
 
 
 @tbn.run_time
-def run_an2cn_ten_thousand_times():
+def run_an2cn_ten_thousand_times() -> None:
     for _ in range(10000):
         result = ac.an2cn(an)
         assert result == cn
