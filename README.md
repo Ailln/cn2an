@@ -37,12 +37,14 @@
 
 - 支持小数
 - 支持负数
+- 支持 http api
 
 ## 2 安装
 
 > ⚠️注意：
-> 1. 仅支持 Python 的 3.6 以上版本；
-> 2. 请安装使用 cn2an 的最新版本。
+> 1. 本地安装仅支持 Python 的 3.6 以上版本；
+> 2. 其他语言用户可以考虑使用 [http api](https://www.dovolopor.com/api/cn2an) ；
+> 3. 请尽可能使用 cn2an 的最新版本。
 
 ### 2.1 使用 pip 安装
 
@@ -146,6 +148,77 @@ output = cn2an.transform("我捡了100块钱", "an2cn")
 
 详细用法见 [API](https://github.com/Ailln/cn2an/wiki/API).
 
+### 3.4 HTTP API
+
+主要为其他语言用户提供方便
+
+#### Python
+
+```python
+import requests
+
+response = requests.get("https://api.dovolopor.com/v1/cn2an",
+  params={
+    "text": "1234567890",
+    "function": "an2cn",
+    "method": "low"
+  }
+)
+print(response.json())
+# { output: "一百二十三", msg: "转化成功" }
+```
+
+#### Javascript
+
+```javascript
+const axios = require("axios");
+
+axios.get("https://api.dovolopor.com/v1/cn2an", {
+  params: {
+    text: "123",
+    function: "an2cn",
+    method: "low"
+  }
+}).then(
+  function (res) {
+    console.log(res.data);
+  }
+)
+// { output: "一百二十三", msg: "转化成功" }
+```
+
+#### Go
+
+```go
+package main
+
+import (
+    "fmt"
+    "io/ioutil"
+    "net/http"
+    "net/url"
+)
+
+func main(){
+    params := url.Values{}
+    Url, err := url.Parse("https://api.dovolopor.com/v1/cn2an")
+    if err != nil {
+        return
+    }
+    params.Set("text", "123")
+    params.Set("function", "an2cn")
+    params.Set("method", "low")
+
+    Url.RawQuery = params.Encode()
+    urlPath := Url.String()
+    resp,err := http.Get(urlPath)
+    defer resp.Body.Close()
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println(string(body))
+}
+// { output: "一百二十三", msg: "转化成功" }
+```
+
 ## 4 版本支持
 
 - 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6+` 的版本。
@@ -173,10 +246,6 @@ output = cn2an.transform("我捡了100块钱", "an2cn")
 本地测试使用 [Anaconda](https://www.anaconda.com/) 的虚拟环境，测试方法如下。
 
 ```bash
-# 安装 conda 环境
-conda create -n py369 python=3.6.9
-conda create -n py374 python=3.7.4
-
 # 执行测试
 bash scripts/local_test.sh
 ```
