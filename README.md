@@ -67,7 +67,7 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.4.3
+# 0.4.4
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -99,7 +99,7 @@ output = cn2an.cn2an("负一百二十三")
 # output:
 # -123
 
-# strict 和 normal 模式支持小数，smart 模式暂不支持
+# 以上三种模式均支持小数
 output = cn2an.cn2an("一点二三")
 # output:
 # 1.23

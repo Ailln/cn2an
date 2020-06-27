@@ -81,6 +81,12 @@ class Cn2An(object):
         }
         return pattern_dict
 
+    def __copy_num(self, num):
+        cn_num = ""
+        for n in num:
+            cn_num += self.conf["number_low"][int(n)]
+        return cn_num
+
     def __check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str, bool):
         # 去除 元整、圆整
         check_data = check_data.replace("元整", "").replace("圆整", "")
@@ -88,12 +94,6 @@ class Cn2An(object):
         for data in check_data:
             if data not in self.check_key_dict[mode]:
                 raise ValueError(f"当前为{mode}模式，输入的数据不在转化范围内：{data}！")
-
-        # 将 smart 模式中的阿拉伯数字转化成中文数字
-        if mode == "smart":
-            check_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), check_data)
-            check_data = check_data.replace(".", "点").replace("-", "负")
-            mode = "normal"
 
         # 确定正负号
         if check_data[0] == "负":
@@ -106,11 +106,20 @@ class Cn2An(object):
             split_data = check_data.split("点")
             if len(split_data) == 2:
                 integer_data, decimal_data = split_data
+                # 将 smart 模式中的阿拉伯数字转化成中文数字
+                if mode == "smart":
+                    integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
+                    decimal_data = re.sub(r"\d+", lambda x: self.__copy_num(x.group()), decimal_data)
+                    mode = "normal"
             else:
                 raise ValueError("数据中包含不止一个点！")
         else:
             integer_data = check_data
             decimal_data = None
+            # 将 smart 模式中的阿拉伯数字转化成中文数字
+            if mode == "smart":
+                integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
+                mode = "normal"
 
         result_int = re.compile(self.pattern_dict[mode]["int"]).search(integer_data)
 
