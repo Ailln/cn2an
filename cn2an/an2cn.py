@@ -8,7 +8,7 @@ class An2Cn(object):
         self.conf = utils.get_default_conf()
 
     def an2cn(self, inputs: Union[str, int] = None, mode: str = "low") -> str:
-        if inputs is not None:
+        if inputs is not None or inputs == "":
             sign = ""
             if mode not in ["low", "up", "rmb"]:
                 raise ValueError("mode 仅支持 low up rmb 三种！")
@@ -17,7 +17,7 @@ class An2Cn(object):
             if not isinstance(inputs, str):
                 inputs = self.__convert_number_to_string(inputs)
 
-            # 将全角数字和符号转化为半角，增加对全角数字和全角符号的支持
+            # 将全角数字和符号转化为半角
             inputs = self.__full_to_half(inputs)
 
             # 检查数据是否有效
@@ -149,7 +149,7 @@ class An2Cn(object):
                 if i > 0 and not output_an[-1] == "零":
                     output_an += numeral_list[int(d)]
 
-        output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").replace("零兆", "兆").strip("零")
+        output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").strip("零")
 
         # 解决「一十几」和「壹拾几」问题
         if output_an[:2] in ["一十", "壹拾"]:
@@ -164,9 +164,9 @@ class An2Cn(object):
     def __decimal_convert(self, decimal_data: str, mode: str) -> str:
         len_decimal_data = len(decimal_data)
 
-        if len_decimal_data > 15:
-            print(f"warning: 小数部分长度为{len_decimal_data}，超过15位有效精度长度，将自动截取前15位！")
-            decimal_data = decimal_data[:15]
+        if len_decimal_data > 16:
+            print(f"注意：小数部分长度为 {len_decimal_data} ，将自动截取前 16 位有效精度！")
+            decimal_data = decimal_data[:16]
 
         if len_decimal_data:
             output_an = "点"

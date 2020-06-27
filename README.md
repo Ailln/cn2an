@@ -12,7 +12,7 @@
 
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈[`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
+> 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 
 ## 1 功能
 
@@ -67,12 +67,12 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.4.2
+# 0.4.3
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
 
-> 最大支持到`万亿兆`，即`10**32`。
+> 最大支持到`10**16`，即`千万亿`，最小支持到 `10**-16`。
 
 ```python
 import cn2an
@@ -107,7 +107,7 @@ output = cn2an.cn2an("一点二三")
 
 ### 3.2 `阿拉伯数字` => `中文数字`
 
-> 最大支持到`10**32`，即`万亿兆`。
+> 最大支持到`10**16`，即`千万亿`，最小支持到 `10**-16`。
 
 ```python
 import cn2an
@@ -181,7 +181,7 @@ print(response.json())
 #### Javascript
 
 ```javascript
-const axios = require("axios");
+const axios = require("axios")
 
 axios.get("https://api.dovolopor.com/v1/cn2an", {
   params: {
@@ -243,7 +243,7 @@ func main(){
     1. 首先，在「issue 标题」中填写你遇到的问题的简介；
     2. 然后，在「issue 详情」中填写你遇到的问题的详情；
     3. 最后，不要忘记注明你使用的操作系统（比如 Windows 10）和 Python 版本（比如 Python 3.6.3）。
-3. 还可以参考 [issue 模版](https://github.com/Ailln/cn2an/tree/master/.github/ISSUE_TEMPLATE)。
+3. 还可以参考 [Issue Template](https://github.com/Ailln/cn2an/tree/master/.github/ISSUE_TEMPLATE) 。
 
 ## 6 开发相关
 
@@ -260,7 +260,7 @@ func main(){
 bash scripts/local_test.sh
 ```
 
-线上测试使用 [GitHub Actions](https://github.com/Ailln/cn2an/actions)。
+线上测试使用 [GitHub Actions](https://github.com/Ailln/cn2an/actions) 。
 
 ### 6.3 性能测试
 
