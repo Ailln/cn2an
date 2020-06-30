@@ -178,13 +178,13 @@ class Cn2An(object):
                 output_integer += num * unit
             # 单位
             else:
-                # 判断出"万、亿、万亿、千万亿"
+                # 判断出万、亿、万亿
                 if num % 10000 == 0:
                     if num > ten_thousand_unit:
                         # 万 亿
                         ten_thousand_unit = num
                     else:
-                        # 万亿 千万亿
+                        # 万亿
                         ten_thousand_unit = num * ten_thousand_unit
                         num = ten_thousand_unit
 
