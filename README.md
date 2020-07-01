@@ -162,20 +162,44 @@ output = cn2an.transform("我捡了100块钱", "an2cn")
 
 主要为其他语言用户提供方便，当然 Python 用户也可以使用。
 
-#### Python
+#### Java
 
-```python
-import requests
+```java
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-response = requests.get("https://api.dovolopor.com/v1/cn2an",
-  params={
-    "text": "1234567890",
-    "function": "an2cn",
-    "method": "low"
-  }
-)
-print(response.json())
-# { output: "一百二十三", msg: "转化成功" }
+
+public class HttpGetExample {
+    public static void main(String[] args) throws Exception {
+        HttpGetExample http = new HttpGetExample();
+  
+        String url = "https://api.dovolopor.com/v1/cn2an";
+        String params = "?text=123&function=an2cn&method=low";
+        http.get(url + params);
+    }
+
+    private void get(String url) throws Exception {
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        System.out.println(response.toString());
+    }
+}
+// { output: "一百二十三", msg: "转化成功" }
 ```
 
 #### Javascript
@@ -227,6 +251,22 @@ func main(){
     fmt.Println(string(body))
 }
 // { output: "一百二十三", msg: "转化成功" }
+```
+
+#### Python
+
+```python
+import requests
+
+response = requests.get("https://api.dovolopor.com/v1/cn2an",
+  params={
+    "text": "1234567890",
+    "function": "an2cn",
+    "method": "low"
+  }
+)
+print(response.json())
+# { output: "一百二十三", msg: "转化成功" }
 ```
 
 ## 4 版本支持
