@@ -27,16 +27,20 @@ class Cn2An(object):
             # 检查输入数据是否有效
             sign, integer_data, decimal_data, is_all_num = self.__check_input_data_is_valid(inputs, mode)
 
-            if not is_all_num:
-                if decimal_data is None:
-                    output = self.__integer_convert(integer_data)
-                else:
-                    output = self.__integer_convert(integer_data) + self.__decimal_convert(decimal_data)
+            # smart 下的特殊情况
+            if sign == 0:
+                return integer_data
             else:
-                if decimal_data is None:
-                    output = self.__direct_convert(integer_data)
+                if not is_all_num:
+                    if decimal_data is None:
+                        output = self.__integer_convert(integer_data)
+                    else:
+                        output = self.__integer_convert(integer_data) + self.__decimal_convert(decimal_data)
                 else:
-                    output = self.__direct_convert(integer_data) + self.__decimal_convert(decimal_data)
+                    if decimal_data is None:
+                        output = self.__direct_convert(integer_data)
+                    else:
+                        output = self.__direct_convert(integer_data) + self.__decimal_convert(decimal_data)
         else:
             raise ValueError("输入数据为空！")
 
@@ -118,6 +122,14 @@ class Cn2An(object):
             decimal_data = None
             # 将 smart 模式中的阿拉伯数字转化成中文数字
             if mode == "smart":
+                # 10.1万
+                pattern1 = re.compile(r"-?\d+(\.\d+)?[十百千万亿]")
+                result1 = pattern1.search(integer_data)
+                if result1:
+                    if result1.group() == integer_data:
+                        output = float(integer_data[:-1]) * self.conf["number_unit"][integer_data[-1]]
+                        return 0, output, None, None
+
                 integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
                 mode = "normal"
 
