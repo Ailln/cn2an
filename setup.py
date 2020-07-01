@@ -9,7 +9,7 @@ if py_version < (3, 6):
 
 setup(
     name="cn2an",
-    version="0.4.4",
+    version="0.4.5",
     author="Ailln",
     author_email="kinggreenhall@gmail.com",
     url="https://github.com/Ailln/cn2an",

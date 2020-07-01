@@ -8,7 +8,7 @@
 
 📦 **`cn2an`** 是一个快速转化 `中文数字` 和 `阿拉伯数字` 的工具包！
 
-[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-v0.4.2.png)](https://www.dovolopor.com/cn2an)
+[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-latest.png)](https://www.dovolopor.com/cn2an)
 
 🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
 
@@ -67,12 +67,12 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.4.4
+# 0.4.5
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
 
-> 最大支持到`10**16`，即`千万亿`，最小支持到 `10**-16`。
+> 最大支持到 `10**16`，即 `千万亿`，最小支持到 `10**-16`。
 
 ```python
 import cn2an
@@ -169,7 +169,6 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 
 public class HttpGetExample {
     public static void main(String[] args) throws Exception {
@@ -304,7 +303,7 @@ bash scripts/local_test.sh
 
 ### 6.3 性能测试
 
-- 测试版本：`v0.4.3`
+- 测试版本：`v0.4.4`
 - 测试设备：`2.3 GHz 双核Intel Core i5 MacBook Pro`
 - 测试代码：[performance.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance.py)
 - 测试方法：

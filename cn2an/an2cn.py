@@ -6,6 +6,7 @@ from . import utils
 class An2Cn(object):
     def __init__(self) -> None:
         self.conf = utils.get_default_conf()
+        self.all_num = "0123456789"
 
     def an2cn(self, inputs: Union[str, int] = None, mode: str = "low") -> str:
         if inputs is not None or inputs == "":
@@ -104,10 +105,9 @@ class An2Cn(object):
             r += chr(inside_code)
         return r
 
-    @staticmethod
-    def __check_inputs_is_valid(check_data: str) -> None:
+    def __check_inputs_is_valid(self, check_data: str) -> None:
         # 检查输入数据是否在规定的字典中
-        all_check_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"]
+        all_check_keys = self.all_num + ".-"
         for data in check_data:
             if data not in all_check_keys:
                 raise ValueError(f"输入的数据不在转化范围内：{data}！")
@@ -128,8 +128,8 @@ class An2Cn(object):
         return string_data
 
     def __integer_convert(self, integer_data: str, mode: str) -> str:
-        numeral_list = self.conf[f"number_{mode}"]
-        unit_list = self.conf[f"unit_{mode}"]
+        numeral_list = self.conf[f"number_{mode}_an2cn"]
+        unit_list = self.conf[f"unit_{mode}_order_an2cn"]
 
         # 去除前面的 0，比如 007 => 7
         integer_data = str(int(integer_data))
@@ -172,7 +172,7 @@ class An2Cn(object):
             output_an = "点"
         else:
             output_an = ""
-        numeral_list = self.conf[f"number_{mode}"]
+        numeral_list = self.conf[f"number_{mode}_an2cn"]
 
         for data in decimal_data:
             output_an += numeral_list[int(data)]

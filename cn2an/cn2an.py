@@ -7,8 +7,8 @@ from .an2cn import An2Cn
 class Cn2An(object):
     def __init__(self) -> None:
         self.conf = utils.get_default_conf()
-        self.all_num = "".join(set(self.conf["number_low"] + self.conf["number_up"])) + "幺两"
-        self.ac = An2Cn()
+        self.all_num = "".join(list(self.conf["number_cn2an"].keys()))
+        self.all_unit = "".join(list(self.conf["unit_cn2an"].keys()))
         self.strict_cn_number = self.conf["strict_cn_number"]
         self.normal_cn_number = self.conf["normal_cn_number"]
         self.check_key_dict = {
@@ -17,6 +17,7 @@ class Cn2An(object):
             "smart": "".join(self.normal_cn_number.values()) + "点负" + "01234567890.-"
         }
         self.pattern_dict = self.__get_pattern()
+        self.ac = An2Cn()
 
     def cn2an(self, inputs: str = None, mode: str = "strict") -> int:
         if inputs is not None or inputs == "":
@@ -88,7 +89,7 @@ class Cn2An(object):
     def __copy_num(self, num):
         cn_num = ""
         for n in num:
-            cn_num += self.conf["number_low"][int(n)]
+            cn_num += self.conf["number_low_an2cn"][int(n)]
         return cn_num
 
     def __check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str, bool):
@@ -123,11 +124,11 @@ class Cn2An(object):
             # 将 smart 模式中的阿拉伯数字转化成中文数字
             if mode == "smart":
                 # 10.1万
-                pattern1 = re.compile(r"-?\d+(\.\d+)?[十百千万亿]")
+                pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]$")
                 result1 = pattern1.search(integer_data)
                 if result1:
                     if result1.group() == integer_data:
-                        output = float(integer_data[:-1]) * self.conf["number_unit"][integer_data[-1]]
+                        output = int(float(integer_data[:-1]) * self.conf["unit_cn2an"][integer_data[-1]])
                         return 0, output, None, None
 
                 integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
@@ -162,11 +163,11 @@ class Cn2An(object):
                             return sign, integer_data, decimal_data, True
 
                 # 口语模式：一万二，两千三，三百四
-                ptn_speaking_mode = re.compile(f"^[{self.all_num}][万千百][{self.all_num}]$")
+                ptn_speaking_mode = re.compile(f"^[{self.all_num}][{self.all_unit}][{self.all_num}]$")
                 result_speaking_mode = ptn_speaking_mode.search(integer_data)
                 if result_speaking_mode:
                     if result_speaking_mode.group() == integer_data:
-                        _unit = self.conf["unit_to_number"][self.conf["number_unit"].get(integer_data[1])//10]
+                        _unit = self.conf["unit_low_an2cn"][self.conf["unit_cn2an"][integer_data[1]]//10]
                         integer_data = integer_data + _unit
                         if decimal_data is not None:
                             result_dec = re.compile(self.pattern_dict[mode]["dec"]).search(decimal_data)
@@ -184,29 +185,30 @@ class Cn2An(object):
         unit = 1
         ten_thousand_unit = 1
         for index, cn_num in enumerate(reversed(integer_data)):
-            num = self.conf["number_unit"].get(cn_num)
             # 数值
-            if num < 10:
+            if cn_num in self.conf["number_cn2an"]:
+                num = self.conf["number_cn2an"][cn_num]
                 output_integer += num * unit
             # 单位
-            else:
+            elif cn_num in self.conf["unit_cn2an"]:
+                unit = self.conf["unit_cn2an"][cn_num]
                 # 判断出万、亿、万亿
-                if num % 10000 == 0:
-                    if num > ten_thousand_unit:
-                        # 万 亿
-                        ten_thousand_unit = num
+                if unit % 10000 == 0:
+                    # 万 亿
+                    if unit > ten_thousand_unit:
+                        ten_thousand_unit = unit
+                    # 万亿
                     else:
-                        # 万亿
-                        ten_thousand_unit = num * ten_thousand_unit
-                        num = ten_thousand_unit
+                        ten_thousand_unit = unit * ten_thousand_unit
+                        unit = ten_thousand_unit
 
-                if num > unit:
-                    unit = num
-                else:
-                    unit = num * ten_thousand_unit
+                if unit < ten_thousand_unit:
+                    unit = unit * ten_thousand_unit
 
                 if index == len(integer_data) - 1:
                     output_integer += unit
+            else:
+                raise ValueError(f"{cn_num} 不在转化范围内")
 
         return int(output_integer)
 
@@ -220,7 +222,7 @@ class Cn2An(object):
 
         output_decimal = 0
         for index in range(len(decimal_data) - 1, -1, -1):
-            unit_key = self.conf["number_unit"].get(decimal_data[index])
+            unit_key = self.conf["number_cn2an"][decimal_data[index]]
             output_decimal += unit_key * 10 ** -(index + 1)
 
         # 处理精度溢出问题
@@ -231,7 +233,7 @@ class Cn2An(object):
     def __direct_convert(self, data: str) -> int:
         output_data = 0
         for index in range(len(data) - 1, -1, -1):
-            unit_key = self.conf["number_unit"].get(data[index])
+            unit_key = self.conf["number_cn2an"][data[index]]
             output_data += unit_key * 10 ** (len(data) - index - 1)
 
         return output_data

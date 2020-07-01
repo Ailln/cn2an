@@ -1,4 +1,4 @@
-number_unit:
+number_cn2an:
   零: 0
   一: 1
   壹: 1
@@ -20,6 +20,8 @@ number_unit:
   捌: 8
   九: 9
   玖: 9
+
+unit_cn2an:
   十: 10
   拾: 10
   百: 100
@@ -29,39 +31,38 @@ number_unit:
   万: 10000
   亿: 100000000
 
-unit_to_number:
+unit_low_an2cn:
   10: 十
   100: 百
   1000: 千
   10000: 万
   100000000: 亿
 
-number_low:
-  - 零
-  - 一
-  - 二
-  - 三
-  - 四
-  - 五
-  - 六
-  - 七
-  - 八
-  - 九
+number_low_an2cn:
+  0: 零
+  1: 一
+  2: 二
+  3: 三
+  4: 四
+  5: 五
+  6: 六
+  7: 七
+  8: 八
+  9: 九
 
-number_up:
-  - 零
-  - 壹
-  - 贰
-  - 叁
-  - 肆
-  - 伍
-  - 陆
-  - 柒
-  - 捌
-  - 玖
+number_up_an2cn:
+  0: 零
+  1: 壹
+  2: 贰
+  3: 叁
+  4: 肆
+  5: 伍
+  6: 陆
+  7: 柒
+  8: 捌
+  9: 玖
 
-
-unit_low:
+unit_low_order_an2cn:
   - ""
   - 十
   - 百
@@ -79,7 +80,7 @@ unit_low:
   - 百
   - 千
 
-unit_up:
+unit_up_order_an2cn:
   - ""
   - 拾
   - 佰
