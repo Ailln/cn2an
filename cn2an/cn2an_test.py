@@ -110,7 +110,8 @@ class Cn2anTest(unittest.TestCase):
         self.smart_data_dict = {
             "100万": 1000000,
             "100万三千": 1003000,
-            "200亿零四千230": 20000004230
+            "200亿零四千230": 20000004230,
+            "一百点123": 100.123
         }
 
         self.error_smart_datas = [
@@ -147,43 +148,41 @@ class Cn2anTest(unittest.TestCase):
         self.ca = Cn2An()
 
     def test_cn2an(self) -> None:
-        test_data = ["一千一百一十一万一千一百一十一亿一千一百一十一万一千一百一十一", 1111111111111111]
-        self.assertEqual(self.ca.cn2an(test_data[0], "strict"), test_data[1])
-        # for strict_item in self.strict_data_dict.keys():
-        #     self.assertEqual(self.ca.cn2an(strict_item, "strict"),
-        #                      self.strict_data_dict[strict_item])
-        #
-        # for normal_item in self.normal_data_dict.keys():
-        #     self.assertEqual(self.ca.cn2an(normal_item, "normal"),
-        #                      self.normal_data_dict[normal_item])
-        #
-        # for smart_item in self.smart_data_dict.keys():
-        #     self.assertEqual(self.ca.cn2an(smart_item, "smart"),
-        #                      self.smart_data_dict[smart_item])
-        #
-        # for error_strict_item in self.error_strict_datas:
-        #     try:
-        #         self.ca.cn2an(error_strict_item)
-        #     except ValueError as e:
-        #         self.assertEqual(type(e), ValueError)
-        #     else:
-        #         raise Exception(f'ValueError not raised: {error_strict_item}')
-        #
-        # for error_normal_item in self.error_normal_datas:
-        #     try:
-        #         self.ca.cn2an(error_normal_item)
-        #     except ValueError as e:
-        #         self.assertEqual(type(e), ValueError)
-        #     else:
-        #         raise Exception(f'ValueError not raised: {error_normal_item}')
-        #
-        # for error_smart_item in self.error_smart_datas:
-        #     try:
-        #         self.ca.cn2an(error_smart_item)
-        #     except ValueError as e:
-        #         self.assertEqual(type(e), ValueError)
-        #     else:
-        #         raise Exception(f'ValueError not raised: {error_smart_item}')
+        for strict_item in self.strict_data_dict.keys():
+            self.assertEqual(self.ca.cn2an(strict_item, "strict"),
+                             self.strict_data_dict[strict_item])
+
+        for normal_item in self.normal_data_dict.keys():
+            self.assertEqual(self.ca.cn2an(normal_item, "normal"),
+                             self.normal_data_dict[normal_item])
+
+        for smart_item in self.smart_data_dict.keys():
+            self.assertEqual(self.ca.cn2an(smart_item, "smart"),
+                             self.smart_data_dict[smart_item])
+
+        for error_strict_item in self.error_strict_datas:
+            try:
+                self.ca.cn2an(error_strict_item)
+            except ValueError as e:
+                self.assertEqual(type(e), ValueError)
+            else:
+                raise Exception(f'ValueError not raised: {error_strict_item}')
+
+        for error_normal_item in self.error_normal_datas:
+            try:
+                self.ca.cn2an(error_normal_item)
+            except ValueError as e:
+                self.assertEqual(type(e), ValueError)
+            else:
+                raise Exception(f'ValueError not raised: {error_normal_item}')
+
+        for error_smart_item in self.error_smart_datas:
+            try:
+                self.ca.cn2an(error_smart_item)
+            except ValueError as e:
+                self.assertEqual(type(e), ValueError)
+            else:
+                raise Exception(f'ValueError not raised: {error_smart_item}')
 
 
 if __name__ == '__main__':
