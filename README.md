@@ -31,7 +31,11 @@
 ### 1.3 句子转化（试验性功能）
 
 - 支持 `中文数字` => `阿拉伯数字`；
+    - 支持 `日期`；
+    - 支持 `百分数`；
 - 支持 `阿拉伯数字` => `中文数字`；
+    - 支持 `日期`；
+    - 支持 `百分数`；
 
 ### 1.4 其他
 
@@ -67,7 +71,7 @@ import cn2an
 
 # 查看版本
 print(cn2an.__version__)
-# 0.4.5
+# 0.5.0
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -154,6 +158,30 @@ output = cn2an.transform("我捡了一百块钱", "cn2an")
 output = cn2an.transform("我捡了100块钱", "an2cn")
 # output:
 # 我捡了一百块钱
+
+
+## 支持日期
+output = cn2an.transform("我的生日是二零零一年三月四日")
+# 或者
+output = cn2an.transform("我的生日是二零零一年三月四日", "cn2an")
+# output:
+# 我的生日是2001年3月4日
+
+output = cn2an.transform("我的生日是2001年3月4日", "an2cn")
+# output:
+# 我的生日是二零零一年三月四日
+
+
+## 支持百分数
+output = cn2an.transform("今天股价上涨了百分之八")
+# 或者
+output = cn2an.transform("今天股价上涨了百分之八", "cn2an")
+# output:
+# 今天股价上涨了8%
+
+output = cn2an.transform("我的生日是2001年3月4日", "an2cn")
+# output:
+# 今天股价上涨了8%
 ```
 
 详细用法见 [API](https://github.com/Ailln/cn2an/wiki/API).
@@ -343,3 +371,4 @@ bash scripts/local_test.sh
 - [如何发布自己的包到 pypi](https://www.v2ai.cn/2018/07/30/python/1-pypi/)
 - [Python 中的小陷阱](https://www.v2ai.cn/2019/01/01/python/4-python-trap/)
 - [汉字数字转阿拉伯数字](https://www.zouyesheng.com/han-number-convert.html)
+- [Chinese Text Normalization for Speech Processing](https://github.com/speechio/chinese_text_normalization)
