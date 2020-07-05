@@ -179,9 +179,9 @@ output = cn2an.transform("今天股价上涨了百分之八", "cn2an")
 # output:
 # 今天股价上涨了8%
 
-output = cn2an.transform("我的生日是2001年3月4日", "an2cn")
+output = cn2an.transform("今天股价上涨了8%", "an2cn")
 # output:
-# 今天股价上涨了8%
+# 今天股价上涨了百分之八
 ```
 
 详细用法见 [API](https://github.com/Ailln/cn2an/wiki/API).
