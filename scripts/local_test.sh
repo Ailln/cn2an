@@ -3,7 +3,7 @@
 source ~/anaconda3/etc/profile.d/conda.sh
 
 ## conda env create
-env_list=`conda env list`
+env_list=$(conda env list)
 for env in "py369" "py374" "py383"
 do
   if [[ $env_list =~ $env ]]

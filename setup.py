@@ -2,14 +2,13 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-py_version = sys.version_info[:2]
 
-if py_version < (3, 6):
+if sys.version_info[:2] < (3, 6):
     raise RuntimeError('cn2an requires Python 3.6 or later')
 
 setup(
     name="cn2an",
-    version="0.5.0",
+    version="0.5.1",
     author="Ailln",
     author_email="kinggreenhall@gmail.com",
     url="https://github.com/Ailln/cn2an",

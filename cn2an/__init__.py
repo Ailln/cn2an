@@ -1,9 +1,8 @@
-from .version import VERSION
 from .cn2an import Cn2An
 from .an2cn import An2Cn
 from .transform import Transform
 
-__version__ = VERSION
+__version__ = "0.5.1"
 
 cn2an = Cn2An().cn2an
 an2cn = An2Cn().an2cn

@@ -32,10 +32,13 @@
 
 - 支持 `中文数字` => `阿拉伯数字`；
     - 支持 `日期`；
-    - 支持 `百分数`；
+    - 支持 `分数`；
+    - 支持 `百分比`；
+
 - 支持 `阿拉伯数字` => `中文数字`；
     - 支持 `日期`；
-    - 支持 `百分数`；
+    - 支持 `分数`；
+    - 支持 `百分比`；
 
 ### 1.4 其他
 
@@ -45,10 +48,10 @@
 
 ## 2 安装
 
-> ⚠️注意：
+> ⚠️ 注意：
 > 1. 本地安装仅支持 Python 的 3.6 以上版本；
 > 2. 其他语言用户可以考虑使用 [HTTP API](https://www.dovolopor.com/api/cn2an) ；
-> 3. 请尽可能使用 cn2an 的最新版本。
+> 3. 尽可能使用 `cn2an` 的最新版本。
 
 ### 2.1 使用 pip 安装
 
@@ -69,9 +72,9 @@ cd cn2an && python setup.py install
 # 在文件首部引入包
 import cn2an
 
-# 查看版本
+# 查看当前版本号
 print(cn2an.__version__)
-# 0.5.0
+# 0.5.1
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -88,23 +91,23 @@ output = cn2an.cn2an("一百二十三", "strict")
 # output:
 # 123
 
-# 在 normal 模式下，还可以将 一二三 进行转化
+# 在 normal 模式下，可以将 一二三 进行转化
 output = cn2an.cn2an("一二三", "normal")
 # output:
 # 123
 
-# 在 smart 模式下，还可以将混合拼写的 1百23 进行转化
+# 在 smart 模式下，可以将混合拼写的 1百23 进行转化
 output = cn2an.cn2an("1百23", "smart")
 # output:
 # 123
 
 # 以上三种模式均支持负数
-output = cn2an.cn2an("负一百二十三")
+output = cn2an.cn2an("负一百二十三", "strict")
 # output:
 # -123
 
 # 以上三种模式均支持小数
-output = cn2an.cn2an("一点二三")
+output = cn2an.cn2an("一点二三", "strict")
 # output:
 # 1.23
 ```
@@ -134,12 +137,12 @@ output = cn2an.an2cn("123", "rmb")
 # 壹佰贰拾叁元整
 
 # 以上三种模式均支持负数
-output = cn2an.an2cn("-123")
+output = cn2an.an2cn("-123", "low")
 # output:
 # 负一百二十三
 
 # 以上三种模式均支持小数
-output = cn2an.an2cn("1.23")
+output = cn2an.an2cn("1.23", "low")
 # output:
 # 一点二三
 ```
@@ -149,20 +152,20 @@ output = cn2an.an2cn("1.23")
 ```python
 import cn2an
 
+# 在 cn2an 方法（默认）下，可以将句子中的中文数字转成阿拉伯数字
 output = cn2an.transform("我捡了一百块钱")
 # 或者
 output = cn2an.transform("我捡了一百块钱", "cn2an")
 # output:
 # 我捡了100块钱
 
+# 在 an2cn 方法下，可以将句子中的中文数字转成阿拉伯数字
 output = cn2an.transform("我捡了100块钱", "an2cn")
 # output:
 # 我捡了一百块钱
 
 
 ## 支持日期
-output = cn2an.transform("我的生日是二零零一年三月四日")
-# 或者
 output = cn2an.transform("我的生日是二零零一年三月四日", "cn2an")
 # output:
 # 我的生日是2001年3月4日
@@ -171,17 +174,17 @@ output = cn2an.transform("我的生日是2001年3月4日", "an2cn")
 # output:
 # 我的生日是二零零一年三月四日
 
-
-## 支持百分数
-output = cn2an.transform("今天股价上涨了百分之八")
-# 或者
-output = cn2an.transform("今天股价上涨了百分之八", "cn2an")
+## 支持分数
+output = cn2an.transform("抛出去的硬币为正面的概率是二分之一", "cn2an")
 # output:
-# 今天股价上涨了8%
+# 抛出去的硬币为正面的概率是1/2
 
-output = cn2an.transform("今天股价上涨了8%", "an2cn")
+output = cn2an.transform("抛出去的硬币为正面的概率是1/2", "an2cn")
 # output:
-# 今天股价上涨了百分之八
+# 抛出去的硬币为正面的概率是二分之一
+
+## 支持百分比
+## 支持摄氏度
 ```
 
 详细用法见 [API](https://github.com/Ailln/cn2an/wiki/API).
@@ -316,11 +319,11 @@ print(response.json())
 
 ### 6.1 开发进度
 
-本项目是用看板管理开发进度，请点击 [v0.4](https://github.com/Ailln/cn2an/projects/2) 查看开发进度和计划事项。
+本项目是用看板管理开发进度，请点击 [v0.5](https://github.com/Ailln/cn2an/projects/4) 查看开发进度和计划事项。
 
 ### 6.2 代码测试
 
-本地测试使用 [Anaconda](https://www.anaconda.com/) 的虚拟环境，测试方法如下。
+本地测试使用 [Anaconda](https://www.anaconda.com/) 的虚拟环境，测试方法如下：
 
 ```bash
 # 执行测试
@@ -331,7 +334,7 @@ bash scripts/local_test.sh
 
 ### 6.3 性能测试
 
-- 测试版本：`v0.4.4`
+- 测试版本：`v0.5.1`
 - 测试设备：`2.3 GHz 双核Intel Core i5 MacBook Pro`
 - 测试代码：[performance.py](https://github.com/Ailln/cn2an/tree/master/cn2an/performance.py)
 - 测试方法：
@@ -346,7 +349,7 @@ bash scripts/local_test.sh
 
     | 序号 | 功能 | 执行次数 | 执行时间(平均) | 性能(次/秒)
     | :-: | :-: | :-: | :-: | :-: |
-    |  1  | an2cn | 10000 | 0.20 | **50k** |
+    |  1  | an2cn | 10000 | 0.15 | **67k** |
     |  2  | cn2an | 10000 | 0.35 | **29k** |
 
 测试时，我使用的是最大长度的测试数据！因此，大多数情况下该库的性能会更好～
@@ -372,3 +375,4 @@ bash scripts/local_test.sh
 - [Python 中的小陷阱](https://www.v2ai.cn/2019/01/01/python/4-python-trap/)
 - [汉字数字转阿拉伯数字](https://www.zouyesheng.com/han-number-convert.html)
 - [Chinese Text Normalization for Speech Processing](https://github.com/speechio/chinese_text_normalization)
+- [The Best Tool of Chinese Number to Digits](https://github.com/Wall-ee/chinese2digits)
