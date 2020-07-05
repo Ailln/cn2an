@@ -10,7 +10,7 @@
 
 [![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-latest.png)](https://www.dovolopor.com/cn2an)
 
-🔗[点我访问 DEMO](https://www.dovolopor.com/cn2an)
+🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 
@@ -76,7 +76,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.1
+# 0.5.2
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -155,26 +155,26 @@ output = cn2an.an2cn("1.23", "low")
 import cn2an
 
 # 在 cn2an 方法（默认）下，可以将句子中的中文数字转成阿拉伯数字
-output = cn2an.transform("我捡了一百块钱")
+output = cn2an.transform("小王捡了一百块钱")
 # 或者
-output = cn2an.transform("我捡了一百块钱", "cn2an")
+output = cn2an.transform("小王捡了一百块钱", "cn2an")
 # output:
-# 我捡了100块钱
+# 小王捡了100块钱
 
 # 在 an2cn 方法下，可以将句子中的中文数字转成阿拉伯数字
-output = cn2an.transform("我捡了100块钱", "an2cn")
+output = cn2an.transform("小王捡了100块钱", "an2cn")
 # output:
-# 我捡了一百块钱
+# 小王捡了一百块钱
 
 
 ## 支持日期
-output = cn2an.transform("我的生日是二零零一年三月四日", "cn2an")
+output = cn2an.transform("小王的生日是二零零一年三月四日", "cn2an")
 # output:
-# 我的生日是2001年3月4日
+# 小王的生日是2001年3月4日
 
-output = cn2an.transform("我的生日是2001年3月4日", "an2cn")
+output = cn2an.transform("小王的生日是2001年3月4日", "an2cn")
 # output:
-# 我的生日是二零零一年三月四日
+# 小王的生日是二零零一年三月四日
 
 ## 支持分数
 output = cn2an.transform("抛出去的硬币为正面的概率是二分之一", "cn2an")

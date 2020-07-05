@@ -17,7 +17,7 @@ class Transform(object):
     def transform(self, inputs: str, method: str = "cn2an") -> str:
         if method == "cn2an":
             # date
-            inputs = re.sub(fr"([{self.all_num}]+年)?([{self.all_num}]+月)?([{self.all_num}]+日)?",
+            inputs = re.sub(fr"([{self.all_num}{self.all_unit}]+年)?([{self.all_num}十]+月)?([{self.all_num}十]+日)?",
                             lambda x: self.__sub_util(x.group(), "cn2an", "date"), inputs)
             # fraction
             inputs = re.sub(fr"{self.cn_pattern}分之{self.cn_pattern}",
@@ -78,8 +78,10 @@ class Transform(object):
                     raise Exception(f"error sub_mode: {sub_mode} !")
             else:
                 if sub_mode == "date":
+                    inputs = re.sub(r"\d+(?=年)",
+                                    lambda x: self.an2cn(x.group(), "direct"), inputs)
                     return re.sub(r"\d+",
-                                  lambda x: self.an2cn(x.group(), "direct"), inputs)
+                                  lambda x: self.an2cn(x.group(), "low"), inputs)
                 elif sub_mode == "fraction":
                     frac_result = re.sub(r"\d+",
                                          lambda x: self.an2cn(x.group(), "low"), inputs)
