@@ -13,6 +13,8 @@
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
+>
+> 🎈 [`Cn2An.jl`](https://github.com/Ailln/Cn2An.jl): Julia 语言版本已经上线，正在丰富基础功能。[详情](https://github.com/Ailln/Cn2An.jl)
 
 ## 1 功能
 
@@ -283,6 +285,20 @@ func main(){
     fmt.Println(string(body))
 }
 // { output: "一百二十三", msg: "转化成功" }
+```
+
+#### Julia
+
+```julia
+using Pkg
+Pkg.add("HTTP")
+
+url = "https://api.dovolopor.com/v1/cn2an"
+params = HTTP.URIs.escapeuri(["text"=>"123","function"=>"an2cn","method"=>"low"])
+
+r = HTTP.get(url * "?" * params, ["Content-Type"=>"application/json"])
+print(String(r.body))
+# { output: "一百二十三", msg: "转化成功" }
 ```
 
 #### Python
