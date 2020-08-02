@@ -115,19 +115,19 @@ class Cn2anTest(unittest.TestCase):
             "一百点123": 100.123,
             "10.1万": 101000,
             "-10.1万": -101000,
-            "35.1亿": 3510000000
+            "35.1亿": 3510000000,
         }
 
         self.error_smart_datas = [
             "10.1万零100",
-            "10..1万"
+            "10..1万",
         ]
 
         self.error_normal_datas = [
             "零点",
             "点零",
             "零点点",
-            "零点零大"
+            "零点零大",
         ]
         self.error_normal_datas.extend(self.error_smart_datas)
         self.error_normal_datas.extend(list(self.smart_data_dict.keys()))
@@ -141,7 +141,7 @@ class Cn2anTest(unittest.TestCase):
             "百十一",
             "十一十二",
             "负十一十二",
-            "十七十八"
+            "十七十八",
         ]
         self.error_strict_datas.extend(self.error_normal_datas)
         self.error_strict_datas.extend(list(self.normal_data_dict.keys()))
