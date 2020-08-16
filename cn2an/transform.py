@@ -12,7 +12,7 @@ class Transform(object):
         self.all_unit = "".join(list(self.conf["unit_cn2an"].keys()))
         self.cn2an = Cn2An().cn2an
         self.an2cn = An2Cn().an2cn
-        self.cn_pattern = f"负?[{self.all_num}{self.all_unit}]+"
+        self.cn_pattern = f"负?([{self.all_num}{self.all_unit}]+点)?[{self.all_num}{self.all_unit}]+"
 
     def transform(self, inputs: str, method: str = "cn2an") -> str:
         if method == "cn2an":
@@ -39,7 +39,7 @@ class Transform(object):
             inputs = re.sub(r"\d+/\d+",
                             lambda x: self.__sub_util(x.group(), "an2cn", "fraction"), inputs)
             # percent
-            inputs = re.sub(r"\d+%",
+            inputs = re.sub(r"-?(\d+\.)?\d+%",
                             lambda x: self.__sub_util(x.group(), "an2cn", "percent"), inputs)
             # celsius
             inputs = re.sub(r"\d+℃",

@@ -12,6 +12,8 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
+> 🎈 `v0.5.3 update`: 百分数转化支持小数和负数。
+> 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
 > 🎈 [`Cn2An.jl`](https://github.com/Ailln/Cn2An.jl): Julia 语言版本已经上线，正在丰富基础功能。[详情](https://github.com/Ailln/Cn2An.jl)
@@ -78,7 +80,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.2
+# 0.5.3
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
