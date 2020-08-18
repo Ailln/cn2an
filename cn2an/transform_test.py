@@ -13,7 +13,11 @@ class TransformTest(unittest.TestCase):
             "今天股价上涨了8%": "今天股价上涨了百分之八",
             "第2天股价下降了-3.8%": "第二天股价下降了百分之负三点八",
             "抛出去的硬币为正面的概率是1/2": "抛出去的硬币为正面的概率是二分之一",
-            "现在室内温度为39℃，很热啊！": "现在室内温度为三十九摄氏度，很热啊！",
+            "现在室内温度为39℃，很热啊！": "现在室内温度为三十九摄氏度，很热啊！"
+        }
+
+        self.smart_data_dict = {
+            "约2.5亿年~6500万年": "约250000000年~65000000年"
         }
 
         self.t = Transform()
@@ -22,6 +26,9 @@ class TransformTest(unittest.TestCase):
         for strict_item in self.strict_data_dict.keys():
             self.assertEqual(self.t.transform(strict_item, "an2cn"), self.strict_data_dict[strict_item])
             self.assertEqual(self.t.transform(self.strict_data_dict[strict_item], "cn2an"), strict_item)
+
+        for smart_item in self.smart_data_dict.keys():
+            self.assertEqual(self.t.transform(smart_item, "cn2an"), self.smart_data_dict[smart_item])
 
 
 if __name__ == '__main__':

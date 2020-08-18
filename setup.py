@@ -8,7 +8,7 @@ if sys.version_info[:2] < (3, 6):
 
 setup(
     name="cn2an",
-    version="0.5.3",
+    version="0.5.4",
     author="Ailln",
     author_email="kinggreenhall@gmail.com",
     url="https://github.com/Ailln/cn2an",
