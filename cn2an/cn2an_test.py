@@ -86,6 +86,8 @@ class Cn2anTest(unittest.TestCase):
             "负十": -10,
             "负十一": -11,
             "负一十一": -11,
+            # 古语
+            "廿二": 22,
         }
 
         self.normal_data_dict = {
@@ -166,6 +168,7 @@ class Cn2anTest(unittest.TestCase):
                              self.smart_data_dict[smart_item])
 
         for error_strict_item in self.error_strict_datas:
+            print(error_strict_item)
             try:
                 self.ca.cn2an(error_strict_item)
             except ValueError as e:

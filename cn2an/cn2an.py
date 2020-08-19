@@ -25,6 +25,9 @@ class Cn2An(object):
             if mode not in ["strict", "normal", "smart"]:
                 raise ValueError("mode 仅支持 strict normal smart 三种！")
 
+            # 特殊转化 廿
+            inputs = inputs.replace("廿", "二十")
+
             # 检查输入数据是否有效
             sign, integer_data, decimal_data, is_all_num = self.__check_input_data_is_valid(inputs, mode)
 

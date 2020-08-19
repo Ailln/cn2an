@@ -17,7 +17,8 @@ class TransformTest(unittest.TestCase):
         }
 
         self.smart_data_dict = {
-            "约2.5亿年~6500万年": "约250000000年~65000000年"
+            "约2.5亿年~6500万年": "约250000000年~65000000年",
+            "廿二日，日出东方": "22日，日出东方"
         }
 
         self.t = Transform()
