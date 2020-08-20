@@ -72,6 +72,18 @@ git clone https://github.com/Ailln/cn2an.git
 cd cn2an && python setup.py install
 ```
 
+### 2.3 常见问题
+
+#### 2.3.1 关于 PyYAML
+
+**问题**：安装 PyYAML 时出现错误，`ERROR: Cannot uninstall 'PyYAML'. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.`
+
+**解决方法**：先手动更新 PyYAML 到最新版本，再安装 cn2an。
+
+```bash
+pip install PyYAML -U --ignore-installed
+```
+
 ## 3 使用
 
 ```python
@@ -396,3 +408,4 @@ bash scripts/local_test.sh
 - [汉字数字转阿拉伯数字](https://www.zouyesheng.com/han-number-convert.html)
 - [Chinese Text Normalization for Speech Processing](https://github.com/speechio/chinese_text_normalization)
 - [The Best Tool of Chinese Number to Digits](https://github.com/Wall-ee/chinese2digits)
+- [Microsoft Recognizers Text Overview](https://github.com/microsoft/Recognizers-Text)
