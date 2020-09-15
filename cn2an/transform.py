@@ -8,7 +8,7 @@ from .an2cn import An2Cn
 class Transform(object):
     def __init__(self) -> None:
         self.conf = utils.get_default_conf()
-        self.all_num = "".join(list(self.conf["number_cn2an"].keys()))
+        self.all_num = "零一二三四五六七八九"
         self.all_unit = "".join(list(self.conf["unit_cn2an"].keys()))
         self.cn2an = Cn2An().cn2an
         self.an2cn = An2Cn().an2cn
