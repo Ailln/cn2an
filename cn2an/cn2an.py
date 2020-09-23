@@ -40,11 +40,15 @@ class Cn2An(object):
                         output = self.__integer_convert(integer_data)
                     else:
                         output = self.__integer_convert(integer_data) + self.__decimal_convert(decimal_data)
+                        # fix 1 + 0.57 = 1.5699999999999998
+                        output = round(output, len(decimal_data))
                 else:
                     if decimal_data is None:
                         output = self.__direct_convert(integer_data)
                     else:
                         output = self.__direct_convert(integer_data) + self.__decimal_convert(decimal_data)
+                        # fix 1 + 0.57 = 1.5699999999999998
+                        output = round(output, len(decimal_data))
         else:
             raise ValueError("输入数据为空！")
 
