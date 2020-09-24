@@ -167,6 +167,8 @@ output = cn2an.an2cn("1.23", "low")
 
 ### 3.3 句子转化
 
+> ⚠️：试验性功能，可能会造成不符合期望的转化。
+
 ```python
 import cn2an
 
@@ -205,131 +207,9 @@ output = cn2an.transform("抛出去的硬币为正面的概率是1/2", "an2cn")
 ## 支持摄氏度
 ```
 
-更多详细用法见 [API](https://github.com/Ailln/cn2an/wiki/API) 。
-
 ### 3.4 HTTP API
 
-主要为其他语言用户提供方便，当然 Python 用户也可以使用。
-
-#### Java
-
-```java
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-public class HttpGetExample {
-    public static void main(String[] args) throws Exception {
-        HttpGetExample http = new HttpGetExample();
-  
-        String url = "https://api.dovolopor.com/v1/cn2an";
-        String params = "?text=123&function=an2cn&method=low";
-        http.get(url + params);
-    }
-
-    private void get(String url) throws Exception {
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", "Mozilla/5.0");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        System.out.println(response.toString());
-    }
-}
-// { output: "一百二十三", msg: "转化成功" }
-```
-
-#### Javascript
-
-```javascript
-const axios = require("axios")
-
-axios.get("https://api.dovolopor.com/v1/cn2an", {
-  params: {
-    text: "123",
-    function: "an2cn",
-    method: "low"
-  }
-}).then(
-  function (res) {
-    console.log(res.data);
-  }
-)
-// { output: "一百二十三", msg: "转化成功" }
-```
-
-#### Go
-
-```go
-package main
-
-import (
-    "fmt"
-    "io/ioutil"
-    "net/http"
-    "net/url"
-)
-
-func main(){
-    params := url.Values{}
-    Url, err := url.Parse("https://api.dovolopor.com/v1/cn2an")
-    if err != nil {
-        return
-    }
-    params.Set("text", "123")
-    params.Set("function", "an2cn")
-    params.Set("method", "low")
-
-    Url.RawQuery = params.Encode()
-    urlPath := Url.String()
-    resp,err := http.Get(urlPath)
-    defer resp.Body.Close()
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println(string(body))
-}
-// { output: "一百二十三", msg: "转化成功" }
-```
-
-#### Julia
-
-```julia
-using Pkg
-Pkg.add("HTTP")
-
-url = "https://api.dovolopor.com/v1/cn2an"
-params = HTTP.URIs.escapeuri(["text"=>"123","function"=>"an2cn","method"=>"low"])
-
-r = HTTP.get(url * "?" * params, ["Content-Type"=>"application/json"])
-print(String(r.body))
-# { output: "一百二十三", msg: "转化成功" }
-```
-
-#### Python
-
-```python
-import requests
-
-response = requests.get("https://api.dovolopor.com/v1/cn2an",
-  params={
-    "text": "1234567890",
-    "function": "an2cn",
-    "method": "low"
-  }
-)
-print(response.json())
-# { output: "一百二十三", msg: "转化成功" }
-```
+主要为其他语言（Java、Javascript、Go等）用户提供方便，当然 Python 用户也可以使用，点击查看[详细用法](https://github.com/Ailln/cn2an/wiki/API#http-api)。
 
 ## 4 版本支持
 
