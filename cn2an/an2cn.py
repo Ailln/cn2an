@@ -170,7 +170,8 @@ class An2Cn(object):
                 if i > 0 and not output_an[-1] == "零":
                     output_an += numeral_list[int(d)]
 
-        output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").strip("零")
+        output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").replace("亿万", "亿") \
+            .strip("零")
 
         # 解决「一十几」和「壹拾几」问题
         if output_an[:2] in ["一十", "壹拾"]:
