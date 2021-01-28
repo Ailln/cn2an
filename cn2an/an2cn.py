@@ -173,8 +173,8 @@ class An2Cn(object):
         output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").replace("亿万", "亿") \
             .strip("零")
 
-        # 解决「一十几」和「壹拾几」问题
-        if output_an[:2] in ["一十", "壹拾"]:
+        # 解决「一十几」问题
+        if output_an[:2] in ["一十"]:
             output_an = output_an[1:]
 
         # 0 - 1 之间的小数

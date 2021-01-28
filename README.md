@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.8 update`: fix "万亿万" => "万亿"
+> 🎈 `v0.5.9 update`: fix "拾壹" => "壹拾壹"
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -92,7 +92,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.8
+# 0.5.9
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -259,7 +259,7 @@ bash scripts/local_test.sh
 
 - 测试结果：
 
-    | 序号 | 功能 | 执行次数 | 执行时间(平均) | 性能(次/秒)
+    | 序号 | 功能 | 执行次数 | 执行时间(万次平均) | 性能(次/秒)
     | :-: | :-: | :-: | :-: | :-: |
     |  1  | an2cn | 10000 | 0.15 | **67k** |
     |  2  | cn2an | 10000 | 0.35 | **29k** |
