@@ -100,8 +100,17 @@ class Cn2An(object):
         return cn_num
 
     def __check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str, bool):
-        # 去除 元整、圆整
-        check_data = check_data.replace("元整", "").replace("圆整", "")
+        # 去除 元整、圆整、元正、圆正
+        stop_words = ["元整", "圆整", "元正", "圆正"]
+        for word in stop_words:
+            if check_data[-2:] == word:
+                check_data = check_data[:-2]
+
+        # 处理元角分
+        yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
+        result = yjf_pattern.search(check_data)
+        if result:
+            check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
 
         for data in check_data:
             if data not in self.check_key_dict[mode]:

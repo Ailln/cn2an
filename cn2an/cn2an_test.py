@@ -50,6 +50,10 @@ class Cn2anTest(unittest.TestCase):
             "壹仟壹佰壹拾壹亿壹仟壹佰壹拾壹万壹仟壹佰壹拾壹": 111111111111,
             "壹拾壹元整": 11,
             "壹佰壹拾壹圆整": 111,
+            "壹拾壹元正": 11,
+            "壹拾壹圆正": 11,
+            "壹拾壹元壹角": 11.1,
+            "壹拾壹元壹角壹分": 11.11,
             "十万": 100000,
             "十万零一": 100001,
             "一万零一": 10001,
@@ -168,7 +172,6 @@ class Cn2anTest(unittest.TestCase):
                              self.smart_data_dict[smart_item])
 
         for error_strict_item in self.error_strict_datas:
-            print(error_strict_item)
             try:
                 self.ca.cn2an(error_strict_item)
             except ValueError as e:
