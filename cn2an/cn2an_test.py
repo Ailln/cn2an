@@ -112,6 +112,10 @@ class Cn2anTest(unittest.TestCase):
             "三万五": 35000,
             "两千六": 2600,
             "一百二": 120,
+            # 大写
+            "壹拾壹元": 11,
+            "壹佰壹拾壹圆": 111,
+            "壹拾壹圆": 11,
         }
 
         self.smart_data_dict = {

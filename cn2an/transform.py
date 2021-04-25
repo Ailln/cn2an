@@ -16,7 +16,8 @@ class Transform(object):
         self.smart_cn_pattern = f"-?([0-9]+.)?[0-9]+[{self.all_unit}]+"
 
     def transform(self, inputs: str, method: str = "cn2an") -> str:
-        inputs = inputs.replace("廿", "二十")
+        inputs = inputs.replace("廿", "二十").replace("半", "0.5").replace("两", "2")
+
         if method == "cn2an":
             # date
             inputs = re.sub(fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?([{self.all_num}十]+月)?([{self.all_num}十]+日)?",
@@ -33,6 +34,7 @@ class Transform(object):
             # number
             output = re.sub(self.cn_pattern,
                             lambda x: self.__sub_util(x.group(), "cn2an", "number"), inputs)
+
         elif method == "an2cn":
             # date
             inputs = re.sub(r"(\d{2,4}年)?(\d{1,2}月)?(\d{1,2}日)?",

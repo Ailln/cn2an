@@ -106,6 +106,13 @@ class Cn2An(object):
             if check_data[-2:] == word:
                 check_data = check_data[:-2]
 
+        # 去除 元、圆
+        if mode != "strict":
+            normal_stop_words = ["圆", "元"]
+            for word in normal_stop_words:
+                if check_data[-1] == word:
+                    check_data = check_data[:-1]
+
         # 处理元角分
         yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
         result = yjf_pattern.search(check_data)
