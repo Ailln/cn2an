@@ -1,5 +1,6 @@
 number_cn2an:
   零: 0
+  〇: 0
   一: 1
   壹: 1
   幺: 1
@@ -99,7 +100,7 @@ unit_up_order_an2cn:
   - 仟
 
 strict_cn_number:
-  零: 零
+  零: 〇零
   一: 一壹
   二: 二贰
   三: 三叁
@@ -116,7 +117,7 @@ strict_cn_number:
   亿: 亿
 
 normal_cn_number:
-  零: 零
+  零: 〇零
   一: 一壹幺
   二: 二贰两
   三: 三叁仨
