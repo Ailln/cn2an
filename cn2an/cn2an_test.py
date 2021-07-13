@@ -92,6 +92,7 @@ class Cn2anTest(unittest.TestCase):
             "负一十一": -11,
             # 古语
             "廿二": 22,
+            "卅二": 32,
         }
 
         self.normal_data_dict = {

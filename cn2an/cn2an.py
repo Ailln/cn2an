@@ -11,6 +11,7 @@ class Cn2An(object):
         self.all_unit = "".join(list(self.conf["unit_cn2an"].keys()))
         self.strict_cn_number = self.conf["strict_cn_number"]
         self.normal_cn_number = self.conf["normal_cn_number"]
+        self.ancient_cn_number = self.conf["ancient_cn_number"]
         self.check_key_dict = {
             "strict": "".join(self.strict_cn_number.values()) + "点负",
             "normal": "".join(self.normal_cn_number.values()) + "点负",
@@ -25,8 +26,9 @@ class Cn2An(object):
             if mode not in ["strict", "normal", "smart"]:
                 raise ValueError("mode 仅支持 strict normal smart 三种！")
 
-            # 特殊转化 廿
-            inputs = inputs.replace("廿", "二十")
+            # 特殊转化 古代计数特殊字
+            ancient_cn_number_regex = re.compile(rf'[{self.check_key_dict[mode]}]*[{"".join(self.ancient_cn_number.keys())}]|[{"".join(self.ancient_cn_number.keys())}][{self.check_key_dict[mode]}]*')
+            inputs = ancient_cn_number_regex.sub(string=inputs, repl=lambda match_obj: self.ancient_cn_number.get(match_obj.group(0), match_obj.group(0)))
 
             # 检查输入数据是否有效
             sign, integer_data, decimal_data, is_all_num = self.__check_input_data_is_valid(inputs, mode)
@@ -190,7 +192,7 @@ class Cn2An(object):
                 result_speaking_mode = ptn_speaking_mode.search(integer_data)
                 if result_speaking_mode:
                     if result_speaking_mode.group() == integer_data:
-                        _unit = self.conf["unit_low_an2cn"][self.conf["unit_cn2an"][integer_data[1]]//10]
+                        _unit = self.conf["unit_low_an2cn"][self.conf["unit_cn2an"][integer_data[1]] // 10]
                         integer_data = integer_data + _unit
                         if decimal_data is not None:
                             result_dec = re.compile(self.pattern_dict[mode]["dec"]).search(decimal_data)
