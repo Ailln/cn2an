@@ -116,6 +116,8 @@ class Cn2anTest(unittest.TestCase):
             "壹拾壹元": 11,
             "壹佰壹拾壹圆": 111,
             "壹拾壹圆": 11,
+            # 特殊
+            "〇": 0,
         }
 
         self.smart_data_dict = {

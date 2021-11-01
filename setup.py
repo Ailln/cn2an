@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 NAME = "cn2an"
-VERSION = "0.5.12"
+VERSION = "0.5.13"
 AUTHOR = "Ailln"
 EMAIL = "kinggreenhall@gmail.com"
 URL = "https://github.com/Ailln/cn2an"
@@ -30,6 +30,9 @@ if __name__ == "__main__":
         zip_safe=True,
         classifiers=[
             "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
             f"License :: OSI Approved :: {LICENSE}",
             "Operating System :: OS Independent",
         ],
