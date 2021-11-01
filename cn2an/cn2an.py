@@ -1,4 +1,5 @@
 import re
+from typing import Union
 
 from . import utils
 from .an2cn import An2Cn
@@ -18,12 +19,25 @@ class Cn2An(object):
         }
         self.pattern_dict = self.__get_pattern()
         self.ac = An2Cn()
+        self.mode_list = ["strict", "normal", "smart"]
 
-    def cn2an(self, inputs: str = None, mode: str = "strict") -> int:
+    def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int]:
+        """中文数字转阿拉伯数字
+
+        :param inputs: 中文数字、阿拉伯数字、中文数字和阿拉伯数字
+        :param mode: strict 严格，normal 正常，smart 智能
+        :return: 阿拉伯数字
+        """
         if inputs is not None or inputs == "":
-            # 检查转换模式是否有效
-            if mode not in ["strict", "normal", "smart"]:
-                raise ValueError("mode 仅支持 strict normal smart 三种！")
+            if mode not in self.mode_list:
+                raise ValueError(f"mode 仅支持 {str(self.mode_list)} ！")
+
+            # 将数字转化为字符串
+            if not isinstance(inputs, str):
+                inputs = str(inputs)
+
+            # 将全角数字和符号转化为半角
+            inputs = utils.full_to_half(inputs)
 
             # 特殊转化 廿
             inputs = inputs.replace("廿", "二十")
@@ -146,19 +160,21 @@ class Cn2An(object):
             decimal_data = None
             # 将 smart 模式中的阿拉伯数字转化成中文数字
             if mode == "smart":
-                # 10.1万
-                pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]$")
+                # 10.1万 10.1
+                pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]?$")
                 result1 = pattern1.search(integer_data)
                 if result1:
                     if result1.group() == integer_data:
-                        output = int(float(integer_data[:-1]) * self.conf["unit_cn2an"][integer_data[-1]])
+                        if integer_data[-1] in self.conf["unit_cn2an"].keys():
+                            output = int(float(integer_data[:-1]) * self.conf["unit_cn2an"][integer_data[-1]])
+                        else:
+                            output = float(integer_data)
                         return 0, output, None, None
 
                 integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
                 mode = "normal"
 
         result_int = re.compile(self.pattern_dict[mode]["int"]).search(integer_data)
-
         if result_int:
             if result_int.group() == integer_data:
                 if decimal_data is not None:

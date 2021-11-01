@@ -1,19 +1,20 @@
-import os
 import time
 import pathlib
 import logging
+from pkg_resources import resource_stream
 
 import yaml
 
 
-def get_default_conf() -> dict:
-    with open(f"{os.path.dirname(__file__)}/config.yaml", "r", encoding="utf-8") as f_config:
-        config_data = yaml.load(f_config, Loader=yaml.FullLoader)
-    return config_data
+def get_default_conf(stream_args: list = None) -> dict:
+    if stream_args is None:
+        stream_args = ["cn2an", "config.yaml"]
+
+    with resource_stream(*stream_args) as stream:
+        return yaml.load(stream, Loader=yaml.FullLoader)
 
 
 def get_logger(name: str = "cn2an", level: str = "info") -> logging.Logger:
-    # set logger
     logger = logging.getLogger(name)
 
     level_dict = {
@@ -26,14 +27,12 @@ def get_logger(name: str = "cn2an", level: str = "info") -> logging.Logger:
     logger.setLevel(level_dict[level])
 
     if not logger.handlers:
-        # file handler
         log_path = log_path_util()
         fh = logging.FileHandler(log_path)
         fh.setLevel(logging.INFO)
         fh_fmt = logging.Formatter("%(asctime)-15s %(filename)s %(levelname)s %(lineno)d: %(message)s")
         fh.setFormatter(fh_fmt)
 
-        # stream handler
         console = logging.StreamHandler()
         console.setLevel(logging.DEBUG)
         console_fmt = logging.Formatter("%(filename)s %(levelname)s %(lineno)d: %(message)s")
@@ -51,3 +50,19 @@ def log_path_util(name: str = "cn2an") -> str:
     if not log_path.exists():
         log_path.mkdir(parents=True)
     return f"{str(log_path)}/{name}.log"
+
+
+def full_to_half(inputs: str) -> str:
+    # 全角转半角
+    full_data = ""
+    for uchar in inputs:
+        inside_code = ord(uchar)
+        # 全角空格直接转换
+        if inside_code == 12288:
+            full_data += chr(32)
+        # 全角字符（除空格）根据关系转化
+        elif 65281 <= inside_code <= 65374:
+            full_data += chr(inside_code - 65248)
+        else:
+            full_data += uchar
+    return full_data

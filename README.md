@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.11 update`: cn2an normal mode support 元/圆; transform support 半/两.
+> 🎈 `v0.5.12 update`: cn2an smart mode support a pure number.
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -92,7 +92,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.11
+# 0.5.12
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`

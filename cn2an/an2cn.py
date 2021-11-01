@@ -12,10 +12,10 @@ class An2Cn(object):
         self.mode_list = ["low", "up", "rmb", "direct"]
 
     def an2cn(self, inputs: Union[str, int, float] = None, mode: str = "low") -> str:
-        """
-        阿拉伯数字转中文数字
+        """阿拉伯数字转中文数字
+
         :param inputs: 阿拉伯数字
-        :param mode: 小写数字，大写数字，人民币大写，直接转化
+        :param mode: low 小写数字，up 大写数字，rmb 人民币大写，direct 直接转化
         :return: 中文数字
         """
         if inputs is not None and inputs != "":
@@ -28,7 +28,7 @@ class An2Cn(object):
                 inputs = self.__number_to_string(inputs)
 
             # 将全角数字和符号转化为半角
-            inputs = self.__full_to_half(inputs)
+            inputs = utils.full_to_half(inputs)
 
             # 检查数据是否有效
             self.__check_inputs_is_valid(inputs)
@@ -124,22 +124,6 @@ class An2Cn(object):
             else:
                 string_data = string_key + "0" * int(string_value)
         return string_data
-
-    @staticmethod
-    def __full_to_half(inputs: str) -> str:
-        # 全角转半角
-        full_inputs = ""
-        for uchar in inputs:
-            inside_code = ord(uchar)
-            # 全角空格直接转换
-            if inside_code == 12288:
-                full_inputs += chr(32)
-            # 全角字符（除空格）根据关系转化
-            elif 65281 <= inside_code <= 65374:
-                full_inputs += chr(inside_code - 65248)
-            else:
-                full_inputs += uchar
-        return full_inputs
 
     def __check_inputs_is_valid(self, check_data: str) -> None:
         # 检查输入数据是否在规定的字典中

@@ -126,6 +126,8 @@ class Cn2anTest(unittest.TestCase):
             "10.1万": 101000,
             "-10.1万": -101000,
             "35.1亿": 3510000000,
+            "10.1": 10.1,
+            "-10.1": -10.1,
         }
 
         self.error_smart_datas = [
