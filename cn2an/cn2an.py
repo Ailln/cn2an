@@ -133,6 +133,12 @@ class Cn2An(object):
         if result:
             check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
 
+        # 处理特殊问法：一千零十一 一万零百一十一
+        if "零十" in check_data:
+            check_data = check_data.replace("零十", "零一十")
+        if "零百" in check_data:
+            check_data = check_data.replace("零百", "零一百")
+
         for data in check_data:
             if data not in self.check_key_dict[mode]:
                 raise ValueError(f"当前为{mode}模式，输入的数据不在转化范围内：{data}！")
