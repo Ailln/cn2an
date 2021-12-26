@@ -1,7 +1,7 @@
 import re
 from typing import Union
 
-from proces import full_angle_to_half_angle
+from proces import preprocess
 
 from . import utils
 from .an2cn import An2Cn
@@ -38,8 +38,13 @@ class Cn2An(object):
             if not isinstance(inputs, str):
                 inputs = str(inputs)
 
-            # 将全角数字和符号转化为半角
-            inputs = full_angle_to_half_angle(inputs)
+            # 数据预处理：
+            # 1. 繁体转简体
+            # 2. 全角转半角
+            inputs = preprocess(inputs, pipelines=[
+                "traditional_to_simplified",
+                "full_angle_to_half_angle"
+            ])
 
             # 特殊转化 廿
             inputs = inputs.replace("廿", "二十")

@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.15 update`: fix #41
+> 🎈 `v0.5.16 update`: fix #39 先将繁体转化为简体，再识别。
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -80,7 +80,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.15
+# 0.5.16
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -277,3 +277,4 @@ bash scripts/local_test.sh
 - [Chinese Text Normalization for Speech Processing](https://github.com/speechio/chinese_text_normalization)
 - [The Best Tool of Chinese Number to Digits](https://github.com/Wall-ee/chinese2digits)
 - [Microsoft Recognizers Text Overview](https://github.com/microsoft/Recognizers-Text)
+- [process: 数据预处理管道](https://github.com/Ailln/proces)
