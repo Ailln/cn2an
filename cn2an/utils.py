@@ -3,7 +3,9 @@ import pathlib
 import logging
 from pkg_resources import resource_stream
 
-import yaml
+from ruamel.yaml import YAML
+
+yaml = YAML()
 
 
 def get_default_conf(stream_args: list = None) -> dict:
@@ -11,12 +13,11 @@ def get_default_conf(stream_args: list = None) -> dict:
         stream_args = ["cn2an", "config.yaml"]
 
     with resource_stream(*stream_args) as stream:
-        return yaml.load(stream, Loader=yaml.FullLoader)
+        return yaml.load(stream)
 
 
 def get_logger(name: str = "cn2an", level: str = "info") -> logging.Logger:
     logger = logging.getLogger(name)
-
     level_dict = {
         "debug": logging.DEBUG,
         "info": logging.INFO,
@@ -50,19 +51,3 @@ def log_path_util(name: str = "cn2an") -> str:
     if not log_path.exists():
         log_path.mkdir(parents=True)
     return f"{str(log_path)}/{name}.log"
-
-
-def full_to_half(inputs: str) -> str:
-    # 全角转半角
-    full_data = ""
-    for uchar in inputs:
-        inside_code = ord(uchar)
-        # 全角空格直接转换
-        if inside_code == 12288:
-            full_data += chr(32)
-        # 全角字符（除空格）根据关系转化
-        elif 65281 <= inside_code <= 65374:
-            full_data += chr(inside_code - 65248)
-        else:
-            full_data += uchar
-    return full_data

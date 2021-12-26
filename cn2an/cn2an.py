@@ -1,6 +1,8 @@
 import re
 from typing import Union
 
+from proces import full_angle_to_half_angle
+
 from . import utils
 from .an2cn import An2Cn
 
@@ -37,7 +39,7 @@ class Cn2An(object):
                 inputs = str(inputs)
 
             # 将全角数字和符号转化为半角
-            inputs = utils.full_to_half(inputs)
+            inputs = full_angle_to_half_angle(inputs)
 
             # 特殊转化 廿
             inputs = inputs.replace("廿", "二十")

@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 NAME = "cn2an"
-VERSION = "0.5.14"
+VERSION = "0.5.15"
 AUTHOR = "Ailln"
 EMAIL = "kinggreenhall@gmail.com"
 URL = "https://github.com/Ailln/cn2an"

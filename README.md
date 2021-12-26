@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.14 update`: fix #34
+> 🎈 `v0.5.15 update`: fix #41
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -72,18 +72,6 @@ git clone https://github.com/Ailln/cn2an.git
 cd cn2an && python setup.py install
 ```
 
-### 2.3 常见问题
-
-#### 2.3.1 关于 PyYAML
-
-**问题**：安装 PyYAML 时出现错误，`ERROR: Cannot uninstall 'PyYAML'. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.`
-
-**解决方法**：先手动更新 PyYAML 到最新版本，再安装 cn2an。
-
-```bash
-pip install PyYAML -U --ignore-installed
-```
-
 ## 3 使用
 
 ```python
@@ -92,7 +80,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.14
+# 0.5.15
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
