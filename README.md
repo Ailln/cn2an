@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.16 update`: fix #39 先将繁体转化为简体，再识别。
+> 🎈 `v0.5.17 update`:  fix #46 about transform.
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
