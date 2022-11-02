@@ -1,3 +1,2 @@
 setuptools>=47.3.1
-ruamel.yaml>=0.16.0
-proces>=0.1.0
+proces>=0.1.3
