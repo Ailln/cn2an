@@ -3,17 +3,16 @@ from typing import Union
 
 from proces import preprocess
 
-from . import utils
 from .an2cn import An2Cn
+from .conf import NUMBER_CN2AN, UNIT_CN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN
 
 
 class Cn2An(object):
     def __init__(self) -> None:
-        self.conf = utils.get_default_conf()
-        self.all_num = "".join(list(self.conf["number_cn2an"].keys()))
-        self.all_unit = "".join(list(self.conf["unit_cn2an"].keys()))
-        self.strict_cn_number = self.conf["strict_cn_number"]
-        self.normal_cn_number = self.conf["normal_cn_number"]
+        self.all_num = "".join(list(NUMBER_CN2AN.keys()))
+        self.all_unit = "".join(list(UNIT_CN2AN.keys()))
+        self.strict_cn_number = STRICT_CN_NUMBER
+        self.normal_cn_number = NORMAL_CN_NUMBER
         self.check_key_dict = {
             "strict": "".join(self.strict_cn_number.values()) + "点负",
             "normal": "".join(self.normal_cn_number.values()) + "点负",
@@ -117,7 +116,7 @@ class Cn2An(object):
     def __copy_num(self, num):
         cn_num = ""
         for n in num:
-            cn_num += self.conf["number_low_an2cn"][int(n)]
+            cn_num += NUMBER_LOW_AN2CN[int(n)]
         return cn_num
 
     def __check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str, bool):
@@ -178,8 +177,8 @@ class Cn2An(object):
                 result1 = pattern1.search(integer_data)
                 if result1:
                     if result1.group() == integer_data:
-                        if integer_data[-1] in self.conf["unit_cn2an"].keys():
-                            output = int(float(integer_data[:-1]) * self.conf["unit_cn2an"][integer_data[-1]])
+                        if integer_data[-1] in UNIT_CN2AN.keys():
+                            output = int(float(integer_data[:-1]) * UNIT_CN2AN[integer_data[-1]])
                         else:
                             output = float(integer_data)
                         return 0, output, None, None
@@ -219,7 +218,7 @@ class Cn2An(object):
                 result_speaking_mode = ptn_speaking_mode.search(integer_data)
                 if result_speaking_mode:
                     if result_speaking_mode.group() == integer_data:
-                        _unit = self.conf["unit_low_an2cn"][self.conf["unit_cn2an"][integer_data[1]]//10]
+                        _unit = UNIT_LOW_AN2CN[UNIT_CN2AN[integer_data[1]]//10]
                         integer_data = integer_data + _unit
                         if decimal_data is not None:
                             result_dec = re.compile(self.pattern_dict[mode]["dec"]).search(decimal_data)
@@ -238,12 +237,12 @@ class Cn2An(object):
         ten_thousand_unit = 1
         for index, cn_num in enumerate(reversed(integer_data)):
             # 数值
-            if cn_num in self.conf["number_cn2an"]:
-                num = self.conf["number_cn2an"][cn_num]
+            if cn_num in NUMBER_CN2AN:
+                num = NUMBER_CN2AN[cn_num]
                 output_integer += num * unit
             # 单位
-            elif cn_num in self.conf["unit_cn2an"]:
-                unit = self.conf["unit_cn2an"][cn_num]
+            elif cn_num in UNIT_CN2AN:
+                unit = UNIT_CN2AN[cn_num]
                 # 判断出万、亿、万亿
                 if unit % 10000 == 0:
                     # 万 亿
@@ -274,7 +273,7 @@ class Cn2An(object):
 
         output_decimal = 0
         for index in range(len(decimal_data) - 1, -1, -1):
-            unit_key = self.conf["number_cn2an"][decimal_data[index]]
+            unit_key = NUMBER_CN2AN[decimal_data[index]]
             output_decimal += unit_key * 10 ** -(index + 1)
 
         # 处理精度溢出问题
@@ -285,7 +284,7 @@ class Cn2An(object):
     def __direct_convert(self, data: str) -> int:
         output_data = 0
         for index in range(len(data) - 1, -1, -1):
-            unit_key = self.conf["number_cn2an"][data[index]]
+            unit_key = NUMBER_CN2AN[data[index]]
             output_data += unit_key * 10 ** (len(data) - index - 1)
 
         return output_data

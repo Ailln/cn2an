@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.17 update`:  fix #46 about transform.
+> 🎈 `v0.5.18 update`: fix #45 pyinstaller failed to build.
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -80,7 +80,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.16
+# 0.5.18
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -261,7 +261,7 @@ bash scripts/local_test.sh
 
 ## 8 交流
 
-欢迎添加微信号：`Ailln_`，备注「cn2an」，我邀请你进入交流群。
+欢迎添加微信号：`Ailln_`，备注「cn2an」，邀请你进入 Python 交流群。
 
 ## 9 致谢
 

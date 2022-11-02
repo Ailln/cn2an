@@ -2,15 +2,14 @@ from typing import Union
 
 from proces import preprocess
 
-from . import utils
+from .conf import NUMBER_LOW_AN2CN, NUMBER_UP_AN2CN, UNIT_LOW_ORDER_AN2CN, UNIT_UP_ORDER_AN2CN
 
 
 class An2Cn(object):
     def __init__(self) -> None:
-        self.conf = utils.get_default_conf()
         self.all_num = "0123456789"
-        self.number_low = self.conf["number_low_an2cn"]
-        self.number_up = self.conf["number_up_an2cn"]
+        self.number_low = NUMBER_LOW_AN2CN
+        self.number_up = NUMBER_UP_AN2CN
         self.mode_list = ["low", "up", "rmb", "direct"]
 
     def an2cn(self, inputs: Union[str, int, float] = None, mode: str = "low") -> str:
@@ -140,8 +139,14 @@ class An2Cn(object):
                 raise ValueError(f"输入的数据不在转化范围内：{data}！")
 
     def __integer_convert(self, integer_data: str, mode: str) -> str:
-        numeral_list = self.conf[f"number_{mode}_an2cn"]
-        unit_list = self.conf[f"unit_{mode}_order_an2cn"]
+        if mode == "low":
+            numeral_list = NUMBER_LOW_AN2CN
+            unit_list = UNIT_LOW_ORDER_AN2CN
+        elif mode == "up":
+            numeral_list = NUMBER_UP_AN2CN
+            unit_list = UNIT_UP_ORDER_AN2CN
+        else:
+            raise ValueError(f"error mode: {mode}")
 
         # 去除前面的 0，比如 007 => 7
         integer_data = str(int(integer_data))
@@ -185,7 +190,13 @@ class An2Cn(object):
             output_an = "点"
         else:
             output_an = ""
-        numeral_list = self.conf[f"number_{o_mode}_an2cn"]
+
+        if o_mode == "low":
+            numeral_list = NUMBER_LOW_AN2CN
+        elif o_mode == "up":
+            numeral_list = NUMBER_UP_AN2CN
+        else:
+            raise ValueError(f"error mode: {o_mode}")
 
         for data in decimal_data:
             output_an += numeral_list[int(data)]

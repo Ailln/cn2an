@@ -1,15 +1,14 @@
 import re
 
-from . import utils
 from .cn2an import Cn2An
 from .an2cn import An2Cn
+from .conf import UNIT_CN2AN
 
 
 class Transform(object):
     def __init__(self) -> None:
-        self.conf = utils.get_default_conf()
         self.all_num = "零一二三四五六七八九"
-        self.all_unit = "".join(list(self.conf["unit_cn2an"].keys()))
+        self.all_unit = "".join(list(UNIT_CN2AN.keys()))
         self.cn2an = Cn2An().cn2an
         self.an2cn = An2Cn().an2cn
         self.cn_pattern = f"负?([{self.all_num}{self.all_unit}]+点)?[{self.all_num}{self.all_unit}]+"
@@ -19,8 +18,9 @@ class Transform(object):
         if method == "cn2an":
             inputs = inputs.replace("廿", "二十").replace("半", "0.5").replace("两", "2")
             # date
-            inputs = re.sub(fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?([{self.all_num}十]+月)?([{self.all_num}十]+日)?",
-                            lambda x: self.__sub_util(x.group(), "cn2an", "date"), inputs)
+            inputs = re.sub(
+                fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?([{self.all_num}十]+月)?([{self.all_num}十]+日)?",
+                lambda x: self.__sub_util(x.group(), "cn2an", "date"), inputs)
             # fraction
             inputs = re.sub(fr"{self.cn_pattern}分之{self.cn_pattern}",
                             lambda x: self.__sub_util(x.group(), "cn2an", "fraction"), inputs)
