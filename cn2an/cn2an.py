@@ -21,6 +21,10 @@ class Cn2An(object):
         self.pattern_dict = self.__get_pattern()
         self.ac = An2Cn()
         self.mode_list = ["strict", "normal", "smart"]
+        self.yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
+        self.pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]?$")
+        self.ptn_all_num = re.compile(f"^[{self.all_num}]+$")
+        self.ptn_speaking_mode = re.compile(f"^[{self.all_num}][{self.all_unit}][{self.all_num}]$")
 
     def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int]:
         """中文数字转阿拉伯数字
@@ -103,12 +107,12 @@ class Cn2An(object):
 
         pattern_dict = {
             "strict": {
-                "int": str_int_pattern,
-                "dec": str_dec_pattern
+                "int": re.compile(str_int_pattern),
+                "dec": re.compile(str_dec_pattern)
             },
             "normal": {
-                "int": nor_int_pattern,
-                "dec": nor_dec_pattern
+                "int": re.compile(nor_int_pattern),
+                "dec": re.compile(nor_dec_pattern)
             }
         }
         return pattern_dict
@@ -134,8 +138,7 @@ class Cn2An(object):
                     check_data = check_data[:-1]
 
         # 处理元角分
-        yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
-        result = yjf_pattern.search(check_data)
+        result = self.yjf_pattern.search(check_data)
         if result:
             check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
 
@@ -173,8 +176,7 @@ class Cn2An(object):
             # 将 smart 模式中的阿拉伯数字转化成中文数字
             if mode == "smart":
                 # 10.1万 10.1
-                pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]?$")
-                result1 = pattern1.search(integer_data)
+                result1 = self.pattern1.search(integer_data)
                 if result1:
                     if result1.group() == integer_data:
                         if integer_data[-1] in UNIT_CN2AN.keys():
@@ -186,11 +188,11 @@ class Cn2An(object):
                 integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
                 mode = "normal"
 
-        result_int = re.compile(self.pattern_dict[mode]["int"]).search(integer_data)
+        result_int = self.pattern_dict[mode]["int"].search(integer_data)
         if result_int:
             if result_int.group() == integer_data:
                 if decimal_data is not None:
-                    result_dec = re.compile(self.pattern_dict[mode]["dec"]).search(decimal_data)
+                    result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                     if result_dec:
                         if result_dec.group() == decimal_data:
                             return sign, integer_data, decimal_data, False
@@ -201,12 +203,11 @@ class Cn2An(object):
                 raise ValueError(f"不符合格式的数据：{integer_data}")
             elif mode == "normal":
                 # 纯数模式：一二三
-                ptn_all_num = re.compile(f"^[{self.all_num}]+$")
-                result_all_num = ptn_all_num.search(integer_data)
+                result_all_num = self.ptn_all_num.search(integer_data)
                 if result_all_num:
                     if result_all_num.group() == integer_data:
                         if decimal_data is not None:
-                            result_dec = re.compile(self.pattern_dict[mode]["dec"]).search(decimal_data)
+                            result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                             if result_dec:
                                 if result_dec.group() == decimal_data:
                                     return sign, integer_data, decimal_data, True
@@ -214,14 +215,13 @@ class Cn2An(object):
                             return sign, integer_data, decimal_data, True
 
                 # 口语模式：一万二，两千三，三百四
-                ptn_speaking_mode = re.compile(f"^[{self.all_num}][{self.all_unit}][{self.all_num}]$")
-                result_speaking_mode = ptn_speaking_mode.search(integer_data)
+                result_speaking_mode = self.ptn_speaking_mode.search(integer_data)
                 if result_speaking_mode:
                     if result_speaking_mode.group() == integer_data:
                         _unit = UNIT_LOW_AN2CN[UNIT_CN2AN[integer_data[1]]//10]
                         integer_data = integer_data + _unit
                         if decimal_data is not None:
-                            result_dec = re.compile(self.pattern_dict[mode]["dec"]).search(decimal_data)
+                            result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                             if result_dec:
                                 if result_dec.group() == decimal_data:
                                     return sign, integer_data, decimal_data, False
