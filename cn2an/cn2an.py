@@ -24,7 +24,8 @@ class Cn2An(object):
         self.yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
         self.pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]?$")
         self.ptn_all_num = re.compile(f"^[{self.all_num}]+$")
-        self.ptn_speaking_mode = re.compile(f"^[{self.all_num}][{self.all_unit}][{self.all_num}]$")
+        # "十?" is for special case "十一万三"
+        self.ptn_speaking_mode = re.compile(f"^([{self.all_num}]{{0,2}}[{self.all_unit}])+[{self.all_num}]$")
 
     def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int]:
         """中文数字转阿拉伯数字
@@ -81,7 +82,7 @@ class Cn2An(object):
     def __get_pattern(self) -> dict:
         # 整数严格检查
         _0 = "[零]"
-        _1_9 = f"[一二三四五六七八九]"
+        _1_9 = "[一二三四五六七八九]"
         _10_99 = f"{_1_9}?[十]{_1_9}?"
         _1_99 = f"({_10_99}|{_1_9})"
         _100_999 = f"({_1_9}[百]([零]{_1_9})?|{_1_9}[百]{_10_99})"
@@ -214,19 +215,21 @@ class Cn2An(object):
                         else:
                             return sign, integer_data, decimal_data, True
 
-                # 口语模式：一万二，两千三，三百四
+                # 口语模式：一万二，两千三，三百四，十三万六，一百二十五万三
                 result_speaking_mode = self.ptn_speaking_mode.search(integer_data)
-                if result_speaking_mode:
-                    if result_speaking_mode.group() == integer_data:
-                        _unit = UNIT_LOW_AN2CN[UNIT_CN2AN[integer_data[1]]//10]
-                        integer_data = integer_data + _unit
-                        if decimal_data is not None:
-                            result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
-                            if result_dec:
-                                if result_dec.group() == decimal_data:
-                                    return sign, integer_data, decimal_data, False
-                        else:
-                            return sign, integer_data, decimal_data, False
+                if len(integer_data) >= 3 and result_speaking_mode and result_speaking_mode.group() == integer_data:
+                    # len(integer_data)>=3: because the minimum length of integer_data that can be matched is 3
+                    # to find the last unit
+                    last_unit = result_speaking_mode.groups()[-1][-1]
+                    _unit = UNIT_LOW_AN2CN[UNIT_CN2AN[last_unit] // 10]
+                    integer_data = integer_data + _unit
+                    if decimal_data is not None:
+                        result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
+                        if result_dec:
+                            if result_dec.group() == decimal_data:
+                                return sign, integer_data, decimal_data, False
+                    else:
+                        return sign, integer_data, decimal_data, False
 
         raise ValueError(f"不符合格式的数据：{check_data}")
 

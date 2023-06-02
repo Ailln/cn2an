@@ -41,4 +41,3 @@ def run_an2cn_core_ten_thousand_times():
 
 if __name__ == '__main__':
     run_an2cn_core_ten_thousand_times()
-
