@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.19 update`: update proces>=0.1.3 to fix v0.5.18
+> 🎈 `v0.5.20 update`: fix #57
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -247,10 +247,10 @@ bash scripts/local_test.sh
 
 - 测试结果：
 
-    | 序号 | 功能 | 执行次数 | 执行时间(万次平均) | 性能(次/秒)
-    | :-: | :-: | :-: | :-: | :-: |
-    |  1  | an2cn | 10000 | 0.15 | **67k** |
-    |  2  | cn2an | 10000 | 0.35 | **29k** |
+    | 序号 |  功能   | 执行次数  | 执行时间(万次平均) | 性能(次/秒) |
+    |:--:|:-----:|:-----:|:----------:|:-------:|
+    | 1  | an2cn | 10000 |    0.15    | **67k** |
+    | 2  | cn2an | 10000 |    0.35    | **29k** |
 
 测试时，我使用的是最大长度的测试数据！因此，大多数情况下该库的性能会更好～
 
@@ -266,7 +266,8 @@ bash scripts/local_test.sh
 ## 9 致谢
 
 - [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能；
-- [Damon Yu](https://github.com/20071313): 增加对全角数字和全角符号的支持。
+- [Damon Yu](https://github.com/20071313): 增加对全角数字和全角符号的支持；
+- [Beants](https://github.com/Beants): 修复了口语格式的 bug。
 
 ## 10 参考
 

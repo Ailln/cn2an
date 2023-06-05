@@ -1,4 +1,4 @@
-__version__ = "0.5.19"
+__version__ = "0.5.20"
 
 from .cn2an import Cn2An
 from .an2cn import An2Cn
