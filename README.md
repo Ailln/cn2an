@@ -12,7 +12,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.20 update`: fix #57
+> 🎈 `v0.5.21 update`: replace print with warning.warn
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
@@ -80,7 +80,7 @@ import cn2an
 
 # 查看当前版本号
 print(cn2an.__version__)
-# 0.5.19
+# 0.5.21
 ```
 
 ### 3.1 `中文数字` => `阿拉伯数字`
@@ -182,6 +182,7 @@ output = cn2an.transform("小王的生日是2001年3月4日", "an2cn")
 # output:
 # 小王的生日是二零零一年三月四日
 
+
 ## 支持分数
 output = cn2an.transform("抛出去的硬币为正面的概率是二分之一", "cn2an")
 # output:
@@ -267,7 +268,8 @@ bash scripts/local_test.sh
 
 - [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能；
 - [Damon Yu](https://github.com/20071313): 增加对全角数字和全角符号的支持；
-- [Beants](https://github.com/Beants): 修复了口语格式的 bug。
+- [Beants](https://github.com/Beants): 修复了口语格式的 bug；
+- Ray: 提出修改输出 warn 的方法，以及其他一些建议。
 
 ## 10 参考
 
