@@ -1,4 +1,5 @@
 import re
+from warnings import warn
 
 from .cn2an import Cn2An
 from .an2cn import An2Cn
@@ -99,5 +100,5 @@ class Transform(object):
                     else:
                         raise Exception(f"error sub_mode: {sub_mode} !")
         except Exception as e:
-            print(f"WARN: {e}")
+            warn(str(e))
             return inputs
