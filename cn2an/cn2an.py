@@ -5,7 +5,7 @@ from typing import Union
 from proces import preprocess
 
 from .an2cn import An2Cn
-from .conf import NUMBER_CN2AN, UNIT_CN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN
+from .conf import NUMBER_CN2AN, UNIT_CN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN, CN_NUM_AFTER_INTERTNAL_ZERO
 
 
 class Cn2An(object):
@@ -35,49 +35,40 @@ class Cn2An(object):
         :param mode: strict 严格，normal 正常，smart 智能
         :return: 阿拉伯数字
         """
-        if inputs is not None or inputs == "":
-            if mode not in self.mode_list:
-                raise ValueError(f"mode 仅支持 {str(self.mode_list)} ！")
-
-            # 将数字转化为字符串
-            if not isinstance(inputs, str):
-                inputs = str(inputs)
-
-            # 数据预处理：
-            # 1. 繁体转简体
-            # 2. 全角转半角
-            inputs = preprocess(inputs, pipelines=[
-                "traditional_to_simplified",
-                "full_angle_to_half_angle"
-            ])
-
-            # 特殊转化 廿
-            inputs = inputs.replace("廿", "二十")
-
-            # 检查输入数据是否有效
-            sign, integer_data, decimal_data, is_all_num = self.__check_input_data_is_valid(inputs, mode)
-
-            # smart 下的特殊情况
-            if sign == 0:
-                return integer_data
-            else:
-                if not is_all_num:
-                    if decimal_data is None:
-                        output = self.__integer_convert(integer_data)
-                    else:
-                        output = self.__integer_convert(integer_data) + self.__decimal_convert(decimal_data)
-                        # fix 1 + 0.57 = 1.5699999999999998
-                        output = round(output, len(decimal_data))
-                else:
-                    if decimal_data is None:
-                        output = self.__direct_convert(integer_data)
-                    else:
-                        output = self.__direct_convert(integer_data) + self.__decimal_convert(decimal_data)
-                        # fix 1 + 0.57 = 1.5699999999999998
-                        output = round(output, len(decimal_data))
-        else:
+        if not inputs:
             raise ValueError("输入数据为空！")
+        if mode not in self.mode_list:
+            raise ValueError(f"mode 仅支持 {str(self.mode_list)} ！")
 
+        # 将数字转化为字符串
+        if not isinstance(inputs, str):
+            inputs = str(inputs)
+        
+        # 预处理数据
+        sign, integer_data, decimal_data, mode = self.__preprecess_input_data(inputs, mode)
+        # smart 下的特殊情况
+        if sign == 0:
+            return integer_data
+        
+        # 检查输入数据是否有效
+        is_all_num = self.__check_input_data_is_valid(inputs, integer_data, decimal_data, mode)
+        
+        # 数据转换
+        if not is_all_num:
+            if decimal_data is None:
+                output = self.__integer_convert(integer_data)
+            else:
+                output = self.__integer_convert(integer_data) + self.__decimal_convert(decimal_data)
+                # fix 1 + 0.57 = 1.5699999999999998
+                output = round(output, len(decimal_data))
+        else:
+            if decimal_data is None:
+                output = self.__direct_convert(integer_data)
+            else:
+                output = self.__direct_convert(integer_data) + self.__decimal_convert(decimal_data)
+                # fix 1 + 0.57 = 1.5699999999999998
+                output = round(output, len(decimal_data))
+        
         return sign * output
 
     def __get_pattern(self) -> dict:
@@ -124,43 +115,55 @@ class Cn2An(object):
         for n in num:
             cn_num += NUMBER_LOW_AN2CN[int(n)]
         return cn_num
+    
+    def __preprecess_input_data(self, check_data: str, mode: str) -> (int, str, str, str):
 
-    def __check_input_data_is_valid(self, check_data: str, mode: str) -> (int, str, str, bool):
+        # 数据预处理：
+        # 1. 繁体转简体
+        # 2. 全角转半角
+        inputs = preprocess(inputs, pipelines=[
+            "traditional_to_simplified",
+            "full_angle_to_half_angle"
+        ])
+
+        # 特殊转化 廿
+        inputs = inputs.replace("廿", "二十").replace("卅", "三十")
+
         # 去除 元整、圆整、元正、圆正
         stop_words = ["元整", "圆整", "元正", "圆正"]
         for word in stop_words:
             if check_data[-2:] == word:
                 check_data = check_data[:-2]
-
+        
         # 去除 元、圆
         if mode != "strict":
             normal_stop_words = ["圆", "元"]
             for word in normal_stop_words:
                 if check_data[-1] == word:
                     check_data = check_data[:-1]
-
+        
         # 处理元角分
         result = self.yjf_pattern.search(check_data)
         if result:
             check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
-
-        # 处理特殊问法：一千零十一 一万零百一十一
-        if "零十" in check_data:
-            check_data = check_data.replace("零十", "零一十")
-        if "零百" in check_data:
-            check_data = check_data.replace("零百", "零一百")
-
+        
+        # 零后省略数词时默认数词为一：一千零十一 一万零百一十一
+        for cn_num in CN_NUM_AFTER_INTERTNAL_ZERO.keys():
+            if cn_num in check_data:
+                check_data = check_data.replace(cn_num, self.cn_num_after_internal_zero[cn_num])
+        
         for data in check_data:
             if data not in self.check_key_dict[mode]:
                 raise ValueError(f"当前为{mode}模式，输入的数据不在转化范围内：{data}！")
-
+        
         # 确定正负号
         if check_data[0] == "负":
             check_data = check_data[1:]
             sign = -1
         else:
             sign = 1
-
+        
+        # 按照小数点拆分并转化为中文数字
         if "点" in check_data:
             split_data = check_data.split("点")
             if len(split_data) == 2:
@@ -186,9 +189,22 @@ class Cn2An(object):
                         else:
                             output = float(integer_data)
                         return 0, output, None, None
-
                 integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
                 mode = "normal"
+        
+        if mode == "normal":
+            # 口语模式：一万二，两千三，三百四，十三万六，一百二十五万三
+            result_speaking_mode = self.ptn_speaking_mode.search(integer_data)
+            if len(integer_data) >= 3 and result_speaking_mode and result_speaking_mode.group() == integer_data:
+                # len(integer_data)>=3: because the minimum length of integer_data that can be matched is 3
+                # to find the last unit
+                last_unit = result_speaking_mode.groups()[-1][-1]
+                _unit = UNIT_LOW_AN2CN[UNIT_CN2AN[last_unit] // 10]
+                integer_data = integer_data + _unit
+        
+        return sign, integer_data, decimal_data, mode
+    
+    def __check_input_data_is_valid(self, check_data: str, integer_data: str, decimal_data: str, mode: str) -> bool:
 
         result_int = self.pattern_dict[mode]["int"].search(integer_data)
         if result_int:
@@ -197,9 +213,9 @@ class Cn2An(object):
                     result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                     if result_dec:
                         if result_dec.group() == decimal_data:
-                            return sign, integer_data, decimal_data, False
+                            return integer_data, decimal_data, False
                 else:
-                    return sign, integer_data, decimal_data, False
+                    return integer_data, decimal_data, False
         else:
             if mode == "strict":
                 raise ValueError(f"不符合格式的数据：{integer_data}")
@@ -212,28 +228,12 @@ class Cn2An(object):
                             result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                             if result_dec:
                                 if result_dec.group() == decimal_data:
-                                    return sign, integer_data, decimal_data, True
+                                    return integer_data, decimal_data, True
                         else:
-                            return sign, integer_data, decimal_data, True
-
-                # 口语模式：一万二，两千三，三百四，十三万六，一百二十五万三
-                result_speaking_mode = self.ptn_speaking_mode.search(integer_data)
-                if len(integer_data) >= 3 and result_speaking_mode and result_speaking_mode.group() == integer_data:
-                    # len(integer_data)>=3: because the minimum length of integer_data that can be matched is 3
-                    # to find the last unit
-                    last_unit = result_speaking_mode.groups()[-1][-1]
-                    _unit = UNIT_LOW_AN2CN[UNIT_CN2AN[last_unit] // 10]
-                    integer_data = integer_data + _unit
-                    if decimal_data is not None:
-                        result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
-                        if result_dec:
-                            if result_dec.group() == decimal_data:
-                                return sign, integer_data, decimal_data, False
-                    else:
-                        return sign, integer_data, decimal_data, False
-
+                            return integer_data, decimal_data, True
+        
         raise ValueError(f"不符合格式的数据：{check_data}")
-
+    
     def __integer_convert(self, integer_data: str) -> int:
         # 核心
         output_integer = 0
