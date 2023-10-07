@@ -5,7 +5,7 @@ from typing import Union
 from proces import preprocess
 
 from .an2cn import An2Cn
-from .conf import NUMBER_CN2AN, UNIT_CN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN, CN_NUM_AFTER_INTERTNAL_ZERO
+from .conf import NUMBER_CN2AN, UNIT_CN2AN, UNIT_EN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN, CN_NUM_AFTER_INTERTNAL_ZERO
 
 
 class Cn2An(object):
@@ -91,12 +91,12 @@ class Cn2An(object):
         str_dec_pattern = "^[零一二三四五六七八九]{0,15}[一二三四五六七八九]$"
         nor_dec_pattern = "^[零一二三四五六七八九]{0,16}$"
 
-        for str_num in self.strict_cn_number.keys():
-            str_int_pattern = str_int_pattern.replace(str_num, self.strict_cn_number[str_num])
-            str_dec_pattern = str_dec_pattern.replace(str_num, self.strict_cn_number[str_num])
-        for nor_num in self.normal_cn_number.keys():
-            nor_int_pattern = nor_int_pattern.replace(nor_num, self.normal_cn_number[nor_num])
-            nor_dec_pattern = nor_dec_pattern.replace(nor_num, self.normal_cn_number[nor_num])
+        for str_num, str_cn_num in self.strict_cn_number.items():
+            str_int_pattern = str_int_pattern.replace(str_num, str_cn_num)
+            str_dec_pattern = str_dec_pattern.replace(str_num, str_cn_num)
+        for nor_num, nor_cn_num in self.normal_cn_number.items():
+            nor_int_pattern = nor_int_pattern.replace(nor_num, nor_cn_num)
+            nor_dec_pattern = nor_dec_pattern.replace(nor_num, nor_cn_num)
 
         pattern_dict = {
             "strict": {
@@ -121,14 +121,18 @@ class Cn2An(object):
         # 数据预处理：
         # 1. 繁体转简体
         # 2. 全角转半角
-        inputs = preprocess(inputs, pipelines=[
+        check_data = preprocess(check_data, pipelines=[
             "traditional_to_simplified",
             "full_angle_to_half_angle"
         ])
 
         # 特殊转化 廿
-        inputs = inputs.replace("廿", "二十").replace("卅", "三十")
+        check_data = check_data.replace("廿", "二十").replace("卅", "三十")
 
+        # 支持k、w等单位
+        for en_unit, cn_unit in UNIT_EN2AN.items():
+            check_data.replace(en_unit, cn_unit)
+        
         # 去除 元整、圆整、元正、圆正
         stop_words = ["元整", "圆整", "元正", "圆正"]
         for word in stop_words:
@@ -148,9 +152,8 @@ class Cn2An(object):
             check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
         
         # 零后省略数词时默认数词为一：一千零十一 一万零百一十一
-        for cn_num in CN_NUM_AFTER_INTERTNAL_ZERO.keys():
-            if cn_num in check_data:
-                check_data = check_data.replace(cn_num, self.cn_num_after_internal_zero[cn_num])
+        for cn_num, new_cn_num in CN_NUM_AFTER_INTERTNAL_ZERO.items():
+            check_data = check_data.replace(cn_num, new_cn_num)
         
         for data in check_data:
             if data not in self.check_key_dict[mode]:
@@ -184,7 +187,7 @@ class Cn2An(object):
                 result1 = self.pattern1.search(integer_data)
                 if result1:
                     if result1.group() == integer_data:
-                        if integer_data[-1] in UNIT_CN2AN.keys():
+                        if integer_data[-1] in UNIT_CN2AN:
                             output = int(float(integer_data[:-1]) * UNIT_CN2AN[integer_data[-1]])
                         else:
                             output = float(integer_data)
