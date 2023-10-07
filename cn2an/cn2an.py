@@ -72,18 +72,19 @@ class Cn2An(object):
         return sign * output
 
     def __get_pattern(self) -> dict:
+
         # 整数严格检查
         _0 = "[零]"
         _1_9 = "[一二三四五六七八九]"
-        _10_99 = f"{_1_9}?[十]{_1_9}?"
+        _10_99 = f"{_1_9}?[十][零]?{_1_9}?"
         _1_99 = f"({_10_99}|{_1_9})"
-        _100_999 = f"({_1_9}[百]([零]{_1_9})?|{_1_9}[百]{_10_99})"
+        _100_999 = f"({_1_9}[百]([零]{_1_9})?|{_1_9}[百][零]?{_10_99})"
         _1_999 = f"({_100_999}|{_1_99})"
-        _1000_9999 = f"({_1_9}[千]([零]{_1_99})?|{_1_9}[千]{_100_999})"
+        _1000_9999 = f"({_1_9}[千]([零]{_1_9})?|{_1_9}[千]([零]?{_10_99})?|{_1_9}[千][零]?{_100_999})"
         _1_9999 = f"({_1000_9999}|{_1_999})"
-        _10000_99999999 = f"({_1_9999}[万]([零]{_1_999})?|{_1_9999}[万]{_1000_9999})"
+        _10000_99999999 = f"({_1_9999}[万]([零]{_1_9})?|{_1_9999}[万]([零]?({_10_99}|{_100_999}))?|{_1_9999}[万][零]?{_1000_9999})"
         _1_99999999 = f"({_10000_99999999}|{_1_9999})"
-        _100000000_9999999999999999 = f"({_1_99999999}[亿]([零]{_1_99999999})?|{_1_99999999}[亿]{_10000_99999999})"
+        _100000000_9999999999999999 = f"({_1_99999999}[亿]([零]{_1_9})?|{_1_99999999}[亿]([零]?({_10_99}|{_100_999}|{_1000_9999}|{_10000_99999999}))?|{_1_99999999}[亿][零]?{_10000_99999999})"
         _1_9999999999999999 = f"({_100000000_9999999999999999}|{_1_99999999})"
         str_int_pattern = f"^({_0}|{_1_9999999999999999})$"
         nor_int_pattern = f"^({_0}|{_1_9999999999999999})$"
@@ -131,7 +132,7 @@ class Cn2An(object):
 
         # 支持k、w等单位
         for en_unit, cn_unit in UNIT_EN2AN.items():
-            check_data.replace(en_unit, cn_unit)
+            check_data = check_data.replace(en_unit, cn_unit)
         
         # 去除 元整、圆整、元正、圆正
         stop_words = ["元整", "圆整", "元正", "圆正"]
@@ -216,9 +217,9 @@ class Cn2An(object):
                     result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                     if result_dec:
                         if result_dec.group() == decimal_data:
-                            return integer_data, decimal_data, False
+                            return False
                 else:
-                    return integer_data, decimal_data, False
+                    return False
         else:
             if mode == "strict":
                 raise ValueError(f"不符合格式的数据：{integer_data}")
@@ -231,9 +232,9 @@ class Cn2An(object):
                             result_dec = self.pattern_dict[mode]["dec"].search(decimal_data)
                             if result_dec:
                                 if result_dec.group() == decimal_data:
-                                    return integer_data, decimal_data, True
+                                    return True
                         else:
-                            return integer_data, decimal_data, True
+                            return True
         
         raise ValueError(f"不符合格式的数据：{check_data}")
     
