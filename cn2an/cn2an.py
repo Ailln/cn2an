@@ -126,13 +126,6 @@ class Cn2An(object):
             "traditional_to_simplified",
             "full_angle_to_half_angle"
         ])
-
-        # 特殊转化 廿
-        check_data = check_data.replace("廿", "二十").replace("卅", "三十")
-
-        # 支持k、w等单位
-        for en_unit, cn_unit in UNIT_EN2AN.items():
-            check_data = check_data.replace(en_unit, cn_unit)
         
         # 去除 元整、圆整、元正、圆正
         stop_words = ["元整", "圆整", "元正", "圆正"]
@@ -147,15 +140,29 @@ class Cn2An(object):
                 if check_data[-1] == word:
                     check_data = check_data[:-1]
         
-        # 处理元角分
-        result = self.yjf_pattern.search(check_data)
-        if result:
-            check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
+        # 特殊转化 廿
+        check_data = check_data.replace("廿", "二十").replace("卅", "三十")
+        
+        # 支持k、w等单位
+        for en_unit, cn_unit in UNIT_EN2AN.items():
+            check_data = check_data.replace(en_unit, cn_unit)
+        
+        # 去除千分符
+        check_data = check_data.replace(",", "")
+        
+        # 亿的特殊说法
+        check_data = check_data.replace("个亿", "亿")
         
         # 零后省略数词时默认数词为一：一千零十一 一万零百一十一
         for cn_num, new_cn_num in CN_NUM_AFTER_INTERTNAL_ZERO.items():
             check_data = check_data.replace(cn_num, new_cn_num)
         
+        # 处理元角分
+        result = self.yjf_pattern.search(check_data)
+        if result:
+            check_data = check_data.replace("元", "点").replace("角", "").replace("分", "")
+        
+        # 处理完成校验
         for data in check_data:
             if data not in self.check_key_dict[mode]:
                 raise ValueError(f"当前为{mode}模式，输入的数据不在转化范围内：{data}！")
@@ -167,34 +174,34 @@ class Cn2An(object):
         else:
             sign = 1
         
-        # 按照小数点拆分并转化为中文数字
-        if "点" in check_data:
-            split_data = check_data.split("点")
-            if len(split_data) == 2:
-                integer_data, decimal_data = split_data
-                # 将 smart 模式中的阿拉伯数字转化成中文数字
-                if mode == "smart":
-                    integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
-                    decimal_data = re.sub(r"\d+", lambda x: self.__copy_num(x.group()), decimal_data)
-                    mode = "normal"
-            else:
-                raise ValueError("数据中包含不止一个点！")
-        else:
+        # 将 smart 模式中的阿拉伯数字转化成中文数字
+        if "点" not in check_data and mode == "smart":
+            # 10.1万 = 10.1 * 10000
+            result1 = self.pattern1.search(check_data)
+            if result1 and result1.group() == check_data:
+                if check_data[-1] in UNIT_CN2AN:
+                    output = int(float(check_data[:-1]) * UNIT_CN2AN[check_data[-1]])
+                else:
+                    output = float(check_data)
+                return 0, output, None, None
+        
+        # 拆分整数和小数
+        split_data = check_data.replace(".", "点").split("点")
+        if len(split_data) == 1:
             integer_data = check_data
             decimal_data = None
-            # 将 smart 模式中的阿拉伯数字转化成中文数字
             if mode == "smart":
-                # 10.1万 10.1
-                result1 = self.pattern1.search(integer_data)
-                if result1:
-                    if result1.group() == integer_data:
-                        if integer_data[-1] in UNIT_CN2AN:
-                            output = int(float(integer_data[:-1]) * UNIT_CN2AN[integer_data[-1]])
-                        else:
-                            output = float(integer_data)
-                        return 0, output, None, None
                 integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
                 mode = "normal"
+        elif len(split_data) == 2:
+            integer_data, decimal_data = split_data
+            # 将 smart 模式中的阿拉伯数字转化成中文数字
+            if mode == "smart":
+                integer_data = re.sub(r"\d+", lambda x: self.ac.an2cn(x.group()), integer_data)
+                decimal_data = re.sub(r"\d+", lambda x: self.__copy_num(x.group()), decimal_data)
+                mode = "normal"
+        else:
+            raise ValueError("数据中包含不止一个点！")
         
         if mode == "normal":
             # 口语模式：一万二，两千三，三百四，十三万六，一百二十五万三
