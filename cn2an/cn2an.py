@@ -3,6 +3,7 @@ from warnings import warn
 from typing import Union
 
 from proces import preprocess
+from functools import reduce
 
 from .an2cn import An2Cn
 from .conf import NUMBER_CN2AN, UNIT_CN2AN, UNIT_EN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN, CN_NUM_AFTER_INTERTNAL_ZERO
@@ -23,7 +24,7 @@ class Cn2An(object):
         self.ac = An2Cn()
         self.mode_list = ["strict", "normal", "smart"]
         self.yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
-        self.pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]?$")
+        self.an_cu_pattern = re.compile(fr"^-?\d+(\.\d+)?([{self.all_unit}]*)$")
         self.ptn_all_num = re.compile(f"^[{self.all_num}]+$")
         # "十?" is for special case "十一万三"
         self.ptn_speaking_mode = re.compile(f"^([{self.all_num}]{{0,2}}[{self.all_unit}])+[{self.all_num}]$")
@@ -176,14 +177,11 @@ class Cn2An(object):
         
         # 将 smart 模式中的阿拉伯数字转化成中文数字
         if "点" not in check_data and mode == "smart":
-            # 10.1万 = 10.1 * 10000
-            result1 = self.pattern1.search(check_data)
-            if result1 and result1.group() == check_data:
-                if check_data[-1] in UNIT_CN2AN:
-                    output = int(float(check_data[:-1]) * UNIT_CN2AN[check_data[-1]])
-                else:
-                    output = float(check_data)
-                return 0, output, None, None
+            # 阿拉伯数字+中文单位：10.1千万 = 10.1 * 1000 * 10000
+            matcher = self.an_cu_pattern.search(check_data)
+            if matcher and matcher.group() == check_data:
+                unit = reduce(lambda x,y:x*y, [UNIT_CN2AN[unit_data] for unit_data in matcher.group(2)]) if matcher.group(2) else 1
+                return 0, float(check_data.replace(matcher.group(2), '')) * unit, None, None
         
         # 拆分整数和小数
         split_data = check_data.replace(".", "点").split("点")
