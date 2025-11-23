@@ -1,7 +1,7 @@
 from typing import Union
 from warnings import warn
 
-from proces import preprocess
+from .proces import preprocess
 
 from .conf import NUMBER_LOW_AN2CN, NUMBER_UP_AN2CN, UNIT_LOW_ORDER_AN2CN, UNIT_UP_ORDER_AN2CN
 

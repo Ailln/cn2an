@@ -2,7 +2,7 @@ import re
 from warnings import warn
 from typing import Union
 
-from proces import preprocess
+from .proces import preprocess
 
 from .an2cn import An2Cn
 from .conf import NUMBER_CN2AN, UNIT_CN2AN, STRICT_CN_NUMBER, NORMAL_CN_NUMBER, NUMBER_LOW_AN2CN, UNIT_LOW_AN2CN

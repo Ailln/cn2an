@@ -17,7 +17,13 @@ class Transform(object):
 
     def transform(self, inputs: str, method: str = "cn2an") -> str:
         if method == "cn2an":
-            inputs = inputs.replace("廿", "二十").replace("半", "0.5").replace("两", "2")
+            # 基础替换
+            inputs = inputs.replace("廿", "二十").replace("半", "0.5")
+            # Issue #84 修复：仅在“两个”语境替换为阿拉伯数字，其余数词“两千/两百/两万/两亿”应保持中文，转为“二千”等以便后续正确数值化
+            # “两个” -> “2个”
+            inputs = re.sub(r"两(?=个)", "2", inputs)
+            # “两” + 单位 -> “二”
+            inputs = re.sub(r"两(?=[十百千万亿])", "二", inputs)
             # date
             inputs = re.sub(
                 fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?([{self.all_num}十]+月)?([{self.all_num}十]+日)?",

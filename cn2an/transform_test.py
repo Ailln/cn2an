@@ -23,6 +23,8 @@ class TransformTest(unittest.TestCase):
             "大陆": "大陆",
             "半斤": "0.5斤",
             "两个": "2个",
+            # Issue #84: "巅峰赛两千分" 应转换成 "巅峰赛2000分"
+            "巅峰赛两千分": "巅峰赛2000分",
         }
 
         self.t = Transform()

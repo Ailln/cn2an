@@ -13,7 +13,7 @@
 
 🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
 
-> 🎈 `v0.5.23 update`: delete setuptools in requirements.txt
+> 🎈 `v0.5.23 update`: delete setuptools in requirements.txt；修复句子转化中“巅峰赛两千分”未能正确识别为 2000 的问题（Issue #84），改进对数词“两”在单位前的处理。
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
 >
