@@ -1,6 +1,5 @@
 import re
 from warnings import warn
-
 from .cn2an import Cn2An
 from .an2cn import An2Cn
 from .conf import UNIT_CN2AN
@@ -12,67 +11,65 @@ class Transform:
         self.all_unit = "".join(list(UNIT_CN2AN.keys()))
         self.cn2an = Cn2An().cn2an
         self.an2cn = An2Cn().an2cn
+        # 匹配中文数字
         self.cn_pattern = f"负?([{self.all_num}{self.all_unit}]+点)?[{self.all_num}{self.all_unit}]+"
+        # 匹配数字+单位
         self.smart_cn_pattern = f"-?([0-9]+.)?[0-9]+[{self.all_unit}]+"
 
     def transform(self, inputs: str, method: str = "cn2an") -> str:
         if method == "cn2an":
-            # 先处理阿拉伯数字区间 "1-2个月" -> "一到二个月"
+            # 1️⃣ 优先处理数字区间：1-2个月 → 一到二个月
             def range_repl(match):
                 start, end, unit = match.groups()
-                start_cn = self.cn2an(start, mode="low")
-                end_cn = self.cn2an(end, mode="low")
+                start_cn = self.an2cn(start, "low")
+                end_cn = self.an2cn(end, "low")
                 return f"{start_cn}到{end_cn}{unit or ''}"
 
-            # 匹配数字-数字+单位，例如 "1-2个月"
+            # 匹配数字-数字+单位
             inputs = re.sub(r"(\d+)-(\d+)(\D*)", range_repl, inputs)
 
-            # 特殊字符替换
+            # 2️⃣ 特殊字符替换
             inputs = inputs.replace("廿", "二十").replace("半", "0.5").replace("两", "2")
 
-            # 日期
+            # 3️⃣ 日期
             inputs = re.sub(
                 fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?([{self.all_num}十]+月)?([{self.all_num}十]+日)?",
-                lambda x: self.__sub_util(x.group(), "cn2an", "date"), inputs)
-
-            # 分数
+                lambda x: self.__sub_util(x.group(), "cn2an", "date"),
+                inputs
+            )
+            # 4️⃣ 分数
             inputs = re.sub(fr"{self.cn_pattern}分之{self.cn_pattern}",
                             lambda x: self.__sub_util(x.group(), "cn2an", "fraction"), inputs)
-
-            # 百分比
+            # 5️⃣ 百分比
             inputs = re.sub(fr"百分之{self.cn_pattern}",
                             lambda x: self.__sub_util(x.group(), "cn2an", "percent"), inputs)
-
-            # 摄氏度
+            # 6️⃣ 摄氏度
             inputs = re.sub(fr"{self.cn_pattern}摄氏度",
                             lambda x: self.__sub_util(x.group(), "cn2an", "celsius"), inputs)
-
-            # 普通数字
+            # 7️⃣ 普通数字
             inputs = re.sub(self.cn_pattern,
                             lambda x: self.__sub_util(x.group(), "cn2an", "number"), inputs)
 
-            return inputs
-
         elif method == "an2cn":
-            # 日期
+            # 1️⃣ 日期
             inputs = re.sub(r"(\d{2,4}年)?(\d{1,2}月)?(\d{1,2}日)?",
                             lambda x: self.__sub_util(x.group(), "an2cn", "date"), inputs)
-            # 分数
+            # 2️⃣ 分数
             inputs = re.sub(r"\d+/\d+",
                             lambda x: self.__sub_util(x.group(), "an2cn", "fraction"), inputs)
-            # 百分比
+            # 3️⃣ 百分比
             inputs = re.sub(r"-?(\d+\.)?\d+%",
                             lambda x: self.__sub_util(x.group(), "an2cn", "percent"), inputs)
-            # 摄氏度
+            # 4️⃣ 摄氏度
             inputs = re.sub(r"\d+℃",
                             lambda x: self.__sub_util(x.group(), "an2cn", "celsius"), inputs)
-            # 普通数字
+            # 5️⃣ 普通数字
             inputs = re.sub(r"-?(\d+\.)?\d+",
                             lambda x: self.__sub_util(x.group(), "an2cn", "number"), inputs)
-            return inputs
-
         else:
             raise ValueError(f"error method: {method}, only support 'cn2an' and 'an2cn'!")
+
+        return inputs
 
     def __sub_util(self, inputs, method: str = "cn2an", sub_mode: str = "number") -> str:
         try:
@@ -101,11 +98,12 @@ class Transform:
                     return str(self.cn2an(inputs, "smart"))
                 else:
                     raise Exception(f"error sub_mode: {sub_mode} !")
-
             else:  # an2cn
                 if sub_mode == "date":
-                    inputs = re.sub(r"\d+(?=年)", lambda x: self.an2cn(x.group(), "direct"), inputs)
-                    return re.sub(r"\d+", lambda x: self.an2cn(x.group(), "low"), inputs)
+                    inputs = re.sub(r"\d+(?=年)",
+                                    lambda x: self.an2cn(x.group(), "direct"), inputs)
+                    return re.sub(r"\d+",
+                                  lambda x: self.an2cn(x.group(), "low"), inputs)
                 elif sub_mode == "fraction":
                     frac_result = re.sub(r"\d+", lambda x: self.an2cn(x.group(), "low"), inputs)
                     numerator, denominator = frac_result.split("/")
@@ -118,7 +116,6 @@ class Transform:
                     return self.an2cn(inputs, "low")
                 else:
                     raise Exception(f"error sub_mode: {sub_mode} !")
-
         except Exception as e:
             warn(str(e))
             return inputs
