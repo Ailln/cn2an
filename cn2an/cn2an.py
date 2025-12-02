@@ -28,7 +28,7 @@ class Cn2An(object):
         # "十?" is for special case "十一万三"
         self.ptn_speaking_mode = re.compile(f"^([{self.all_num}]{{0,2}}[{self.all_unit}])+[{self.all_num}]$")
 
-    def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int]:
+    def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int, str]:
         """中文数字转阿拉伯数字
 
         :param inputs: 中文数字、阿拉伯数字、中文数字和阿拉伯数字
@@ -69,16 +69,31 @@ class Cn2An(object):
                         # fix 1 + 0.57 = 1.5699999999999998
                         output = round(output, len(decimal_data))
                 else:
+                    # 纯数模式：一二三，需要保留前导零
                     if decimal_data is None:
                         output = self.__direct_convert(integer_data)
+                        # 如果以零开头，返回字符串形式保留前导零
+                        if integer_data.startswith("零"):
+                            return output if sign == 1 else "-" + output
+                        else:
+                            # 否则转换为整数
+                            return int(output) * sign
                     else:
-                        output = self.__direct_convert(integer_data) + self.__decimal_convert(decimal_data)
-                        # fix 1 + 0.57 = 1.5699999999999998
-                        output = round(output, len(decimal_data))
+                        # 当有小数时，需要特殊处理
+                        str_output = self.__direct_convert(integer_data)
+                        dec_output = self.__decimal_convert(decimal_data)
+                        if integer_data.startswith("零"):
+                            return str_output + str(dec_output)[1:] if sign == 1 else "-" + str_output + str(dec_output)[1:]
+                        else:
+                            output = float(str_output + str(dec_output)[1:])
+                            # fix 1 + 0.57 = 1.5699999999999998
+                            output = round(output, len(decimal_data))
+                            return output * sign
         else:
             raise ValueError("输入数据为空！")
 
         return sign * output
+
 
     def __get_pattern(self) -> dict:
         # 整数严格检查
@@ -285,10 +300,11 @@ class Cn2An(object):
 
         return output_decimal
 
-    def __direct_convert(self, data: str) -> int:
-        output_data = 0
-        for index in range(len(data) - 1, -1, -1):
-            unit_key = NUMBER_CN2AN[data[index]]
-            output_data += unit_key * 10 ** (len(data) - index - 1)
-
+    def __direct_convert(self, data: str) -> str:
+        output_data = ""
+        for ch in data:
+            if ch in NUMBER_CN2AN:
+                output_data += str(NUMBER_CN2AN[ch])
+            else:
+                output_data += ch
         return output_data

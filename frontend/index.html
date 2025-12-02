@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cn2an Online</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --fg: #e2e8f0;
+            --accent: #38bdf8;
+            --accent-dark: #0ea5e9;
+            --border: rgba(148, 163, 184, 0.3);
+            --error: #f87171;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "SF Pro Display", "Segoe UI", Arial, sans-serif;
+            background: radial-gradient(circle at top, rgba(56, 189, 248, 0.15), transparent 40%),
+                var(--bg);
+            color: var(--fg);
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            padding: 56px 24px 32px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0 0 12px;
+            font-size: clamp(32px, 4vw, 48px);
+        }
+        header p {
+            margin: 0;
+            color: #cbd5f5;
+            font-size: 18px;
+        }
+        main {
+            width: min(1200px, 100%);
+            margin: 0 auto 48px;
+            padding: 0 24px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .panel {
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.45);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .panel h2 {
+            margin: 0;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            padding: 14px;
+            resize: vertical;
+            font-size: 16px;
+            font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+            background: rgba(15, 23, 42, 0.35);
+            color: inherit;
+        }
+        .control-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        label {
+            font-size: 14px;
+            color: #cbd5f5;
+        }
+        select {
+            flex: 1;
+            min-width: 140px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.35);
+            color: inherit;
+        }
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(120deg, var(--accent), var(--accent-dark));
+            color: #0f172a;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.35);
+        }
+        .result {
+            min-height: 72px;
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px dashed var(--border);
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+        .result.error {
+            border-color: var(--error);
+            color: var(--error);
+        }
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        @media (max-width: 720px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            .control-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>cn2an 在线体验</h1>
+        <p>直接调用本地 cn2an 库，实时查看转换结果</p>
+    </header>
+    <main>
+        <section class="panel" data-panel="cn2an">
+            <h2>中文数字 ➜ 阿拉伯数字</h2>
+            <textarea placeholder="输入需要转换的中文数字，例如：一百二十三"></textarea>
+            <div class="control-row">
+                <label for="cn2an-mode">转换模式</label>
+                <select id="cn2an-mode">
+                    <option value="strict">strict（默认）</option>
+                    <option value="normal">normal</option>
+                    <option value="smart">smart</option>
+                </select>
+                <button type="button">开始转换</button>
+            </div>
+            <div class="result" data-result>等待输入...</div>
+        </section>
+        <section class="panel" data-panel="an2cn">
+            <h2>阿拉伯数字 ➜ 中文数字</h2>
+            <textarea placeholder="输入需要转换的数字，例如：123 或 -45.6"></textarea>
+            <div class="control-row">
+                <label for="an2cn-mode">转换模式</label>
+                <select id="an2cn-mode">
+                    <option value="low">low（默认）</option>
+                    <option value="up">up</option>
+                    <option value="rmb">rmb</option>
+                </select>
+                <button type="button">开始转换</button>
+            </div>
+            <div class="result" data-result>等待输入...</div>
+        </section>
+        <section class="panel" data-panel="transform">
+            <h2>句子批量转换</h2>
+            <textarea placeholder="输入句子，例如：小王捡了一百块钱"></textarea>
+            <div class="control-row">
+                <label for="transform-direction">方向</label>
+                <select id="transform-direction">
+                    <option value="cn2an">cn2an（中文 → 阿拉伯）</option>
+                    <option value="an2cn">an2cn（阿拉伯 → 中文）</option>
+                </select>
+                <button type="button">开始转换</button>
+            </div>
+            <div class="result" data-result>等待输入...</div>
+        </section>
+    </main>
+    <footer>cn2an · Powered by Flask API</footer>
+    <script>
+        async function callApi(panel, payload) {
+            const endpoint = `/api/${panel}`;
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || "未知错误");
+            }
+            return data.result;
+        }
+
+        function attachHandlers() {
+            document.querySelectorAll("[data-panel]").forEach(panel => {
+                const type = panel.dataset.panel;
+                const textarea = panel.querySelector("textarea");
+                const resultBox = panel.querySelector("[data-result]");
+                const select = panel.querySelector("select");
+                const button = panel.querySelector("button");
+
+                const setResult = (text, isError = false) => {
+                    resultBox.textContent = text;
+                    resultBox.classList.toggle("error", isError);
+                };
+
+                button.addEventListener("click", async () => {
+                    const text = textarea.value.trim();
+                    if (!text) {
+                        setResult("请输入内容后再试。", true);
+                        return;
+                    }
+                    setResult("转换中...", false);
+                    try {
+                        const payload = { text };
+                        if (type === "transform") {
+                            payload.direction = select.value;
+                        } else {
+                            payload.mode = select.value;
+                        }
+                        const output = await callApi(type, payload);
+                        setResult(String(output));
+                    } catch (error) {
+                        setResult(error.message, true);
+                    }
+                });
+            });
+        }
+
+        attachHandlers();
+    </script>
+</body>
+</html>
+

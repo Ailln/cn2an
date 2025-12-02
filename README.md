@@ -19,6 +19,12 @@
 >
 > 🎈 [`Cn2An.jl`](https://github.com/Ailln/Cn2An.jl): Julia 语言版本已经上线，正在丰富基础功能。[详情](https://github.com/Ailln/Cn2An.jl)
 
+## Web 体验（本地）
+
+1. 安装依赖：`pip install -r requirements.txt`
+2. 启动服务：`python app.py`
+3. 浏览器访问 [http://localhost:8000](http://localhost:8000)，即可通过前端页面直接调用本地 `cn2an` 库完成实时转换。
+
 ## 1 功能
 
 ### 1.1 `中文数字` => `阿拉伯数字`
@@ -200,6 +206,13 @@ output = cn2an.transform("抛出去的硬币为正面的概率是1/2", "an2cn")
 ### 3.4 HTTP API
 
 主要为其他语言（Java、Javascript、Go等）用户提供方便，当然 Python 用户也可以使用，点击查看[详细用法](https://github.com/Ailln/cn2an/wiki/API#http-api)。
+
+### 3.5 Web 演示界面
+
+- 仓库的 `web/` 目录提供了一个全新的 HTML 前端，参考 `top.png` 的设计实现。
+- 页面通过 [Pyodide](https://pyodide.org/) 在浏览器内加载 `cn2an==0.5.23`，无需后端即可完成 `cn2an` / `an2cn` / `transform` 转换，适合教学和 Demo。
+- 使用方式：在项目根目录执行 `python -m http.server 8000`（或任意静态服务器），随后访问 `http://127.0.0.1:8000/web/index.html` 即可。
+- 页面提供多个固定示例，便于验证近期修复（如 `1-2个月 -> 一到二个月`）是否生效。
 
 ## 4 版本支持
 
