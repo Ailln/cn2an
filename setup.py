@@ -9,8 +9,8 @@ URL = "https://github.com/Ailln/cn2an"
 LICENSE = "MIT License"
 DESCRIPTION = "Convert Chinese numerals and Arabic numerals."
 
-if sys.version_info < (3, 6, 0):
-    raise RuntimeError(f"{NAME} requires Python >=3.6.0, but yours is {sys.version}!")
+if sys.version_info < (3, 7, 0):
+    raise RuntimeError(f"{NAME} requires Python >=3.7.0, but yours is {sys.version}!")
 
 try:
     lib_py = os.path.join(NAME, "__init__.py")
@@ -42,11 +42,15 @@ if __name__ == "__main__":
         zip_safe=True,
         classifiers=[
             "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
             f"License :: OSI Approved :: {LICENSE}",
             "Operating System :: OS Independent",
         ],
-        python_requires=">=3.6"
+        python_requires=">=3.7"
     )

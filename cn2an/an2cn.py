@@ -1,5 +1,7 @@
 from typing import Union
 from warnings import warn
+from decimal import Decimal
+import re
 
 from proces import preprocess
 
@@ -121,15 +123,7 @@ class An2Cn(object):
     @staticmethod
     def __number_to_string(number_data: Union[int, float]) -> str:
         # 小数处理：python 会自动把 0.00005 转化成 5e-05，因此 str(0.00005) != "0.00005"
-        string_data = str(number_data)
-        if "e" in string_data:
-            string_data_list = string_data.split("e")
-            string_key = string_data_list[0]
-            string_value = string_data_list[1]
-            if string_value[0] == "-":
-                string_data = "0." + "0" * (int(string_value[1:]) - 1) + string_key
-            else:
-                string_data = string_key + "0" * int(string_value)
+        string_data = format(Decimal(str(number_data)), "f")
         return string_data
 
     def __check_inputs_is_valid(self, check_data: str) -> None:
@@ -169,6 +163,7 @@ class An2Cn(object):
 
         output_an = output_an.replace("零零", "零").replace("零万", "万").replace("零亿", "亿").replace("亿万", "亿") \
             .strip("零")
+        output_an = re.sub(r"([万亿])零([一二三四五六七八九壹贰叁肆伍陆柒捌玖][千仟])", r"\1\2", output_an)
 
         # 解决「一十几」问题
         if output_an[:2] in ["一十"]:

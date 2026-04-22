@@ -11,6 +11,19 @@ class An2CnTest(unittest.TestCase):
             11: ["十一", "壹拾壹", "壹拾壹元整", "一一"],
             1000000: ["一百万", "壹佰万", "壹佰万元整", "一零零零零零零"],
             1000054: ["一百万零五十四", "壹佰万零伍拾肆", "壹佰万零伍拾肆元整", "一零零零零五四"],
+            1903971: [
+                "一百九十万三千九百七十一",
+                "壹佰玖拾万叁仟玖佰柒拾壹",
+                "壹佰玖拾万叁仟玖佰柒拾壹元整",
+                "一九零三九七一"
+            ],
+            103453: ["十万三千四百五十三", "壹拾万叁仟肆佰伍拾叁", "壹拾万叁仟肆佰伍拾叁元整", "一零三四五三"],
+            150006355: [
+                "一亿五千万六千三百五十五",
+                "壹亿伍仟万陆仟叁佰伍拾伍",
+                "壹亿伍仟万陆仟叁佰伍拾伍元整",
+                "一五零零零六三五五"
+            ],
             31000054: ["三千一百万零五十四", "叁仟壹佰万零伍拾肆", "叁仟壹佰万零伍拾肆元整", "三一零零零零五四"],
             9876543298765432: [
                 "九千八百七十六万五千四百三十二亿九千八百七十六万五千四百三十二",
@@ -47,9 +60,15 @@ class An2CnTest(unittest.TestCase):
             0.10: ["零点一", "零点壹", "壹角", "零点一"]
         }
 
+        self.scientific_input_data = {
+            1.23e5: "十二万三千点零",
+            1.23e-5: "零点零零零零一二三",
+        }
+
         self.error_input_data = [
             "123.1.1",
-            "0.1零"
+            "0.1零",
+            1.23e16,
         ]
 
         self.ac = An2Cn()
@@ -62,8 +81,11 @@ class An2CnTest(unittest.TestCase):
             self.assertEqual(self.ac.an2cn(item, "rmb"), self.input_data[item][2])
             self.assertEqual(self.ac.an2cn(item, "direct"), self.input_data[item][3])
 
-        with self.assertRaises(ValueError):
-            for error_data in self.error_input_data:
+        for item, expected in self.scientific_input_data.items():
+            self.assertEqual(self.ac.an2cn(item), expected)
+
+        for error_data in self.error_input_data:
+            with self.assertRaises(ValueError):
                 self.ac.an2cn(error_data)
 
 
