@@ -9,10 +9,6 @@
 
 📦 **`cn2an`** 是一个快速转化 `中文数字` 和 `阿拉伯数字` 的工具包！
 
-[![](https://ailln.oss-cn-hangzhou.aliyuncs.com/github/cn2an/cn2an-site-latest.png)](https://www.dovolopor.com/cn2an)
-
-🔗[点击访问 DEMO](https://www.dovolopor.com/cn2an)
-
 > 🎈 `v0.5.24 update`: fix numeral parsing and transform edge cases
 > 
 > 🎈 [`en2an`](https://github.com/Ailln/en2an): 「英文数字」和「阿拉伯数字」互转正在收集需求中！ [详情](https://github.com/Ailln/en2an)
@@ -26,26 +22,28 @@
 - 支持 `中文数字` => `阿拉伯数字`；
 - 支持 `大写中文数字` => `阿拉伯数字`；
 - 支持 `中文数字和阿拉伯数字` => `阿拉伯数字`；
+- 支持 `中文数字` => `阿拉伯数字字符串` 的原样直译；
 
 ### 1.2 `阿拉伯数字` => `中文数字`
 
 - 支持 `阿拉伯数字` => `中文数字`；
 - 支持 `阿拉伯数字` => `大写中文数字`；
 - 支持 `阿拉伯数字` => `大写人民币`；
+- 支持 `阿拉伯数字字符串` => `中文数字` 的原样直译；
 
 ### 1.3 句子转化
 
 - 支持 `中文数字` => `阿拉伯数字`；
-    - 支持 `日期`；
-    - 支持 `分数`；
-    - 支持 `百分比`；
-    - 支持 `摄氏度`；
+  - 支持 `日期`；
+  - 支持 `分数`；
+  - 支持 `百分比`；
+  - 支持 `摄氏度`；
 
 - 支持 `阿拉伯数字` => `中文数字`；
-    - 支持 `日期`；
-    - 支持 `分数`；
-    - 支持 `百分比`；
-    - 支持 `摄氏度`；
+  - 支持 `日期`；
+  - 支持 `分数`；
+  - 支持 `百分比`；
+  - 支持 `摄氏度`；
 
 ### 1.4 其他
 
@@ -56,9 +54,9 @@
 ## 2 安装
 
 > ⚠️ 注意：
-> 1. 本地安装仅支持 Python 的 3.6 以上版本；
-> 2. 其他语言用户可以考虑使用 [HTTP API](https://www.dovolopor.com/api/cn2an) ；
-> 3. 尽可能使用 `cn2an` 的最新版本。
+> 
+> 1. 本地安装仅支持 Python 的 3.7 以上版本；
+> 2. 尽可能使用 `cn2an` 的最新版本。
 
 ### 2.1 使用 pip 安装
 
@@ -117,6 +115,15 @@ output = cn2an.cn2an("负一百二十三", "strict")
 output = cn2an.cn2an("一点二三", "strict")
 # output:
 # 1.23
+
+# 在 direct 模式下，只做逐位原样转化，并返回字符串
+output = cn2an.cn2an("零零三", "direct")
+# output:
+# 003
+
+output = cn2an.cn2an("一二点三零", "direct")
+# output:
+# 12.30
 ```
 
 ### 3.2 `阿拉伯数字` => `中文数字`
@@ -152,6 +159,15 @@ output = cn2an.an2cn("-123", "low")
 output = cn2an.an2cn("1.23", "low")
 # output:
 # 一点二三
+
+# 在 direct 模式下，只做逐位原样转化
+output = cn2an.an2cn("012", "direct")
+# output:
+# 零一二
+
+output = cn2an.an2cn("12.30", "direct")
+# output:
+# 一二点三零
 ```
 
 ### 3.3 句子转化
@@ -172,6 +188,15 @@ output = cn2an.transform("小王捡了一百块钱", "cn2an")
 output = cn2an.transform("小王捡了100块钱", "an2cn")
 # output:
 # 小王捡了一百块钱
+
+# direct=True 时，句子中的数字只做逐位原样转化，不做日期、范围等额外处理
+output = cn2an.transform("电话零零三，二〇〇二年", "cn2an", direct=True)
+# output:
+# 电话003，2002年
+
+output = cn2an.transform("电话012，1-2个月", "an2cn", direct=True)
+# output:
+# 电话零一二，一-二个月
 
 
 ## 支持日期
@@ -203,8 +228,8 @@ output = cn2an.transform("抛出去的硬币为正面的概率是1/2", "an2cn")
 
 ## 4 版本支持
 
-- 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.6+` 的版本。
-- 实际上仅在 `ubuntu-latest`、`windows-latest`、`macOS-latest` 的 `Python 3.6, 3.7, 3.8` 上做过完整测试。
+- 理论上支持 `Windows`、`MacOS`、`Ubuntu` 下的所有 `Python 3.7+` 的版本。
+- 实际上仅在 `ubuntu-latest`、`windows-latest`、`macOS-latest` 的 `Python 3.7, 3.9, 3.11` 上做过完整测试。
 - 欢迎提交其他版本使用情况到 [Issues](https://github.com/Ailln/cn2an/issues) 中，期待你的反馈。
 - 如果你有 `Python 2` 的使用需求，可 Fork 代码自行修改。当然也欢迎提 PR，贡献自己代码给其他人。
 
@@ -214,7 +239,7 @@ output = cn2an.transform("抛出去的硬币为正面的概率是1/2", "an2cn")
 2. 如果没有找到解答，请新开一个 issue：
     1. 首先，在「issue 标题」中填写你遇到的问题的简介；
     2. 然后，在「issue 详情」中填写你遇到的问题的详情；
-    3. 最后，不要忘记注明你使用的操作系统（比如 Windows 10）和 Python 版本（比如 Python 3.6.3）。
+    3. 最后，不要忘记注明你使用的操作系统（比如 Windows 10）和 Python 版本（比如 Python 3.7.9）。
 3. 还可以参考 [Issue Template](https://github.com/Ailln/cn2an/tree/master/.github/ISSUE_TEMPLATE) 。
 
 ## 6 开发相关
@@ -261,18 +286,14 @@ bash scripts/local_test.sh
 [![](https://award.dovolopor.com?lt=License&rt=MIT&rbc=green)](./LICENSE)
 [![](https://award.dovolopor.com?lt=Ailln's&rt=idea&lbc=lightgray&rbc=red&ltc=red)](https://github.com/Ailln/award)
 
-## 8 交流
-
-欢迎添加微信号：`Ailln_`，备注「cn2an」，邀请你进入 Python 交流群。
-
-## 9 致谢
+## 8 致谢
 
 - [Thunder Bouble](https://github.com/sfyc23): 提出很多有效的反馈，包括一些 bug 和新功能；
 - [Damon Yu](https://github.com/20071313): 增加对全角数字和全角符号的支持；
 - [Beants](https://github.com/Beants): 修复了口语格式的 bug；
 - Ray: 提出修改输出 warn 的方法，以及其他一些建议。
 
-## 10 参考
+## 9 参考
 
 - [🎈 cn2an 核心代码解析](https://www.v2ai.cn/2020/06/30/python/8-cn2an/)
 - [如何发布自己的包到 pypi](https://www.v2ai.cn/2018/07/30/python/1-pypi/)

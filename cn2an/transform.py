@@ -14,6 +14,11 @@ class Transform(object):
         self.cn2an = Cn2An().cn2an
         self.an2cn = An2Cn().an2cn
         self.cn_pattern = f"负?([{self.all_num}两{self.all_unit}]+点)?[{self.all_num}两{self.all_unit}]+"
+        self.direct_cn_pattern = re.compile(
+            f"(?<![{self.all_num}{self.all_unit}点负])负?[{self.all_num}]+(点[{self.all_num}]+)?"
+            f"(?![{self.all_num}{self.all_unit}点])"
+        )
+        self.direct_an_pattern = re.compile(r"(?<!\d)-?(\d+\.)?\d+")
         self.smart_cn_pattern = f"-?([0-9]+\\.)?[0-9]+[{self.all_unit}]+"
         self.measure_words = (
             "斤|克|千克|公斤|吨|米|厘米|毫米|公里|升|毫升|元|角|分|个|只|条|张|块|瓶|杯|份|本|"
@@ -21,13 +26,22 @@ class Transform(object):
         )
         self.half_pattern = re.compile(f"半(?={self.measure_words})")
 
-    def transform(self, inputs: str, method: str = "cn2an") -> str:
+    def transform(self, inputs: str, method: str = "cn2an", direct: bool = False) -> str:
         if method == "cn2an":
+            if direct:
+                return self.direct_cn_pattern.sub(
+                    lambda x: self.__sub_util(x.group(), "cn2an", "direct"), inputs)
+
             inputs = inputs.replace("廿", "二十")
             inputs = self.half_pattern.sub("0.5", inputs)
             # date
+            date_pattern = (
+                fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?"
+                fr"([{self.all_num}{self.all_unit}]+月)?"
+                fr"([{self.all_num}{self.all_unit}]+日)?"
+            )
             inputs = re.sub(
-                fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?([{self.all_num}{self.all_unit}]+月)?([{self.all_num}{self.all_unit}]+日)?",
+                date_pattern,
                 lambda x: self.__sub_util(x.group(), "cn2an", "date"), inputs)
             # fraction
             inputs = re.sub(fr"{self.cn_pattern}分之{self.cn_pattern}",
@@ -43,6 +57,10 @@ class Transform(object):
                             lambda x: self.__sub_cn_number(x), inputs)
 
         elif method == "an2cn":
+            if direct:
+                return self.direct_an_pattern.sub(
+                    lambda x: self.__sub_util(x.group(), "an2cn", "direct"), inputs)
+
             inputs = re.sub(fr"\d+(\.\d+)?-\d+(\.\d+)?(?=({self.measure_words}))",
                             lambda x: self.__sub_util(x.group(), "an2cn", "range"), inputs)
             # date
@@ -90,6 +108,8 @@ class Transform(object):
                         return f"{sign}{self.cn2an(number_text, 'smart')}℃"
                     elif sub_mode == "number":
                         return str(self.cn2an(inputs, "smart"))
+                    elif sub_mode == "direct":
+                        return self.cn2an(inputs, "direct")
                     else:
                         raise Exception(f"error sub_mode: {sub_mode} !")
                 else:
@@ -111,6 +131,8 @@ class Transform(object):
                         return f"{self.an2cn(start, 'low')}到{self.an2cn(end, 'low')}"
                     elif sub_mode == "number":
                         return self.an2cn(inputs, "low")
+                    elif sub_mode == "direct":
+                        return self.an2cn(inputs, "direct")
                     else:
                         raise Exception(f"error sub_mode: {sub_mode} !")
         except Exception as e:

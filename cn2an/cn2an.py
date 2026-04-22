@@ -22,7 +22,7 @@ class Cn2An(object):
         }
         self.pattern_dict = self.__get_pattern()
         self.ac = An2Cn()
-        self.mode_list = ["strict", "normal", "smart"]
+        self.mode_list = ["strict", "normal", "smart", "direct"]
         self.yjf_pattern = re.compile(fr"^.*?[元圆][{self.all_num}]角([{self.all_num}]分)?$")
         self.pattern1 = re.compile(fr"^-?\d+(\.\d+)?[{self.all_unit}]?$")
         self.ptn_all_num = re.compile(f"^[{self.all_num}]+$")
@@ -33,11 +33,11 @@ class Cn2An(object):
         self.ptn_unit_missing_one = re.compile(r"([百佰])([十拾])")
         self.ptn_zero_before_thousand = re.compile(fr"(万)零(?=[{self.all_num}][千仟])")
 
-    def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int]:
+    def cn2an(self, inputs: Union[str, int, float] = None, mode: str = "strict") -> Union[float, int, str]:
         """中文数字转阿拉伯数字
 
         :param inputs: 中文数字、阿拉伯数字、中文数字和阿拉伯数字
-        :param mode: strict 严格，normal 正常，smart 智能
+        :param mode: strict 严格，normal 正常，smart 智能，direct 直接转化
         :return: 阿拉伯数字
         """
         if inputs is not None and inputs != "":
@@ -55,6 +55,9 @@ class Cn2An(object):
                 "traditional_to_simplified",
                 "full_angle_to_half_angle"
             ])
+
+            if mode == "direct":
+                return self.__direct_convert_to_string(inputs)
 
             # 特殊转化 廿
             inputs = inputs.replace("廿", "二十")
@@ -323,3 +326,30 @@ class Cn2An(object):
             output_data += unit_key * 10 ** (len(data) - index - 1)
 
         return output_data
+
+    def __direct_convert_to_string(self, data: str) -> str:
+        if data[0] in "负-":
+            sign = "-"
+            data = data[1:]
+            if not data:
+                raise ValueError("输入数据为空！")
+        else:
+            sign = ""
+
+        if data.count("点") + data.count(".") > 1:
+            raise ValueError("数据中包含不止一个点！")
+
+        output_data = ""
+        for index, cn_num in enumerate(data):
+            if cn_num in ["点", "."]:
+                if index == 0 or index == len(data) - 1:
+                    raise ValueError(f"不符合格式的数据：{data}")
+                output_data += "."
+            elif cn_num in NUMBER_CN2AN:
+                output_data += str(NUMBER_CN2AN[cn_num])
+            elif cn_num in "0123456789":
+                output_data += cn_num
+            else:
+                raise ValueError(f"当前为direct模式，输入的数据不在转化范围内：{cn_num}！")
+
+        return sign + output_data

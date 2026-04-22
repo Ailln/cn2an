@@ -84,6 +84,9 @@ class An2CnTest(unittest.TestCase):
         for item, expected in self.scientific_input_data.items():
             self.assertEqual(self.ac.an2cn(item), expected)
 
+        self.assertEqual(self.ac.an2cn("012", "direct"), "零一二")
+        self.assertEqual(self.ac.an2cn("12.30", "direct"), "一二点三零")
+
         for error_data in self.error_input_data:
             with self.assertRaises(ValueError):
                 self.ac.an2cn(error_data)

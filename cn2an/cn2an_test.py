@@ -151,6 +151,16 @@ class Cn2anTest(unittest.TestCase):
             "-10.1": -10.1,
         }
 
+        self.direct_data_dict = {
+            "零一": "01",
+            "零零三": "003",
+            "二〇〇二": "2002",
+            "幺八九": "189",
+            "负零一": "-01",
+            "一二点三零": "12.30",
+            "012": "012",
+        }
+
         self.error_smart_datas = [
             "10.1万零100",
             "10..1万",
@@ -201,6 +211,10 @@ class Cn2anTest(unittest.TestCase):
         for smart_item in self.smart_data_dict.keys():
             self.assertEqual(self.ca.cn2an(smart_item, "smart"),
                              self.smart_data_dict[smart_item])
+
+        for direct_item in self.direct_data_dict.keys():
+            self.assertEqual(self.ca.cn2an(direct_item, "direct"),
+                             self.direct_data_dict[direct_item])
 
         for error_strict_item in self.error_strict_datas:
             try:
