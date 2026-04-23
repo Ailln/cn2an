@@ -26,8 +26,6 @@ jobs:
             platform: ubuntu-22.04
           - python-version: "3.7"
             platform: windows-latest
-          - python-version: "3.7"
-            platform: macos-13
 
     steps:
     - uses: actions/checkout@v6
