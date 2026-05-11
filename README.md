@@ -219,7 +219,23 @@ output = cn2an.transform("抛出去的硬币为正面的概率是1/2", "an2cn")
 # 抛出去的硬币为正面的概率是二分之一
 
 ## 支持百分比
+output = cn2an.transform("抛出去的硬币为正面的概率是百分之五十")
+# output:
+# 抛出去的硬币为正面的概率是50%
+
+output = cn2an.transform("抛出去的硬币为正面的概率是50%", "an2cn")
+# output:
+# 抛出去的硬币为正面的概率是百分之五十
+
+
 ## 支持摄氏度
+output = cn2an.transform("现在温度是100℃", "an2cn")
+# output:
+# 现在温度是一百摄氏度
+
+output = cn2an.transform("现在温度是一百摄氏度", "cn2an")
+# output:
+# 现在温度是100℃
 ```
 
 ### 3.4 HTTP API
