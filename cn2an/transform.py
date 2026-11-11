@@ -34,6 +34,11 @@ class Transform(object):
 
             inputs = inputs.replace("廿", "二十")
             inputs = self.half_pattern.sub("0.5", inputs)
+            # 零下 / 零上 are words, not the numeral 零
+            inputs = re.sub(r"零下(?=\d)", "-", inputs)
+            inputs = re.sub(fr"零下(?={self.cn_pattern})", "负", inputs)
+            inputs = re.sub(r"零上(?=\d)", "", inputs)
+            inputs = re.sub(fr"零上(?={self.cn_pattern})", "", inputs)
             # date
             date_pattern = (
                 fr"((({self.smart_cn_pattern})|({self.cn_pattern}))年)?"
@@ -144,6 +149,10 @@ class Transform(object):
         if inputs == "两":
             suffix = match.string[match.end():]
             if not re.match(self.measure_words, suffix):
+                return inputs
+        if inputs == "零":
+            suffix = match.string[match.end():]
+            if suffix.startswith(("下", "上")):
                 return inputs
         if len(inputs) == 1 and inputs in self.upper_num:
             suffix = match.string[match.end():]
